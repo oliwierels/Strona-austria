@@ -51,10 +51,11 @@ Absolute Pfade (`/assets/...`) benötigen einen Webserver – ein direktes Öffn
 ## Vor dem Go-Live anzupassen
 
 - **Domain**: alle absoluten URLs sind auf `https://33bots.at/` gesetzt – bei abweichender Domain in allen Dateien (Canonical, OG, Sitemap, JSON-LD) anpassen.
-- **Kontaktdaten**: Telefonnummer (`+43 1 267 0000`) und E-Mail (`hallo@33bots.at`) durch echte Daten ersetzen.
+- **Kontaktdaten**: Telefonnummer (`+43 1 267 0000`) prüfen; E-Mail ist `kontakt@33bots.at`.
 - **Preise**: die genannten Beträge sind Beispielwerte und marktgerecht zu prüfen.
 - **Impressum & Datenschutz**: die in `[eckigen Klammern]` markierten Platzhalter mit echten Unternehmensdaten befüllen.
-- **Formular**: sendet aktuell per `mailto:` – für echten Versand ein Backend/Form-Service anbinden.
+- **Formular**: sendet per [FormSubmit](https://formsubmit.co) an `kontakt@33bots.at`. Die **erste** Absendung löst eine einmalige Bestätigungs-E-Mail (Aktivierung) an dieses Postfach aus – Link anklicken, danach werden alle Anfragen zugestellt.
+- **Domain**: `CNAME` enthält `33bots.at`. DNS beim Registrar setzen (A-Records auf GitHub-Pages-IPs bzw. CNAME für `www`).
 
 ## Tech-Stack
 
