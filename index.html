@@ -21,22 +21,25 @@
   <meta property="og:title" content="Roboter mieten für Events in Österreich | Unitree G1 – 33bots">
   <meta property="og:description" content="Humanoiden Roboter Unitree G1 für Events, Messen & Firmenfeiern in ganz Österreich mieten. Inkl. Operator, Transport & kostenlosem Branding.">
   <meta property="og:url" content="https://33bots.at/">
-  <meta property="og:image" content="https://33bots.at/assets/img/og-image.png">
+  <meta property="og:image" content="https://33bots.at/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Humanoider Roboter Unitree G1 von 33bots">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Roboter mieten für Events in Österreich | 33bots">
   <meta name="twitter:description" content="Humanoiden Roboter Unitree G1 für Events & Messen in ganz Österreich mieten – inkl. Operator, Transport & Branding.">
-  <meta name="twitter:image" content="https://33bots.at/assets/img/og-image.png">
+  <meta name="twitter:image" content="https://33bots.at/assets/img/og-image.jpg">
 
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="preload" as="image" href="assets/img/unitree-g1-roboter-mieten.jpg" fetchpriority="high">
 
   <!-- Structured Data: Organization + LocalBusiness -->
   <script type="application/ld+json">
@@ -48,7 +51,7 @@
     "description": "Vermietung von humanoiden Robotern (Unitree G1) für Events, Messen und Firmenveranstaltungen in ganz Österreich.",
     "url": "https://33bots.at/",
     "email": "kontakt@33bots.at",
-    "image": "https://33bots.at/assets/img/og-image.png",
+    "image": "https://33bots.at/assets/img/og-image.jpg",
     "logo": "https://33bots.at/assets/img/favicon.svg",
     "address": {
       "@type": "PostalAddress",
@@ -70,6 +73,19 @@
       { "@type": "City", "name": "Dornbirn" },
       { "@type": "City", "name": "Eisenstadt" }
     ]
+  }
+  </script>
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://33bots.at/#website",
+    "url": "https://33bots.at/",
+    "name": "33bots – Roboter mieten in Österreich",
+    "inLanguage": "de-AT",
+    "publisher": { "@id": "https://33bots.at/#business" }
   }
   </script>
 
@@ -208,15 +224,13 @@
       </div>
     </section>
 
-    <!-- LOGOS -->
-    <section class="logos">
-      <div class="container">
-        <p class="logos-label">Perfekt für Ihre Veranstaltung</p>
-        <div class="logos-row">
-          <span>Messen</span><span>Firmenevents</span><span>Produktlaunches</span><span>Konferenzen</span><span>Hochzeiten</span><span>Store-Openings</span>
-        </div>
+    <!-- MARQUEE -->
+    <div class="marquee" aria-label="Einsatzbereiche">
+      <div class="marquee-track">
+        <div class="marquee-group"><span>Messen</span><span aria-hidden="true">•</span><span>Firmenevents</span><span aria-hidden="true">•</span><span>Produktlaunches</span><span aria-hidden="true">•</span><span>Konferenzen</span><span aria-hidden="true">•</span><span>Hochzeiten</span><span aria-hidden="true">•</span><span>Store-Openings</span><span aria-hidden="true">•</span><span>Galas</span><span aria-hidden="true">•</span><span>Roadshows</span><span aria-hidden="true">•</span></div>
+        <div class="marquee-group" aria-hidden="true"><span>Messen</span><span aria-hidden="true">•</span><span>Firmenevents</span><span aria-hidden="true">•</span><span>Produktlaunches</span><span aria-hidden="true">•</span><span>Konferenzen</span><span aria-hidden="true">•</span><span>Hochzeiten</span><span aria-hidden="true">•</span><span>Store-Openings</span><span aria-hidden="true">•</span><span>Galas</span><span aria-hidden="true">•</span><span>Roadshows</span><span aria-hidden="true">•</span></div>
       </div>
-    </section>
+    </div>
 
     <!-- VORTEILE -->
     <section class="section" id="vorteile">
@@ -446,7 +460,7 @@
     <!-- CTA -->
     <section class="section section--tight">
       <div class="container">
-        <div class="cta-band" data-reveal>
+        <div class="cta-band cta-band--photo" data-reveal>
           <h2>Machen Sie Ihr Event unvergesslich</h2>
           <p>Sichern Sie sich jetzt den Unitree G1 für Ihre Veranstaltung. Antwort innerhalb von 24 Stunden – unverbindlich und kostenlos.</p>
           <div class="hero-actions" style="justify-content:center;margin-bottom:0">

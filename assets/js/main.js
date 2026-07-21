@@ -27,6 +27,29 @@
     });
   }
 
+  // Gallery lightbox
+  var photos = document.querySelectorAll('.photo-card img');
+  if (photos.length) {
+    var box = document.createElement('div');
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-label', 'Bildansicht');
+    box.innerHTML = '<button class="lightbox-close" aria-label="Schließen">✕</button><img alt="">';
+    document.body.appendChild(box);
+    var boxImg = box.querySelector('img');
+    photos.forEach(function (img) {
+      img.closest('.photo-card').addEventListener('click', function () {
+        boxImg.src = img.src;
+        boxImg.alt = img.alt;
+        box.classList.add('open');
+      });
+    });
+    box.addEventListener('click', function () { box.classList.remove('open'); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') box.classList.remove('open');
+    });
+  }
+
   // Reveal on scroll
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {
