@@ -103,6 +103,43 @@
   }
   </script>
 
+  <!-- Structured Data: Videos -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "VideoObject",
+        "name": "Humanoider Roboter Unitree G1 live auf dem Event",
+        "description": "Der von 33bots vermietete humanoide Roboter Unitree G1 im Live-Einsatz auf einem Event – geliefert, gebrandet und mit Operator betreut.",
+        "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-messe.jpg",
+        "contentUrl": "https://33bots.at/assets/video/roboter-event-messe.mp4",
+        "uploadDate": "2026-07-21",
+        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/favicon.svg" } }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "Unitree G1 als Publikumsmagnet auf der Messe",
+        "description": "Humanoider Roboter von 33bots zieht die Blicke des Publikums auf einer Messe auf sich.",
+        "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-show.jpg",
+        "contentUrl": "https://33bots.at/assets/video/roboter-event-show.mp4",
+        "uploadDate": "2026-07-21",
+        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/favicon.svg" } }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "Roboter-Auftritt auf einem Event in Dresden",
+        "description": "Live-Auftritt des humanoiden Roboters Unitree G1 von 33bots auf einem Event in Dresden.",
+        "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-dresden.jpg",
+        "contentUrl": "https://33bots.at/assets/video/roboter-event-dresden.mp4",
+        "uploadDate": "2026-07-21",
+        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/favicon.svg" } }
+      }
+    ]
+  }
+  </script>
+
   <!-- Structured Data: FAQ -->
   <script type="application/ld+json">
   {
@@ -144,6 +181,7 @@
         <ul class="nav-links">
           <li><a href="#vorteile">Vorteile</a></li>
           <li><a href="#roboter">Roboter</a></li>
+          <li><a href="#videos">Videos</a></li>
           <li><a href="#ablauf">Ablauf</a></li>
           <li><a href="/preise.html">Preise</a></li>
           <li><a href="#staedte">Städte</a></li>
@@ -284,8 +322,43 @@
       </div>
     </section>
 
+    <!-- VIDEOS -->
+    <section class="section" id="videos" style="background:var(--bg-alt)">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Roboter in Aktion</span>
+          <h2>Echte Auftritte auf echten Events</h2>
+          <p>Keine Renderings – so erlebt Ihr Publikum den Unitree G1 live. Aufnahmen von Messen, Summits und Firmenevents.</p>
+        </div>
+        <div class="video-grid" data-reveal>
+          <div class="video-card">
+            <video controls preload="none" playsinline poster="/assets/video/roboter-event-messe.jpg" width="720" height="1280">
+              <source src="/assets/video/roboter-event-messe.mp4" type="video/mp4">
+              Ihr Browser unterstützt keine HTML5-Videos.
+            </video>
+            <div class="video-caption"><span class="dot"></span> Live auf dem Event</div>
+          </div>
+          <div class="video-card">
+            <video controls preload="none" playsinline poster="/assets/video/roboter-event-show.jpg" width="720" height="1280">
+              <source src="/assets/video/roboter-event-show.mp4" type="video/mp4">
+              Ihr Browser unterstützt keine HTML5-Videos.
+            </video>
+            <div class="video-caption"><span class="dot"></span> Publikumsmagnet auf der Messe</div>
+          </div>
+          <div class="video-card">
+            <video controls preload="none" playsinline poster="/assets/video/roboter-event-dresden.jpg" width="720" height="1280">
+              <source src="/assets/video/roboter-event-dresden.mp4" type="video/mp4">
+              Ihr Browser unterstützt keine HTML5-Videos.
+            </video>
+            <div class="video-caption"><span class="dot"></span> Roboter-Auftritt in Dresden</div>
+          </div>
+        </div>
+        <p class="video-note">Möchten Sie diesen Moment auf Ihrem Event? <a href="/kontakt.html" style="color:var(--brand);font-weight:700">Jetzt Angebot anfragen →</a></p>
+      </div>
+    </section>
+
     <!-- ABLAUF -->
-    <section class="section" id="ablauf" style="background:var(--bg-alt)">
+    <section class="section" id="ablauf" style="background:var(--bg)">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">So einfach geht's</span>

@@ -34,6 +34,7 @@ Deutschsprachige (de-AT) Adaption des polnischen Angebots von [33bots.pl](https:
 - **`sitemap.xml`** & **`robots.txt`**
 - **Semantisches HTML5**, korrekte Heading-Hierarchie, `alt`-Texte, ARIA-Labels
 - **Lokale Landingpages** je Stadt für regionale Suchbegriffe („Roboter mieten Wien" etc.)
+- **Video-Galerie** mit echten Event-Aufnahmen (`assets/video/`), `VideoObject`-Schema, Lazy-Loading (`preload="none"`) und Poster-Bildern
 - **PWA-Manifest** (`site.webmanifest`)
 - **Performance**: keine schweren Frameworks, reines HTML/CSS/JS, `defer`, `preconnect`
 - **Responsiv** (Mobile-First) und `prefers-reduced-motion`-freundlich
