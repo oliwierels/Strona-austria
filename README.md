@@ -15,6 +15,10 @@ Deutschsprachige (de-AT) Adaption des polnischen Angebots von [33bots.pl](https:
 | `roboter-mieten-graz.html` | Lokale Landingpage Graz |
 | `roboter-mieten-linz.html` | Lokale Landingpage Linz |
 | `roboter-mieten-salzburg.html` | Lokale Landingpage Salzburg |
+| `roboter-mieten-innsbruck.html` | Lokale Landingpage Innsbruck |
+| `roboter-mieten-klagenfurt.html` | Lokale Landingpage Klagenfurt |
+| `roboter-mieten-villach.html` | Lokale Landingpage Villach |
+| `roboter-mieten-wels.html` | Lokale Landingpage Wels |
 | `impressum.html` | Impressum (§ 5 ECG / § 25 MedienG) – Platzhalter befüllen |
 | `datenschutz.html` | Datenschutzerklärung (DSGVO) – Platzhalter befüllen |
 

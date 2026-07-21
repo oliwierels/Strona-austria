@@ -5,20 +5,20 @@
       <stop offset="1" stop-color="#0d0d10"/>
     </linearGradient>
     <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ecd4a2"/>
-      <stop offset="1" stop-color="#c69f5f"/>
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c9c9cf"/>
     </linearGradient>
     <radialGradient id="glow" cx="0.78" cy="0.15" r="0.75">
-      <stop offset="0" stop-color="#cfa869" stop-opacity="0.16"/>
-      <stop offset="1" stop-color="#cfa869" stop-opacity="0"/>
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f2f2f4"/>
       <stop offset="1" stop-color="#c4c4cc"/>
     </linearGradient>
     <radialGradient id="visor" cx="0.5" cy="0.4" r="0.7">
-      <stop offset="0" stop-color="#e6c88a"/>
-      <stop offset="1" stop-color="#3a2c12"/>
+      <stop offset="0" stop-color="#d4d4d8"/>
+      <stop offset="1" stop-color="#1c1c20"/>
     </radialGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
@@ -37,7 +37,7 @@
 
   <!-- Pills -->
   <rect x="80" y="492" width="230" height="52" rx="26" fill="#101013" stroke="#26262b"/>
-  <text x="195" y="525" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#cfa869" text-anchor="middle">132 cm · 43 Achsen</text>
+  <text x="195" y="525" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#f5f5f6" text-anchor="middle">132 cm · 43 Achsen</text>
   <rect x="326" y="492" width="230" height="52" rx="26" fill="#101013" stroke="#26262b"/>
   <text x="441" y="525" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#f5f5f6" text-anchor="middle">ganz Österreich</text>
 
