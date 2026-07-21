@@ -1,0 +1,18 @@
+{
+  "name": "33bots – Roboter mieten für Events in Österreich",
+  "short_name": "33bots",
+  "description": "Humanoiden Roboter Unitree G1 für Events, Messen und Firmenfeiern in ganz Österreich mieten.",
+  "lang": "de-AT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#0a0e1a",
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
