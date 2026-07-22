@@ -16,14 +16,47 @@
     });
   }
 
-  // Contact form: native POST to FormSubmit (kontakt@33bots.at). Show sending state.
+  // Contact form: AJAX POST to FormSubmit (kontakt@33bots.at) with visible
+  // success/error feedback. The form's action attribute stays as a no-JS fallback.
   var form = document.querySelector('form[data-contact]');
   if (form) {
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (e) {
+      if (!window.fetch || !window.FormData) return; // native fallback
+      e.preventDefault();
+
       var btn = form.querySelector('button[type="submit"]');
+      var status = form.querySelector('.form-status');
+      var setStatus = function (msg, ok) {
+        if (!status) return;
+        status.hidden = false;
+        status.textContent = msg;
+        status.classList.toggle('form-status--error', !ok);
+      };
+      var reset = function () {
+        if (btn) { btn.disabled = false; btn.textContent = 'Anfrage senden'; }
+      };
+
       if (btn) { btn.disabled = true; btn.textContent = 'Wird gesendet …'; }
-      // The browser submits the form to FormSubmit, which e-mails the request
-      // to kontakt@33bots.at and redirects to danke.html.
+      if (status) status.hidden = true;
+
+      fetch('https://formsubmit.co/ajax/kontakt@33bots.at', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && (data.success === 'true' || data.success === true)) {
+            window.location.href = 'danke.html';
+          } else {
+            reset();
+            setStatus((data && data.message) || 'Ihre Anfrage konnte nicht gesendet werden. Bitte schreiben Sie uns direkt an kontakt@33bots.at.', false);
+          }
+        })
+        .catch(function () {
+          reset();
+          setStatus('Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt an kontakt@33bots.at.', false);
+        });
     });
   }
 
