@@ -300,6 +300,24 @@ p { color: var(--text-muted); }
   transition: var(--transition);
 }
 .video-card:hover { transform: translateY(-4px); border-color: var(--brand); }
+.video-card::before {
+  content: "";
+  position: absolute;
+  top: calc((100% - 57px) * 0.5 - 34px); /* centered over the video, above the ~57px caption */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(10, 12, 18, 0.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/32px no-repeat;
+  backdrop-filter: blur(4px);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  pointer-events: none;
+  transition: var(--transition);
+  z-index: 1;
+}
+.video-card:hover::before { transform: translateX(-50%) scale(1.08); background-color: rgba(10, 12, 18, 0.75); }
+.video-card.playing::before { opacity: 0; visibility: hidden; }
 .video-card video {
   display: block;
   width: 100%;
@@ -536,6 +554,8 @@ p { color: var(--text-muted); }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.14); }
 .field textarea { resize: vertical; min-height: 120px; }
 .form-note { font-size: 0.82rem; color: var(--text-dim); margin-top: 14px; text-align: center; }
+.form-status { font-size: 0.92rem; margin-top: 14px; padding: 12px 16px; border-radius: 10px; text-align: center; color: #6ee7a0; background: rgba(110, 231, 160, 0.1); border: 1px solid rgba(110, 231, 160, 0.3); }
+.form-status--error { color: #ff9a9a; background: rgba(255, 120, 120, 0.1); border-color: rgba(255, 120, 120, 0.3); }
 
 /* ---------- Page hero (subpages) ---------- */
 .page-hero { padding: 64px 0 48px; background: var(--gradient-hero); text-align: center; }
