@@ -54,6 +54,7 @@ body {
 }
 
 img { max-width: 100%; height: auto; display: block; }
+picture { display: contents; }
 
 a { color: inherit; text-decoration: none; }
 
@@ -502,6 +503,7 @@ p { color: var(--text-muted); }
 }
 .cta-band--photo {
   background-image: linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.82)), url('../img/unitree-g1-buehnenshow.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.82)), image-set(url('../img/unitree-g1-buehnenshow.webp') type('image/webp'), url('../img/unitree-g1-buehnenshow.jpg') type('image/jpeg'));
   background-size: cover;
   background-position: center 30%;
   border-color: rgba(255, 255, 255, 0.2);

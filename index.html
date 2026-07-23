@@ -35,11 +35,11 @@
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="preload" as="image" href="assets/img/unitree-g1-roboter-mieten.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/unitree-g1-roboter-mieten.webp" type="image/webp" fetchpriority="high">
 
   <!-- Structured Data: Organization + LocalBusiness -->
   <script type="application/ld+json">
@@ -51,8 +51,9 @@
     "description": "Vermietung von humanoiden Robotern (Unitree G1) für Events, Messen und Firmenveranstaltungen in ganz Österreich.",
     "url": "https://33bots.at/",
     "email": "kontakt@33bots.at",
+    "priceRange": "€€",
     "image": "https://33bots.at/assets/img/og-image.jpg",
-    "logo": "https://33bots.at/assets/img/favicon.svg",
+    "logo": "https://33bots.at/assets/img/icon-512.png",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "AT",
@@ -115,7 +116,7 @@
         "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-messe.jpg",
         "contentUrl": "https://33bots.at/assets/video/roboter-event-messe.mp4",
         "uploadDate": "2026-07-21",
-        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/favicon.svg" } }
+        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/icon-512.png" } }
       },
       {
         "@type": "VideoObject",
@@ -124,16 +125,16 @@
         "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-show.jpg",
         "contentUrl": "https://33bots.at/assets/video/roboter-event-show.mp4",
         "uploadDate": "2026-07-21",
-        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/favicon.svg" } }
+        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/icon-512.png" } }
       },
       {
         "@type": "VideoObject",
         "name": "Roboter-Auftritt auf einem Event in Dresden",
         "description": "Live-Auftritt des humanoiden Roboters Unitree G1 von 33bots auf einem Event in Dresden.",
-        "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-dresden.jpg",
-        "contentUrl": "https://33bots.at/assets/video/roboter-event-dresden.mp4",
+        "thumbnailUrl": "https://33bots.at/assets/video/roboter-event-auftritt.jpg",
+        "contentUrl": "https://33bots.at/assets/video/roboter-event-auftritt.mp4",
         "uploadDate": "2026-07-21",
-        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/favicon.svg" } }
+        "publisher": { "@type": "Organization", "name": "33bots", "logo": { "@type": "ImageObject", "url": "https://33bots.at/assets/img/icon-512.png" } }
       }
     ]
   }
@@ -217,7 +218,7 @@
             </div>
           </div>
           <div class="hero-visual hero-visual--photo">
-            <img src="assets/img/unitree-g1-roboter-mieten.jpg" alt="Humanoider Roboter Unitree G1 im Show-Kostüm bei einem Event – mieten bei 33bots" width="720" height="1280" fetchpriority="high">
+            <picture><source srcset="assets/img/unitree-g1-roboter-mieten.webp" type="image/webp"><img src="assets/img/unitree-g1-roboter-mieten.jpg" alt="Humanoider Roboter Unitree G1 im Show-Kostüm bei einem Event – mieten bei 33bots" width="720" height="1280" fetchpriority="high"></picture>
             <div class="hero-visual-tag tag-2"><span class="dot"></span> Echte Aufnahme vom Event</div>
           </div>
         </div>
@@ -280,7 +281,7 @@
       <div class="container">
         <div class="spec-wrap">
           <div class="spec-visual spec-visual--photo">
-            <img src="assets/img/unitree-g1-show-event.jpg" alt="Humanoider Roboter Unitree G1 tanzt mit wehendem Umhang bei einem Event" width="720" height="1280" loading="lazy">
+            <picture><source srcset="assets/img/unitree-g1-show-event.webp" type="image/webp"><img src="assets/img/unitree-g1-show-event.jpg" alt="Humanoider Roboter Unitree G1 tanzt mit wehendem Umhang bei einem Event" width="720" height="1280" loading="lazy"></picture>
           </div>
           <div>
             <span class="eyebrow">Der Star Ihres Events</span>
@@ -327,19 +328,19 @@
         </div>
         <div class="photo-grid" data-reveal>
           <figure class="photo-card">
-            <img src="assets/img/unitree-g1-roboter-mieten.jpg" alt="Humanoider Roboter Unitree G1 mit Krone und Umhang bei einem Event" loading="lazy" width="720" height="1280">
+            <picture><source srcset="assets/img/unitree-g1-roboter-mieten.webp" type="image/webp"><img src="assets/img/unitree-g1-roboter-mieten.jpg" alt="Humanoider Roboter Unitree G1 mit Krone und Umhang bei einem Event" loading="lazy" width="720" height="1280"></picture>
             <figcaption>Der G1 im Show-Kostüm</figcaption>
           </figure>
           <figure class="photo-card">
-            <img src="assets/img/unitree-g1-show-event.jpg" alt="Unitree G1 tanzt mit wehendem Umhang vor Publikum" loading="lazy" width="720" height="1280">
+            <picture><source srcset="assets/img/unitree-g1-show-event.webp" type="image/webp"><img src="assets/img/unitree-g1-show-event.jpg" alt="Unitree G1 tanzt mit wehendem Umhang vor Publikum" loading="lazy" width="720" height="1280"></picture>
             <figcaption>Tanzeinlage vor Publikum</figcaption>
           </figure>
           <figure class="photo-card">
-            <img src="assets/img/unitree-g1-buehne-event.jpg" alt="Unitree G1 auf der Bühne mit Moderatorin bei einer Abendveranstaltung" loading="lazy" width="720" height="1280">
+            <picture><source srcset="assets/img/unitree-g1-buehne-event.webp" type="image/webp"><img src="assets/img/unitree-g1-buehne-event.jpg" alt="Unitree G1 auf der Bühne mit Moderatorin bei einer Abendveranstaltung" loading="lazy" width="720" height="1280"></picture>
             <figcaption>Live auf der Bühne</figcaption>
           </figure>
           <figure class="photo-card">
-            <img src="assets/img/unitree-g1-buehnenshow.jpg" alt="Bühnenshow mit dem humanoiden Roboter Unitree G1 unter freiem Himmel" loading="lazy" width="720" height="1280">
+            <picture><source srcset="assets/img/unitree-g1-buehnenshow.webp" type="image/webp"><img src="assets/img/unitree-g1-buehnenshow.jpg" alt="Bühnenshow mit dem humanoiden Roboter Unitree G1 unter freiem Himmel" loading="lazy" width="720" height="1280"></picture>
             <figcaption>Open-Air-Bühnenshow</figcaption>
           </figure>
         </div>
@@ -356,22 +357,22 @@
         </div>
         <div class="video-grid" data-reveal>
           <div class="video-card">
-            <video controls preload="none" playsinline poster="assets/video/roboter-event-messe.jpg" width="720" height="1280">
+            <video controls preload="none" playsinline poster="assets/video/roboter-event-messe.webp" width="720" height="1280">
               <source src="assets/video/roboter-event-messe.mp4" type="video/mp4">
               Ihr Browser unterstützt keine HTML5-Videos.
             </video>
             <div class="video-caption"><span class="dot"></span> Live auf dem Event</div>
           </div>
           <div class="video-card">
-            <video controls preload="none" playsinline poster="assets/video/roboter-event-show.jpg" width="720" height="1280">
+            <video controls preload="none" playsinline poster="assets/video/roboter-event-show.webp" width="720" height="1280">
               <source src="assets/video/roboter-event-show.mp4" type="video/mp4">
               Ihr Browser unterstützt keine HTML5-Videos.
             </video>
             <div class="video-caption"><span class="dot"></span> Publikumsmagnet auf der Messe</div>
           </div>
           <div class="video-card">
-            <video controls preload="none" playsinline poster="assets/video/roboter-event-dresden.jpg" width="720" height="1280">
-              <source src="assets/video/roboter-event-dresden.mp4" type="video/mp4">
+            <video controls preload="none" playsinline poster="assets/video/roboter-event-auftritt.webp" width="720" height="1280">
+              <source src="assets/video/roboter-event-auftritt.mp4" type="video/mp4">
               Ihr Browser unterstützt keine HTML5-Videos.
             </video>
             <div class="video-caption"><span class="dot"></span> Roboter-Auftritt in Dresden</div>
@@ -418,6 +419,7 @@
           <a href="roboter-mieten-dornbirn.html" class="city-chip">Dornbirn <span>→</span></a>
           <a href="roboter-mieten-eisenstadt.html" class="city-chip">Eisenstadt <span>→</span></a>
         </div>
+        <p style="text-align:center;margin-top:24px;color:var(--text-dim)">Mehr erfahren: <a href="humanoider-roboter-mieten.html" style="color:var(--brand);font-weight:600">Humanoiden Roboter mieten</a> · <a href="unitree-g1-mieten.html" style="color:var(--brand);font-weight:600">Unitree G1 mieten</a> · <a href="messe-roboter-mieten.html" style="color:var(--brand);font-weight:600">Messe-Roboter mieten</a></p>
       </div>
     </section>
 
@@ -487,9 +489,9 @@
         <div class="footer-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="index.html#vorteile">Vorteile</a></li>
-            <li><a href="index.html#roboter">Der Roboter</a></li>
-            <li><a href="index.html#galerie">Galerie</a></li>
+            <li><a href="humanoider-roboter-mieten.html">Humanoiden Roboter mieten</a></li>
+            <li><a href="unitree-g1-mieten.html">Unitree G1 mieten</a></li>
+            <li><a href="messe-roboter-mieten.html">Messe-Roboter mieten</a></li>
             <li><a href="index.html#faq">FAQ</a></li>
           </ul>
         </div>
@@ -500,6 +502,13 @@
             <li><a href="roboter-mieten-graz.html">Graz</a></li>
             <li><a href="roboter-mieten-linz.html">Linz</a></li>
             <li><a href="roboter-mieten-salzburg.html">Salzburg</a></li>
+            <li><a href="roboter-mieten-innsbruck.html">Innsbruck</a></li>
+            <li><a href="roboter-mieten-klagenfurt.html">Klagenfurt</a></li>
+            <li><a href="roboter-mieten-villach.html">Villach</a></li>
+            <li><a href="roboter-mieten-wels.html">Wels</a></li>
+            <li><a href="roboter-mieten-st-poelten.html">St. Pölten</a></li>
+            <li><a href="roboter-mieten-dornbirn.html">Dornbirn</a></li>
+            <li><a href="roboter-mieten-eisenstadt.html">Eisenstadt</a></li>
           </ul>
         </div>
         <div class="footer-col">
