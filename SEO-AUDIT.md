@@ -49,10 +49,18 @@ Index ma `de-at` + `x-default`, podstrony tylko `de-at` bez `x-default`. Przy je
 - Brak narzędzi analitycznych na stronie — upewnić się, że domena jest zweryfikowana w **Google Search Console** i **Bing Webmaster Tools** (bez tego nie zmierzycie efektów).
 - Brak sekcji blog/poradnikowej — treści typu "Was kostet ein Event-Roboter?", "Roboter auf Messen: Ideen" budowałyby topical authority i long-tail.
 
-## Priorytety wdrożenia
+## Status wdrożenia (2026-07-23)
 
-1. Rozbudowa treści podstron miast (największy wpływ na rankingi lokalne).
-2. WebP/AVIF + self-hosted fonty (Core Web Vitals).
-3. Uzupełnienie LocalBusiness (telefon, logo, priceRange).
-4. Ujednolicenie/usunięcie hreflang, rename plików "dresden".
-5. Search Console + monitoring, docelowo sekcja treściowa.
+| Poprawka | Status |
+|---|---|
+| Rozbudowa treści 11 podstron miast do ~720–830 słów (sekcja „Typische Einsätze" + lokalne FAQ + FAQPage schema) | ✅ wdrożone |
+| WebP dla zdjęć galerii (`<picture>` z fallbackiem JPG), posterów wideo i tła CSS (`image-set`) – ok. 40 % mniejsze pliki | ✅ wdrożone |
+| Self-hosted fonty (Inter + Space Grotesk, variable woff2, latin/latin-ext) zamiast Google Fonts + `preload` | ✅ wdrożone |
+| LocalBusiness: `priceRange`, logo → `icon-512.png` (raster) | ✅ wdrożone |
+| hreflang: `x-default` uzupełniony na wszystkich podstronach | ✅ wdrożone |
+| Rename `roboter-event-dresden.*` → `roboter-event-auftritt.*` (URL-e; opis wideo pozostał zgodny z prawdą) | ✅ wdrożone |
+| Stopka: linki do wszystkich 11 miast (lepsze linkowanie wewnętrzne) | ✅ wdrożone |
+| Sitemap: zaktualizowane `lastmod` | ✅ wdrożone |
+| `telephone` w LocalBusiness | ⏳ wymaga podania numeru |
+| Weryfikacja w Google Search Console / Bing Webmaster Tools | ⏳ po stronie właściciela |
+| Sekcja blog/poradnikowa | 💡 rekomendacja na później |
