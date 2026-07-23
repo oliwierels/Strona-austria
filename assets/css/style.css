@@ -300,6 +300,24 @@ p { color: var(--text-muted); }
   transition: var(--transition);
 }
 .video-card:hover { transform: translateY(-4px); border-color: var(--brand); }
+.video-card::before {
+  content: "";
+  position: absolute;
+  top: calc((100% - 57px) * 0.5 - 34px); /* centered over the video, above the ~57px caption */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(10, 12, 18, 0.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/32px no-repeat;
+  backdrop-filter: blur(4px);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  pointer-events: none;
+  transition: var(--transition);
+  z-index: 1;
+}
+.video-card:hover::before { transform: translateX(-50%) scale(1.08); background-color: rgba(10, 12, 18, 0.75); }
+.video-card.playing::before { opacity: 0; visibility: hidden; }
 .video-card video {
   display: block;
   width: 100%;

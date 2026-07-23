@@ -60,6 +60,24 @@
     });
   }
 
+  // Video cards: hide the play overlay while playing, pause other videos
+  var videos = document.querySelectorAll('.video-card video');
+  videos.forEach(function (video) {
+    var card = video.closest('.video-card');
+    video.addEventListener('play', function () {
+      if (card) card.classList.add('playing');
+      videos.forEach(function (other) {
+        if (other !== video) other.pause();
+      });
+    });
+    video.addEventListener('pause', function () {
+      if (card) card.classList.remove('playing');
+    });
+    video.addEventListener('ended', function () {
+      if (card) card.classList.remove('playing');
+    });
+  });
+
   // Gallery lightbox
   var photos = document.querySelectorAll('.photo-card img');
   if (photos.length) {
