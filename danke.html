@@ -1,50 +1,320 @@
 <!DOCTYPE html>
 <html lang="de-AT">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Danke für Ihre Anfrage | 33bots Österreich</title>
-  <meta name="description" content="Vielen Dank für Ihre Anfrage bei 33bots. Wir melden uns innerhalb von 24 Stunden.">
-  <meta name="robots" content="noindex, follow">
-  <meta name="theme-color" content="#000000">
-  <link rel="canonical" href="https://33bots.at/danke.html">
-  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/fonts.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MR7R7CJ3');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Danke für Ihre Anfrage | 33bots Österreich</title>
+<meta name="description" content="Vielen Dank für Ihre Anfrage bei 33bots. Wir melden uns innerhalb von 24 Stunden." />
+<meta name="robots" content="noindex, follow" />
+<meta name="theme-color" content="#050505" />
+<meta name="geo.region" content="AT" />
+<link rel="canonical" href="https://33bots.at/danke.html" />
+<link rel="alternate" hreflang="de-at" href="https://33bots.at/danke.html" />
+<link rel="alternate" hreflang="x-default" href="https://33bots.at/danke.html" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://33bots.at/danke.html" />
+<meta property="og:title" content="Danke für Ihre Anfrage | 33bots Österreich" />
+<meta property="og:description" content="Vielen Dank für Ihre Anfrage bei 33bots. Wir melden uns innerhalb von 24 Stunden." />
+<meta property="og:image" content="https://33bots.at/og-image.jpg" />
+<meta property="og:locale" content="de_AT" />
+<meta property="og:site_name" content="33bots" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<script>history.scrollRestoration = 'manual';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="assets-redesign.css" />
+
+<style>
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { background: #050505; }
+  [id] { scroll-margin-top: 90px; }
+  ::selection { background: #6fd6ff; color: #050505; }
+
+  /* ——— Scroll-reveal: kaskadowe wejście z opóźnieniem ——— */
+  .reveal { opacity: 0; transform: translateY(28px) scale(.985); }
+  .reveal.in {
+    opacity: 1; transform: none;
+    transition: opacity .8s cubic-bezier(.16,1,.3,1) var(--d, 0s),
+                transform .8s cubic-bezier(.16,1,.3,1) var(--d, 0s);
+  }
+
+  /* ——— Robot w hero: wtopienie krawędzi kadru w tło ——— */
+  .hero-robot {
+    /* tło kadru to niemal czerń (3,2,10) — "screen" sprawia, że znika bez śladu ramki */
+    mix-blend-mode: screen;
+    -webkit-mask-image: radial-gradient(ellipse 68% 76% at 50% 50%, #000 38%, rgba(0,0,0,.55) 72%, transparent 92%);
+            mask-image: radial-gradient(ellipse 68% 76% at 50% 50%, #000 38%, rgba(0,0,0,.55) 72%, transparent 92%);
+  }
+
+  /* ——— Przesuwające się pasy zdjęć ——— */
+  .strip { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+                              mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .strip-track { display: flex; gap: 1rem; width: max-content; animation: slide 52s linear infinite; }
+  .strip-track--rev { animation-direction: reverse; animation-duration: 64s; }
+  .strip:hover .strip-track,
+  .strip.paused .strip-track { animation-play-state: paused; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .strip-item { position: relative; flex: 0 0 auto; width: 260px; height: 340px; border-radius: 20px;
+                overflow: hidden; border: 1px solid #2a2a30; background: #111113; }
+  .strip-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+               opacity: .9; transition: transform .7s cubic-bezier(.16,1,.3,1), opacity .5s ease; }
+  .strip-item:hover .strip-img { transform: scale(1.07); opacity: 1; }
+  .strip-item::after { content: ''; position: absolute; inset: 0;
+                       background: linear-gradient(to top, rgba(5,5,5,.9), transparent 55%); }
+  .strip-cap { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 2;
+               font-size: 12px; font-weight: 600; letter-spacing: .04em; color: #fff; }
+  .strip-item--wide   { width: 380px; }
+  .strip-item--narrow { width: 190px; }
+  .strip-item[data-full] { cursor: zoom-in; }
+  @media (max-width: 640px) {
+    .strip-item { width: 180px; height: 240px; }
+    .strip-item--wide { width: 260px; }
+    .strip-item--narrow { width: 140px; }
+  }
+
+  /* ——— Baner cookie ——— */
+  .cookies { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 80;
+             display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
+             max-width: 640px; margin: 0 auto; padding: 1rem 1.25rem;
+             background: rgba(17,17,19,.94); backdrop-filter: blur(16px);
+             -webkit-backdrop-filter: blur(16px); border: 1px solid #2a2a30;
+             border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
+             transform: translateY(140%); transition: transform .6s cubic-bezier(.16,1,.3,1); }
+  .cookies.show { transform: none; }
+  @media (max-width: 640px) { .cookies { bottom: 5.5rem; } }
+
+  /* ——— Lightbox ——— */
+  .lb { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center;
+        background: rgba(5,5,5,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        opacity: 0; pointer-events: none; transition: opacity .35s ease; padding: 4vh 4vw; }
+  .lb.open { opacity: 1; pointer-events: auto; }
+  .lb img { max-width: 100%; max-height: 88vh; border-radius: 18px; transform: scale(.94);
+            transition: transform .4s cubic-bezier(.16,1,.3,1); box-shadow: 0 40px 120px rgba(0,0,0,.7); }
+  .lb.open img { transform: scale(1); }
+  .lb-cap { position: absolute; bottom: 3vh; left: 0; right: 0; text-align: center;
+            font-size: 13px; color: #a3a3a3; padding: 0 1rem; }
+  .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px;
+            border-radius: 50%; border: 1px solid #3a3a42; background: rgba(17,17,19,.8);
+            color: #fff; font-size: 20px; display: grid; place-items: center; transition: all .25s ease; }
+  .lb-btn:hover { border-color: #6fd6ff; box-shadow: 0 0 20px rgba(111,214,255,.3); }
+  .lb-prev { left: 2vw; } .lb-next { right: 2vw; }
+  .lb-close { position: absolute; top: 3vh; right: 3vw; width: 44px; height: 44px; border-radius: 50%;
+              border: 1px solid #3a3a42; background: rgba(17,17,19,.8); color: #fff; font-size: 22px;
+              display: grid; place-items: center; transition: all .25s ease; }
+  .lb-close:hover { border-color: #6fd6ff; transform: rotate(90deg); }
+  @media (max-width: 640px) { .lb-btn { width: 44px; height: 44px; } }
+  @media (prefers-reduced-motion: reduce) { .strip-track { animation: none; } .strip { overflow-x: auto; } }
+
+  /* ——— Ziarno: premium film grain ——— */
+  .grain::after {
+    content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ——— Siatka geometryczna w tle ——— */
+  .bg-grid {
+    background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  }
+
+  /* ——— CTA: przesuwający się połysk ——— */
+  .cta-shine {
+    background-image: linear-gradient(110deg, #fff 0%, #fff 38%, #cdf0ff 50%, #fff 62%, #fff 100%);
+    background-size: 200% 100%;
+  }
+  .cta-shine:hover { animation: shimmer 1.4s linear infinite; }
+
+  /* ——— Bento: obramowanie reagujące na kursor ——— */
+  .bento { position: relative; isolation: isolate; }
+  .bento::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: 2;
+    background: radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(111,214,255,.8), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .45s ease;
+  }
+  .bento:hover::before { opacity: 1; }
+
+  /* ——— Linia procesu rysowana przy scrollu ——— */
+  .track-line { transform: scaleX(0); transform-origin: left; transition: transform 1.6s cubic-bezier(.16,1,.3,1); }
+  .track-line.in { transform: scaleX(1); }
+  @media (max-width: 767px) {
+    .track-line { transform: scaleY(0); transform-origin: top; }
+    .track-line.in { transform: scaleY(1); }
+  }
+
+  /* ——— FAQ ——— */
+  .faq-panel { max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.16,1,.3,1); }
+  .faq-item[open-state="1"] .faq-panel { max-height: 320px; }
+  .faq-item[open-state="1"] .faq-sign { transform: rotate(45deg); color: #6fd6ff; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    .reveal { opacity: 1; transform: none; }
+    .track-line { transform: none; }
+  }
+</style>
+
 </head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a href="index.html" class="brand" aria-label="33bots Startseite"><img src="assets/img/logo.svg" class="brand-logo" alt="33bots – Robotervermietung" width="150" height="48"></a>
-        <div class="nav-cta"><a href="index.html" class="btn btn--primary">Zur Startseite</a></div>
-      </nav>
+
+<body class="grain bg-ink font-sans text-neutral-200 antialiased selection:bg-accent selection:text-ink">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MR7R7CJ3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="progress" class="fixed inset-x-0 top-0 z-[70] h-[2px] w-0 bg-gradient-to-r from-accent to-white shadow-[0_0_12px_rgba(111,214,255,.5)]"></div>
+
+<header id="nav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
+  <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 md:px-8">
+    <a href="#" class="font-display text-lg font-700 tracking-tight text-white">33BOTS</a>
+    <nav class="hidden items-center gap-8 text-sm text-neutral-400 md:flex">
+      <a href="#referenzen" class="transition hover:text-white">Referenzen</a>
+      <a href="#moeglichkeiten" class="transition hover:text-white">Möglichkeiten</a>
+      <a href="#preise" class="transition hover:text-white">Preise</a>
+      <a href="#ablauf" class="transition hover:text-white">Ablauf</a>
+      <a href="humanoider-roboter-mieten.html" class="transition hover:text-white">Angebot</a>
+    </nav>
+    <a href="#kontakt"
+       class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-5 py-2.5 text-[13px] font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_0_28px_rgba(111,214,255,.45)]">
+      Kostenloses Angebot
+      <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </a>
+  </div>
+</header>
+
+<main>
+<section class="relative flex min-h-[72vh] items-center overflow-hidden px-5 py-24 md:px-8">
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-grid animate-grid-pan"></div>
+    <div class="absolute left-1/2 top-1/2 h-[32rem] w-[56rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/12 blur-[150px] animate-aurora"></div>
+  </div>
+  <div class="mx-auto max-w-2xl text-center">
+    <p class="reveal mb-6 inline-flex items-center gap-2.5 rounded-full border border-line-mid bg-white/[.03] px-4 py-2 text-[11px] font-600 uppercase tracking-[.18em] text-neutral-400 backdrop-blur">Anfrage erhalten</p>
+    <h1 class="reveal font-display text-[2.2rem] font-700 leading-[1.05] tracking-[-.03em] text-white md:text-[3rem]" style="--d:.1s">Vielen <span class="bg-gradient-to-r from-white via-accent to-accent-deep bg-clip-text text-transparent">Dank!</span></h1>
+    <p class="reveal mx-auto mt-5 max-w-lg leading-relaxed text-neutral-400 md:text-lg" style="--d:.18s">Ihre Anfrage ist bei uns eingegangen. Wir prüfen die Verfügbarkeit für Ihren Wunschtermin und melden uns innerhalb von 24 Stunden an Werktagen bei Ihnen.</p>
+    <div class="reveal mt-9 flex flex-col justify-center gap-3 sm:flex-row" style="--d:.26s">
+      <a href="index.html" class="cta-shine inline-flex items-center justify-center gap-3 rounded-2xl px-8 py-4.5 font-display text-base font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-1">Zur Startseite →</a>
+      <a href="index.html#referenzen" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-line-hi px-8 py-4.5 font-display text-base font-600 uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-1 hover:border-accent/60">Referenzen ansehen</a>
     </div>
-  </header>
-  <main>
-    <section class="section" style="text-align:center;min-height:62vh;display:flex;align-items:center">
-      <div class="container">
-        <div style="font-size:3.5rem;margin-bottom:12px">✅</div>
-        <span class="eyebrow">Anfrage erhalten</span>
-        <h1 style="margin:10px 0 16px">Vielen <span class="gradient-text">Dank</span>!</h1>
-        <p style="max-width:540px;margin:0 auto 30px">Ihre Anfrage ist bei uns eingegangen. Wir prüfen die Verfügbarkeit für Ihren Wunschtermin und melden uns innerhalb von 24 Stunden an Werktagen bei Ihnen.</p>
-        <div class="hero-actions" style="justify-content:center;margin-bottom:0">
-          <a href="index.html" class="btn btn--primary btn--lg">Zur Startseite</a>
-          <a href="index.html#videos" class="btn btn--ghost btn--lg">Roboter-Videos ansehen</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="border-t border-line bg-surface/40 px-5 py-14 md:px-8">
+  <div class="mx-auto max-w-7xl">
+    <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+      <div>
+        <p class="font-display text-lg font-700 text-white">33BOTS</p>
+        <p class="mt-2 text-[13px] text-neutral-500">Humanoide Roboter mieten · ganz Österreich</p>
+        <div class="mt-4 flex gap-4 text-[13px] text-neutral-400">
+          <a href="tel:+48531408004" class="transition hover:text-white">+48 531 408 004</a>
+          <a href="mailto:kontakt@33bots.at" class="transition hover:text-white">kontakt@33bots.at</a>
         </div>
       </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-bottom" style="border:none;padding-top:0">
-        <p>© 2026 33bots Österreich. Alle Rechte vorbehalten.</p>
-        <p><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+      <nav class="flex flex-wrap gap-x-7 gap-y-2 text-[13px] text-neutral-400">
+        <a href="humanoider-roboter-mieten.html" class="transition hover:text-white">Angebot</a>
+        <a href="messe-roboter-mieten.html" class="transition hover:text-white">Messen</a>
+        <a href="unitree-g1-mieten.html" class="transition hover:text-white">Unitree G1</a>
+        <a href="kontakt.html" class="transition hover:text-white">Kontakt</a>
+        <a href="impressum.html" class="transition hover:text-white">Impressum</a>
+        <a href="datenschutz.html" class="transition hover:text-white">Datenschutz</a>
+      </nav>
+      <div class="flex gap-4 text-[13px] text-neutral-400">
+        <a href="https://www.instagram.com/robotollern" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">Instagram</a>
+        <a href="https://www.tiktok.com/@robotollern" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">TikTok</a>
+        <a href="https://www.youtube.com/@robotollern" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">YouTube</a>
       </div>
     </div>
-  </footer>
+
+    <!-- Miasta: SEO, zwinięte -->
+    <details class="mt-10 border-t border-line pt-6">
+      <summary class="cursor-pointer list-none text-[11px] font-600 uppercase tracking-widest text-neutral-600 transition hover:text-neutral-400">Roboter mieten in Ihrer Stadt ▾</summary>
+      <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[12px] text-neutral-500">
+        <a href="roboter-mieten-wien.html" class="transition hover:text-accent">Wien</a>
+        <a href="roboter-mieten-graz.html" class="transition hover:text-accent">Graz</a>
+        <a href="roboter-mieten-linz.html" class="transition hover:text-accent">Linz</a>
+        <a href="roboter-mieten-salzburg.html" class="transition hover:text-accent">Salzburg</a>
+        <a href="roboter-mieten-innsbruck.html" class="transition hover:text-accent">Innsbruck</a>
+        <a href="roboter-mieten-klagenfurt.html" class="transition hover:text-accent">Klagenfurt</a>
+        <a href="roboter-mieten-villach.html" class="transition hover:text-accent">Villach</a>
+        <a href="roboter-mieten-wels.html" class="transition hover:text-accent">Wels</a>
+        <a href="roboter-mieten-st-poelten.html" class="transition hover:text-accent">St. Pölten</a>
+        <a href="roboter-mieten-dornbirn.html" class="transition hover:text-accent">Dornbirn</a>
+        <a href="roboter-mieten-eisenstadt.html" class="transition hover:text-accent">Eisenstadt</a>
+      </div>
+    </details>
+
+    <p class="mt-8 text-[12px] text-neutral-600">© 2026 33bots Österreich. Alle Rechte vorbehalten.</p>
+  </div>
+</footer>
+<!-- Sticky CTA (mobil) -->
+<div class="fixed inset-x-0 bottom-0 z-50 border-t border-line-mid bg-ink/95 p-3 backdrop-blur md:hidden">
+  <a href="kontakt.html" class="cta-shine flex items-center justify-center gap-2 rounded-xl px-6 py-4 font-display text-sm font-700 uppercase tracking-wider text-ink">
+    Kostenloses Angebot →
+  </a>
+</div>
+<div class="h-20 md:hidden"></div>
+
+<!-- Cookie-Banner -->
+<div class="cookies" id="cookies" aria-live="polite">
+  <p class="flex-1 text-[13px] leading-relaxed text-neutral-400" style="min-width:220px">
+    Wir verwenden Cookies zu Analysezwecken.
+  </p>
+  <button id="cookiesOk" class="rounded-xl bg-white px-5 py-2.5 text-[12px] font-700 uppercase tracking-wider text-ink transition hover:scale-105">
+    Verstanden
+  </button>
+</div>
+
+<script>
+(() => {
+  /* ——— Gestaffeltes Einblenden ——— */
+  const io = new IntersectionObserver((es) => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ——— Fortschrittsbalken + Nav ——— */
+  const nav = document.getElementById('nav');
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const y = window.scrollY;
+    const max = document.body.scrollHeight - innerHeight;
+    if (bar) bar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+    if (nav) nav.classList.toggle('nav-solid', y > 40);
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* ——— FAQ ——— */
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const open = item.getAttribute('open-state') === '1';
+      document.querySelectorAll('.faq-item[open-state="1"]').forEach(o => o.setAttribute('open-state', '0'));
+      item.setAttribute('open-state', open ? '0' : '1');
+    });
+  });
+
+  /* ——— Cookie-Banner ——— */
+  const ck = document.getElementById('cookies');
+  if (ck && !localStorage.getItem('ck-ok')) setTimeout(() => ck.classList.add('show'), 1200);
+  const ok = document.getElementById('cookiesOk');
+  if (ok) ok.addEventListener('click', () => { localStorage.setItem('ck-ok', '1'); ck.classList.remove('show'); });
+})();
+</script>
 </body>
 </html>
