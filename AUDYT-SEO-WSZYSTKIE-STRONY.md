@@ -27,21 +27,34 @@ Repo źródłowe: `oliwierels/33bots` (branch `main`). Pełny raport: `SEO-AUDIT
 - ✅ 191 unikalnych obrazków OG zamiast jednego wspólnego
 - ⏳ Zostało (opcjonalne): dalsza unikalizacja treści miejskich, `loading="lazy"` sitewide
 
-## ⚠️ 33bots.de — nie udało się zweryfikować
+## ⚠️ 33bots.de — czeka na wskazanie repozytorium
 
-Nie znalazłem repozytorium ze źródłem tej strony w Twoim koncie GitHub. Sprawdziłem wszystkie dostępne repozytoria (`oliwierels/*`) i jedyne kojarzące się z Niemcami to:
+`robotollern.de` **nie jest** 33bots.de (potwierdzone przez właściciela) — to pomyłkowy trop, odrzucony. Środowisko ma zablokowany dostęp do internetu poza GitHub, więc nie mogę zrobić audytu zewnętrznego bez kodu źródłowego.
 
-- `oliwierels/website-germany` i `oliwierels/strona-niemcy-dobre-rpeo` — obie zawierają stronę **robotollern.de**, innej marki. Sprawdziłem kod: inny e-mail kontaktowy (`info@robotollern.de` vs `kontakt@33bots.at/.pl`), inny numer telefonu, zero wzmianek o „33bots" w treści, meta danych czy Impressum. To wygląda na osobny, niepowiązany biznes (albo inną markę tego samego właściciela, ale bez żadnego technicznego powiązania w kodzie).
+**Potrzebuję:** dokładnej nazwy repo + brancha (analogicznie do `oliwierels/litwa-strona` @ `claude/lithuanian-33bots-site-4v8qf8` dla .lt), żeby dodać je do sesji i zrobić audyt.
 
-Środowisko, w którym pracuję, ma **zablokowany dostęp do internetu poza GitHub** — nie mogę więc po prostu wejść na żywo na 33bots.de i zrobić audytu z tego, co widać publicznie.
+## ✅ 33bots.lt — audyt kompletny
 
-**Żeby zrobić audyt, potrzebuję jednego z:**
-1. Nazwy/linku repozytorium GitHub ze źródłem 33bots.de (jeśli istnieje pod innym kontem/organizacją — dodam je do sesji),
-2. potwierdzenia, że robotollern.de **to jest** Twoja niemiecka strona 33bots (to nietypowe rozwiązanie, ale zrobię audyt tego kodu, jeśli tak),
-3. albo dostępu do internetu w tej sesji, żebym mógł zrobić audyt zewnętrzny (meta tagi, nagłówki, szybkość) bez kodu źródłowego.
+Repo źródłowe: `oliwierels/litwa-strona`, branch `claude/lithuanian-33bots-site-4v8qf8`, commit `b1e75bf`. 71 stron, generowane statycznie z Pythona (`build_all.py`).
 
-## ⚠️ 33bots.lt — brak treści do audytu
+### Co działa dobrze
 
-Repozytorium `oliwierels/litwa-strona` istnieje, ale zawiera wyłącznie plik `README.md` z jednym wierszem tekstu — **strona nie ma jeszcze kodu**. Nie ma czego audytować.
+- Sitemap (71 URL) 1:1 zgodna z realnymi plikami, `llms.txt` i `feed.xml` kompletne.
+- `robots.txt` poprawny, jawnie dopuszcza boty AI (GPTBot, ClaudeBot, PerplexityBot…).
+- Unikalne title/description na wszystkich próbkowanych podstronach (miasta, oferta, blog).
+- Realna, zróżnicowana treść lokalna miast (konkretne miejsca, nie tylko podmiana nazwy) — np. Biržai i Vilnius mają realnie inne sekcje „Kur dirbame".
+- Cena w JSON-LD (`2100 EUR`) zgodna z cennikiem, brak spamowych wartości typu `1 €`.
+- Obrazy z `width`/`height`, `loading="lazy"` poza hero, hero z `fetchpriority="high"` + `preload`.
+- Fonty self-hosted, `font-display: swap`.
+- JSON-LD kompletny: `ProfessionalService`, `WebSite`, `Service`, `FAQPage`, `BreadcrumbList`, `VideoObject`.
 
-Jeśli strona już działa na żywo pod adresem 33bots.lt (hostowana skądinąd, np. builder typu Wix/Webflow, albo kod w innym repo), daj znać gdzie szukać źródła, albo odblokuj tej sesji dostęp do internetu, żebym zrobił audyt zewnętrzny.
+### Problemy i rekomendacje
+
+1. **🔴 WYSOKI — Błędny hreflang na stronie głównej.** `hreflang="pl"` i `hreflang="x-default"` w `index.html` (linie 35–39) wskazują na `33bots.lt` zamiast `33bots.pl` — self-referencing conflict, który może unieważnić cały klaster hreflang strony głównej. **Fix:** poprawić `lt_common.ALTERNATES`/`build_index_redesign.py`, tak by `pl` i `x-default` wskazywały na `33bots.pl`, tak jak reszta witryny.
+2. **🔴 WYSOKI — Polski tekst w metadanych strony głównej.** `index.html` linia 26: `og:image:alt` = „Robot humanoidalny Unitree G1 — wynajem na eventy **w Polsce**" — pozostałość po kopiowaniu `templates/pl-index.html`. **Fix:** dodać brakujący klucz do `lt_index_strings.TEXTS`, przebudować.
+3. **🟠 ŚREDNI — `AggregateRating`/opinie opisane w README jako wdrożone nie istnieją w realnej witrynie.** Blok jest tylko w nieużywanym `templates/pl-index.html`, nie w żadnym z 71 wdrożonych plików. Stracona szansa na rich snippet z gwiazdkami; do tego rozjazd dokumentacji z kodem. **Fix:** albo dodać do `build_index_redesign.py`/`lt_common.py` (z jasnym oznaczeniem „opinie z realizacji w Polsce"), albo poprawić README.
+4. **🟠 ŚREDNI — Dane kontaktowe (NAP) w schema.org są w 100% polskie.** `telephone: "+48531408004"`, `email: "kontakt@33bots.pl"` — brak litewskiego numeru/domeny w danych strukturalnych, co osłabia sygnał lokalności (istotne też pod przyszły Google Business Profile PL vs LT).
+5. **🟠 ŚREDNI — Umiarkowana głębokość unikalnej treści miast.** ~65% podobieństwa tekstu między Vilnius/Kaunas/Biržai; realnie unikalne dla miasta jest tylko ok. 15–20% treści strony (mniejsze miasta jeszcze skromniej różnicowane). To nie klasyczne doorway pages, ale przy 28 miastach Google może i tak ocenić klaster jako thin content. **Fix:** dodać po jednym unikalnym elemencie na miasto (lokalne zdjęcie, cytat klienta, konkretny adres/salę).
+6. **🟡 NISKI — Formspree endpoint współdzielony z 33bots.pl** (`formspree.io/f/mnjwvray`) — leady LT i PL mieszają się w tym samym formularzu/CRM.
+7. **🟡 NISKI — Brak zwrotnego hreflang z 33bots.at** (i z docelowej niemieckiej strony, gdy powstanie/zostanie potwierdzona) — 33bots.pl już linkuje do .lt, reszta jeszcze nie.
+8. **🟡 NISKI — Ślady polskiego języka w komentarzach kodu** (np. `index.html` linia 1427) — nie wpływa na SEO, ale sygnalizuje niedokończone tłumaczenie portu; warto posprzątać przy okazji punktu 2.
