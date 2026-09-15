@@ -57,6 +57,33 @@ Absolute Pfade (`/assets/...`) benötigen einen Webserver – ein direktes Öffn
 - **Formular**: sendet per [FormSubmit](https://formsubmit.co) an `kontakt@33bots.at`. Die **erste** Absendung löst eine einmalige Bestätigungs-E-Mail (Aktivierung) an dieses Postfach aus – Link anklicken, danach werden alle Anfragen zugestellt.
 - **Domain**: `CNAME` enthält `33bots.at`. DNS beim Registrar setzen (A-Records auf GitHub-Pages-IPs bzw. CNAME für `www`).
 
+## Veröffentlichung
+
+Die Seite liegt auf GitHub Pages (Domain über die Datei `CNAME`). Jeder Push auf den
+Produktionsbranch veröffentlicht sie; davor prüft `.github/workflows/wdrozenie.yml` die
+komplette Website und bricht bei einem Fehler ab, damit nichts Kaputtes live geht:
+
+- geschlossene HTML-Tags und gültiges JSON-LD,
+- Canonical-Adressen unter `33bots.at`, vorhanden und ohne Dubletten,
+- hreflang: keine fremde Sprachversion zeigt auf die eigene Domain,
+- Verweise auf Dateien, die es im Repository nicht gibt,
+- `sitemap.xml` als gültiges XML mit vorhandenen Dateien,
+- `CNAME` mit exakt `33bots.at` — fehlt er, verliert Pages die eigene Domain.
+
+Damit die Veröffentlichung selbst über Actions läuft (statt direkt aus dem Branch),
+sind zwei einmalige Einstellungen nötig:
+
+1. Settings → Pages → Build and deployment → Source: **GitHub Actions**
+2. Settings → Secrets and variables → Actions → Variables → `PAGES_PRZEZ_ACTIONS` = `tak`
+
+Ohne die Variable prüft der Workflow nur — veröffentlicht wird weiter aus dem Branch.
+
+## Sprachversionen
+
+`sprachen.py` pflegt hreflang und den Sprachumschalter in der Fußzeile. Die Tabelle der
+Entsprechungen (33bots.pl, 33bots.de, 33bots.lt) steht oben in der Datei; nach einer
+Änderung einmal `python3 sprachen.py` laufen lassen. Das Skript ist idempotent.
+
 ## Tech-Stack
 
 Statisches HTML/CSS/Vanilla-JS – kein Build-Schritt, direkt hostbar (Netlify, Vercel, GitHub Pages, jeder Webspace).

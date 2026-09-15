@@ -5,9 +5,13 @@ name: Wdrożenie na 33bots.at
 # publikacją tę samą bramkę, co 33bots.pl, 33bots.lt i 33bots.de: gdy strona nie przejdzie
 # sprawdzenia, publikacja się nie odbywa i na serwerze zostaje poprzednia wersja.
 #
-# WYMAGA JEDNORAZOWEGO PRZESTAWIENIA: Settings → Pages → Build and deployment →
-# Source: GitHub Actions. Do tego czasu workflow tylko sprawdza stronę, a publikuje
-# dotychczasowy mechanizm gałęziowy.
+# PRZEŁĄCZENIE NA PUBLIKACJĘ PRZEZ ACTIONS — dwa kroki, oba jednorazowe:
+#   1. Settings → Pages → Build and deployment → Source: GitHub Actions
+#   2. Settings → Secrets and variables → Actions → Variables → PAGES_PRZEZ_ACTIONS = tak
+#
+# Dopóki zmiennej nie ma, workflow wyłącznie sprawdza stronę, a publikuje dotychczasowy
+# mechanizm gałęziowy. Dzięki temu scalenie niczego nie psuje i nie zostawia czerwonych
+# przebiegów: krok publikacji po prostu się nie uruchamia.
 on:
   push:
     branches: [claude/session-p10snn]
@@ -138,6 +142,7 @@ jobs:
           PY
 
       - name: Spakuj stronę do publikacji
+        if: ${{ vars.PAGES_PRZEZ_ACTIONS == 'tak' }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
@@ -145,6 +150,7 @@ jobs:
   opublikuj:
     name: Opublikuj na GitHub Pages
     needs: sprawdz
+    if: ${{ vars.PAGES_PRZEZ_ACTIONS == 'tak' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
