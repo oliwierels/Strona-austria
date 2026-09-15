@@ -48,7 +48,9 @@ ENTSPRECHUNGEN = {
     },
 }
 
-UEBERSPRUNGEN = {"404.html", "danke.html"}
+# 404 und danke werden nicht indexiert, bekommen aber trotzdem einen sauberen
+# hreflang-Block, damit die Schreibweise der Sprachcodes überall gleich ist.
+# Einen Sprachumschalter erhalten sie nicht — sie haben keine Entsprechungen.
 
 NAMEN = {"pl": "Polski — 33bots.pl", "de": "Deutschland — 33bots.de",
          "lt": "Lietuvių — 33bots.lt"}
@@ -99,8 +101,6 @@ def fusszeile_ergaenzen(inhalt, datei):
 def main():
     geaendert = 0
     for datei in sorted(glob.glob("*.html")):
-        if datei in UEBERSPRUNGEN:
-            continue
         inhalt = open(datei, encoding="utf-8").read()
         neu = fusszeile_ergaenzen(head_neu_schreiben(inhalt, datei), datei)
         if neu != inhalt:

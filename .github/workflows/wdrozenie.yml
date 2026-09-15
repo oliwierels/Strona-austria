@@ -1,0 +1,166 @@
+name: Wdrożenie na 33bots.at
+
+# 33bots.at stoi na GitHub Pages. Dotąd publikacja szła prosto z gałęzi, bez żadnej
+# kontroli — każdy commit lądował na produkcji, także zepsuty. Ten workflow wstawia przed
+# publikacją tę samą bramkę, co 33bots.pl, 33bots.lt i 33bots.de: gdy strona nie przejdzie
+# sprawdzenia, publikacja się nie odbywa i na serwerze zostaje poprzednia wersja.
+#
+# WYMAGA JEDNORAZOWEGO PRZESTAWIENIA: Settings → Pages → Build and deployment →
+# Source: GitHub Actions. Do tego czasu workflow tylko sprawdza stronę, a publikuje
+# dotychczasowy mechanizm gałęziowy.
+on:
+  push:
+    branches: [claude/session-p10snn]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+  workflow_dispatch:
+
+concurrency:
+  group: wdrozenie-produkcja-at
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  sprawdz:
+    name: Sprawdź stronę
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz repozytorium
+        uses: actions/checkout@v4
+
+      - name: Bramka przed publikacją
+        run: |
+          python3 - <<'PY'
+          import json, os, re, sys
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse
+
+          DOMENA = 'https://33bots.at'
+          OBCE_DOMENY = ('https://33bots.pl', 'https://33bots.lt', 'https://33bots.de')
+
+          STRONY = sorted(p for p in os.listdir('.') if p.endswith('.html'))
+          bledy = []
+
+          PUSTE = {'meta','link','img','br','input','source','hr','iframe',
+                   'path','circle','rect','polyline','line','polygon','use','stop','col'}
+
+          class Kontrola(HTMLParser):
+              def __init__(self, plik):
+                  super().__init__(); self.stos = []; self.plik = plik
+              def handle_starttag(self, tag, attrs):
+                  if tag in ('svg', 'iframe'): return
+                  if tag not in PUSTE: self.stos.append(tag)
+              def handle_endtag(self, tag):
+                  if tag in PUSTE or tag == 'svg': return
+                  if self.stos and self.stos[-1] == tag: self.stos.pop()
+                  elif tag in self.stos:
+                      while self.stos and self.stos[-1] != tag:
+                          bledy.append(f'{self.plik}: niezamknięty <{self.stos.pop()}>')
+                      self.stos.pop()
+                  else:
+                      bledy.append(f'{self.plik}: zbłąkany </{tag}>')
+
+          if 'index.html' not in STRONY:
+              bledy.append('brak index.html — nie ma czego publikować')
+
+          # Bez tego pliku GitHub Pages przestaje serwować stronę pod własną domeną
+          # i 33bots.at przestaje działać.
+          if not os.path.exists('CNAME') or open('CNAME', encoding='utf-8').read().strip() != '33bots.at':
+              bledy.append('CNAME musi zawierać dokładnie 33bots.at — inaczej Pages zgubi domenę')
+
+          kanoniczne = {}
+
+          for plik in STRONY:
+              zrodlo = open(plik, encoding='utf-8').read()
+              bez_kanonicznego = plik in ('404.html', 'danke.html')
+
+              k = Kontrola(plik); k.feed(zrodlo)
+              if k.stos: bledy.append(f'{plik}: niezamknięte znaczniki: {k.stos}')
+
+              for m in re.finditer(r'<script type="application/ld\+json">(.*?)</script>', zrodlo, re.S):
+                  try: json.loads(m.group(1))
+                  except Exception as e: bledy.append(f'{plik}: błędny JSON-LD: {e}')
+
+              m = re.search(r'<link[^>]+rel="canonical"[^>]+href="([^"]+)"', zrodlo)
+              if not m:
+                  if not bez_kanonicznego:
+                      bledy.append(f'{plik}: brak adresu kanonicznego')
+              elif not m.group(1).startswith(DOMENA):
+                  bledy.append(f'{plik}: adres kanoniczny spoza {DOMENA}: {m.group(1)}')
+              else:
+                  kanoniczne.setdefault(m.group(1), []).append(plik)
+
+              # hreflang: obca wersja językowa nie może wskazywać na własną domenę.
+              for lang, href in re.findall(r'hreflang="([^"]+)" href="([^"]+)"', zrodlo):
+                  if lang not in ('de-AT', 'x-default') and href.startswith(DOMENA):
+                      bledy.append(f'{plik}: hreflang="{lang}" wskazuje na {href} zamiast na obcą wersję językową')
+
+              for m in re.finditer(r'(?:src|href)="([^"#?:]+\.(?:webp|jpg|jpeg|png|svg|css|js|ico|woff2|mp4|html|xml|txt))(?:[?#][^"]*)?"', zrodlo):
+                  if not os.path.exists(m.group(1)):
+                      bledy.append(f'{plik}: odwołanie do nieistniejącego pliku {m.group(1)}')
+
+          for adres, pliki in kanoniczne.items():
+              if len(pliki) > 1:
+                  bledy.append(f'ten sam adres kanoniczny {adres} na stronach: {", ".join(pliki)}')
+
+          import xml.etree.ElementTree as ET
+          try:
+              drzewo = ET.parse('sitemap.xml')
+          except Exception as e:
+              drzewo = None
+              bledy.append(f'sitemap.xml: błędny XML: {e}')
+
+          if drzewo is not None:
+              NS = '{http://www.sitemaps.org/schemas/sitemap/0.9}'
+              adresy = [w.text.strip() for w in drzewo.getroot().iter(NS + 'loc') if w.text]
+              if not adresy:
+                  bledy.append('sitemap.xml: brak adresów')
+              for adres in adresy:
+                  if not adres.startswith(DOMENA):
+                      bledy.append(f'sitemap.xml: adres spoza {DOMENA}: {adres}')
+                      continue
+                  sciezka = urlparse(adres).path.lstrip('/') or 'index.html'
+                  if not os.path.exists(sciezka):
+                      bledy.append(f'sitemap.xml: adres {adres} nie ma pliku {sciezka}')
+
+          if bledy:
+              print('PUBLIKACJA WSTRZYMANA — strona zostaje w poprzedniej wersji:')
+              for b in bledy: print('  -', b)
+              sys.exit(1)
+
+          print(f'Sprawdzone strony: {len(STRONY)}')
+          print('Struktura, dane strukturalne, adresy kanoniczne, hreflang, CNAME i mapa strony w porządku.')
+          PY
+
+      - name: Spakuj stronę do publikacji
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  opublikuj:
+    name: Opublikuj na GitHub Pages
+    needs: sprawdz
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.wdrozenie.outputs.page_url }}
+    steps:
+      - name: Wyślij na Pages
+        id: wdrozenie
+        uses: actions/deploy-pages@v4
+
+      - name: Potwierdź, że strona odpowiada
+        run: |
+          KOD=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 \
+                     -H 'Cache-Control: no-cache' https://33bots.at/ || echo 000)
+          echo "https://33bots.at → HTTP ${KOD}"
+          if [ "${KOD}" != "200" ]; then
+            echo "UWAGA: strona nie zwróciła kodu 200 — sprawdź ręcznie."
+            exit 1
+          fi
+          echo "Strona opublikowana — commit \`${GITHUB_SHA::7}\`" >> $GITHUB_STEP_SUMMARY
