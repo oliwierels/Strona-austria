@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Sprachversionen von 33bots: hreflang und Umschalter in der Fußzeile.
 
-33bots betreibt drei Websites: 33bots.at, 33bots.pl und 33bots.lt. Damit Google sie als
+33bots betreibt vier Websites: 33bots.at, 33bots.de, 33bots.pl und 33bots.lt. Damit Google sie als
 eine Familie behandelt und nicht als drei unabhängige Auftritte, muss jede Seite auf die
 übrigen Versionen verweisen — und zwar **gegenseitig**. Einseitige hreflang-Angaben
 ignorieren Suchmaschinen.
@@ -27,14 +27,17 @@ MARKER = "data-sprachen"
 ENTSPRECHUNGEN = {
     "index.html": {
         "pl": "https://33bots.pl/",
+        "de": "https://33bots.de/",
         "lt": "https://33bots.lt/",
     },
     "humanoider-roboter-mieten.html": {
         "pl": "https://33bots.pl/wypozyczenie-robota.html",
+        "de": "https://33bots.de/humanoiden-roboter-mieten.html",
         "lt": "https://33bots.lt/humanoidinio-roboto-nuoma.html",
     },
     "messe-roboter-mieten.html": {
         "pl": "https://33bots.pl/oferta-targi.html",
+        "de": "https://33bots.de/angebot-messen.html",
         "lt": "https://33bots.lt/robotas-parodoms.html",
     },
     "unitree-g1-mieten.html": {
@@ -47,7 +50,8 @@ ENTSPRECHUNGEN = {
 
 UEBERSPRUNGEN = {"404.html", "danke.html"}
 
-NAMEN = {"pl": "Polski — 33bots.pl", "lt": "Lietuvių — 33bots.lt"}
+NAMEN = {"pl": "Polski — 33bots.pl", "de": "Deutschland — 33bots.de",
+         "lt": "Lietuvių — 33bots.lt"}
 
 
 def eigene_adresse(datei):
@@ -74,8 +78,10 @@ def head_neu_schreiben(inhalt, datei):
 
 
 def fusszeile_ergaenzen(inhalt, datei):
+    # Vorhandenen Umschalter neu schreiben statt die Seite zu überspringen — sonst bliebe
+    # bei einer Änderung der Entsprechungstabelle die alte Linkliste in der Fußzeile stehen.
     if MARKER in inhalt:
-        return inhalt
+        inhalt = re.sub(r'\s*<p class="[^"]*" ' + MARKER + r'>.*?</p>', "", inhalt, flags=re.S)
     entsprechungen = ENTSPRECHUNGEN.get(datei, {})
     if not entsprechungen:
         return inhalt
