@@ -1,0 +1,49 @@
+RewriteEngine On
+
+# 33bots.at wurde bis 2026-09 über GitHub Pages veröffentlicht, die Domain zeigt aber
+# auf gewöhnliches Hosting (LiteSpeed). Änderungen aus dem Repository kamen deshalb
+# nirgends an. Seit der Umstellung auf den Server-Pull gilt diese Datei — vorher hatte
+# 33bots.at überhaupt keine .htaccess, weil Pages keine Header setzen kann.
+
+# HTTPS und non-www (kanonische Adresse: https://33bots.at)
+RewriteCond %{HTTP_HOST} ^www\.33bots\.at$ [NC,OR]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://33bots.at/$1 [L,R=301]
+
+# Die Startseite hat genau eine Adresse: / , nicht /index.html. Sonst sieht ein Crawler
+# zwei Seiten mit identischem Titel und Google wählt selbst, welche er zeigt.
+RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+RewriteRule ^index\.html$ https://33bots.at/ [L,R=301]
+
+ErrorDocument 404 /404.html
+
+# Cache-Politik für statische Dateien
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/xml
+</IfModule>
+
+<IfModule mod_headers.c>
+  # HSTS: nach dem ersten Besuch verlangt der Browser selbst HTTPS.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  # Verhindert die Anzeige der Seite in einem fremden Rahmen (Clickjacking).
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Browser-Funktionen abschalten, die die Seite nicht nutzt.
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+  # Dieselbe Politik wie im <meta>-Fallback, den sicherheitskopf.py in die Seiten
+  # schreibt — plus frame-ancestors, das nur als echter Header wirkt.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://serve.albacross.com https://*.albacross.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://formsubmit.co https://www.google-analytics.com https://*.albacross.com https://serve.albacross.com; frame-src https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com https://gdansk.tvp.pl; media-src 'self'; form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'self'"
+</IfModule>

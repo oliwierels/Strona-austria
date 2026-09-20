@@ -1,9 +1,14 @@
 name: Wdrożenie na 33bots.at
 
-# 33bots.at stoi na GitHub Pages. Dotąd publikacja szła prosto z gałęzi, bez żadnej
-# kontroli — każdy commit lądował na produkcji, także zepsuty. Ten workflow wstawia przed
-# publikacją tę samą bramkę, co 33bots.pl, 33bots.lt i 33bots.de: gdy strona nie przejdzie
-# sprawdzenia, publikacja się nie odbywa i na serwerze zostaje poprzednia wersja.
+# 33bots.at publikowało się przez GitHub Pages — tyle że domena wskazuje na zwykły hosting
+# (odpowiada LiteSpeed, nie GitHub), więc te publikacje nigdzie nie docierały. Pod adresem
+# leżała wersja wgrana kiedyś ręcznie, a przebiegi kończyły się na zielono, bo nikt nie
+# sprawdzał, co naprawdę serwuje domena.
+#
+# Od teraz Austria idzie tym samym torem co 33bots.pl, 33bots.lt i 33bots.de: bramka
+# sprawdza stronę, a potem serwer sam sięga po zmiany przez narzedzia-serwer/deploy.php.
+# Gdy strona nie przejdzie sprawdzenia, wdrożenia nie ma i na serwerze zostaje poprzednia
+# wersja. Publikacja na Pages zostaje jako ścieżka zapasowa, wyłączona domyślnie.
 #
 # PRZEŁĄCZENIE NA PUBLIKACJĘ PRZEZ ACTIONS — dwa kroki, oba jednorazowe:
 #   1. Settings → Pages → Build and deployment → Source: GitHub Actions
@@ -143,6 +148,66 @@ jobs:
 
       - name: Audyt SEO (31 kryteriów)
         run: python3 audit.py . 33bots.at
+
+      - name: Poproś serwer o pobranie zmian
+        env:
+          ADRES: ${{ secrets.DEPLOY_URL_AT }}
+          TOKEN: ${{ secrets.DEPLOY_TOKEN_AT }}
+        run: |
+          if [ -z "${ADRES:-}" ] || [ -z "${TOKEN:-}" ]; then
+            echo "Brak sekretu DEPLOY_URL_AT lub DEPLOY_TOKEN_AT."
+            echo ""
+            echo "Dopóki ich nie ma, nic nie trafia na 33bots.at — domena stoi na"
+            echo "zwykłym hostingu, a nie na GitHub Pages. Do uruchomienia potrzeba:"
+            echo "  1. wgrać narzedzia-serwer/deploy.php do katalogu ze stroną 33bots.at,"
+            echo "     wpisując w nim własny token w stałej TOKEN,"
+            echo "  2. ustawić sekrety DEPLOY_URL_AT (adres do deploy.php) i DEPLOY_TOKEN_AT"
+            echo "     (ten sam token) w Settings -> Secrets and variables -> Actions."
+            echo ""
+            echo "Szczegóły: WDROZENIE.md"
+            exit 1
+          fi
+
+          KOD=$(curl -sS --max-time 600 --retry 2 --retry-delay 5 \
+                     -o /tmp/odpowiedz.txt -w '%{http_code}' \
+                     --data-urlencode "token=${TOKEN}" "${ADRES}") || true
+
+          echo "── Odpowiedź serwera (HTTP ${KOD}) ──"
+          if [ "${KOD}" = "200" ]; then
+            cat /tmp/odpowiedz.txt
+          else
+            head -c 600 /tmp/odpowiedz.txt
+          fi
+          echo ""
+
+          if [ "${KOD}" != "200" ]; then
+            case "${KOD}" in
+              404) echo "Pod adresem z sekretu DEPLOY_URL_AT nie ma pliku deploy.php."
+                   echo "Wgraj go do katalogu, w którym leży index.html strony 33bots.at." ;;
+              403) echo "Serwer odrzucił token: ten w deploy.php różni się od sekretu DEPLOY_TOKEN_AT." ;;
+              500) echo "deploy.php zgłosił błąd — placeholder zamiast tokenu albo brak ZipArchive." ;;
+              502) echo "Serwer nie dosięgnął GitHuba — sprawdź ruch wychodzący hostingu." ;;
+              000) echo "Brak odpowiedzi: zły adres, brak certyfikatu albo hosting nie odpowiada." ;;
+              *)   echo "Nieoczekiwany kod odpowiedzi — treść odpowiedzi jest wyżej." ;;
+            esac
+            echo ""
+            echo "Wdrożenie nie powiodło się. Strona zostaje w poprzedniej wersji."
+            exit 1
+          fi
+          if ! grep -q 'WDROŻENIE ZAKOŃCZONE' /tmp/odpowiedz.txt; then
+            echo "Serwer odpowiedział, ale nie potwierdził wdrożenia."
+            exit 1
+          fi
+
+          {
+            echo "### Strona zaktualizowana"
+            echo ""
+            echo '```'
+            grep -E 'Zaktualizowane|Bez zmian|Pominięte|Czas' /tmp/odpowiedz.txt || true
+            echo '```'
+            echo ""
+            echo "Commit: \`${GITHUB_SHA::7}\` · https://33bots.at"
+          } >> $GITHUB_STEP_SUMMARY
 
       - name: Sprawdź, co naprawdę serwuje 33bots.at
         run: |
