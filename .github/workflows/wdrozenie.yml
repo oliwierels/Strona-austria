@@ -141,6 +141,9 @@ jobs:
           print('Struktura, dane strukturalne, adresy kanoniczne, hreflang, CNAME i mapa strony w porządku.')
           PY
 
+      - name: Audyt SEO (31 kryteriów)
+        run: python3 audit.py . 33bots.at
+
       - name: Spakuj stronę do publikacji
         if: ${{ vars.PAGES_PRZEZ_ACTIONS == 'tak' }}
         uses: actions/upload-pages-artifact@v3
