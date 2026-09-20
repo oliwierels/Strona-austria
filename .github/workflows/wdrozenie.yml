@@ -144,6 +144,40 @@ jobs:
       - name: Audyt SEO (31 kryteriów)
         run: python3 audit.py . 33bots.at
 
+      - name: Sprawdź, co naprawdę serwuje 33bots.at
+        run: |
+          # Dotąd nic nie potwierdzało, że domena serwuje wersję z repozytorium —
+          # jedyne takie sprawdzenie siedziało w zadaniu publikującym, które jest
+          # wyłączone. Bez tego „zielony przebieg" nie znaczył, że strona się
+          # zaktualizowała. Ten krok sprawdza to niezależnie od sposobu publikacji.
+          KOD=$(curl -sS -o /tmp/strona.html -D /tmp/naglowki.txt -w '%{http_code}' \
+                     --max-time 30 -L -H 'Cache-Control: no-cache' \
+                     https://33bots.at/ || echo 000)
+          echo "https://33bots.at → HTTP ${KOD}"
+          echo "Serwer: $(grep -i '^server:' /tmp/naglowki.txt | tail -1 | tr -d '\r' || echo '(brak nagłówka)')"
+
+          if [ "${KOD}" != "200" ]; then
+            echo "Domena nie odpowiada kodem 200 — publikacja nie dociera do 33bots.at."
+            exit 1
+          fi
+
+          W_REPO=$(md5sum index.html | cut -d' ' -f1)
+          NA_SERWERZE=$(md5sum /tmp/strona.html | cut -d' ' -f1)
+          if [ "${W_REPO}" = "${NA_SERWERZE}" ]; then
+            echo "POTWIERDZONE: 33bots.at serwuje wersję z repozytorium."
+            echo "33bots.at zgodne z repozytorium — commit \`${GITHUB_SHA::7}\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ROZJAZD: 33bots.at serwuje inną treść strony głównej niż repozytorium."
+            echo "W repozytorium: ${W_REPO}"
+            echo "Na serwerze:    ${NA_SERWERZE}"
+            echo "Jeśli powtórzy się po minucie, publikacja z tej gałęzi nie trafia na domenę."
+            {
+              echo "### 33bots.at NIE serwuje wersji z repozytorium"
+              echo ""
+              echo "W repozytorium: \`${W_REPO}\` · na serwerze: \`${NA_SERWERZE}\`"
+            } >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Spakuj stronę do publikacji
         if: ${{ vars.PAGES_PRZEZ_ACTIONS == 'tak' }}
         uses: actions/upload-pages-artifact@v3
