@@ -226,6 +226,21 @@ jobs:
             exit 1
           fi
 
+          # Sam index.html nie wystarczy: cały wygląd jedzie na arkuszu, a ten
+          # potrafi zostać na serwerze stary — czy to przez bufor hostingu, czy przez
+          # listę pomijanych plików w deploy.php, która leży poza repozytorium.
+          KOD_CSS=$(curl -sS -o /tmp/arkusz.css -w '%{http_code}' --max-time 30 \
+                         -H 'Cache-Control: no-cache' \
+                         https://33bots.at/assets-redesign.css || echo 000)
+          if [ "${KOD_CSS}" = "200" ] && [ "$(md5sum /tmp/arkusz.css | cut -d' ' -f1)" = "$(md5sum assets-redesign.css | cut -d' ' -f1)" ]; then
+            echo "Arkusz stylów: zgodny z repozytorium."
+          else
+            echo "UWAGA: assets-redesign.css na serwerze (HTTP ${KOD_CSS}) różni się od tego w repozytorium."
+            echo "  w repozytorium: $(md5sum assets-redesign.css | cut -d' ' -f1) ($(wc -c < assets-redesign.css) B)"
+            echo "  na serwerze:    $(md5sum /tmp/arkusz.css | cut -d' ' -f1) ($(wc -c < /tmp/arkusz.css) B)"
+            echo "  Strony wskazują na arkusz, którego serwer nie ma — wygląd zostanie stary."
+          fi
+
           W_REPO=$(md5sum index.html | cut -d' ' -f1)
           NA_SERWERZE=$(md5sum /tmp/strona.html | cut -d' ' -f1)
           if [ "${W_REPO}" = "${NA_SERWERZE}" ]; then
