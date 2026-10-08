@@ -30,10 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <script>history.scrollRestoration = 'manual';</script>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
-<link rel="stylesheet" href="assets-redesign.css?v=b0a2fbc6" />
+<link rel="stylesheet" href="css/fonty.css?v=3028f7fd" />
+<link rel="stylesheet" href="assets-redesign.css?v=68e7713a" />
 
 <style>
   html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
@@ -86,12 +84,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ——— Baner cookie ——— */
   .cookies { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 80;
              display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
-             max-width: 640px; margin: 0 auto; padding: 1rem 1.25rem;
+             max-width: 640px; margin: 0 auto; padding: 24px;
              background: rgba(17,17,19,.94); backdrop-filter: blur(16px);
              -webkit-backdrop-filter: blur(16px); border: 1px solid #2a2a30;
              border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
              transform: translateY(140%); transition: transform .6s cubic-bezier(.16,1,.3,1); }
   .cookies.show { transform: none; }
+  @media (min-width: 768px) { .cookies { padding: 32px; } }
   @media (max-width: 640px) { .cookies { bottom: 5.5rem; } }
 
   /* ——— Lightbox ——— */
@@ -235,7 +234,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="px-1.5 text-neutral-700">/</span>
       <span class="text-neutral-400">Roboter mieten Eisenstadt</span>
     </nav>
-    <p class="reveal mb-6 inline-flex items-center gap-2.5 rounded-full border border-line-mid bg-white/[.03] px-4 py-2 text-[11px] font-600 uppercase tracking-[.18em] text-neutral-400 backdrop-blur" style="--d:.05s">
+    <p class="reveal mb-6 inline-flex items-center gap-2.5 text-[11px] font-600 uppercase tracking-[.18em] text-neutral-400" style="--d:.05s">
       <span class="relative flex h-1.5 w-1.5">
         <span class="absolute inline-flex h-full w-full rounded-full bg-accent animate-pulse-ring"></span>
         <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -249,7 +248,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         Angebot für Eisenstadt
         <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
       </a>
-      <a href="index.html#preise" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-line-hi px-8 py-4.5 font-display text-base font-600 uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:bg-white/[.03]">
+      <a href="index.html#preise" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-line-hi px-8 py-4 font-display text-base font-600 uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:bg-white/[.03]">
         Preise ansehen ↓
       </a>
     </div>
@@ -272,19 +271,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="reveal font-display text-3xl font-700 leading-[1.05] tracking-[-.025em] text-white md:text-5xl" style="--d:.08s">Was Sie in Eisenstadt gewinnen</h2>
   </div>
   <div class="grid gap-4 md:grid-cols-3">
-    <article class="reveal rounded-[28px] border border-line-mid bg-surface-2 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-accent/60" style="--d:.5s">
+    <article class="reveal rounded-[28px] border border-line-mid bg-surface-2 p-6 md:p-8 transition-all duration-500 hover:-translate-y-1 hover:border-accent/60" style="--d:.5s">
       <span class="text-[10px] font-600 uppercase tracking-widest text-accent">Aufmerksamkeit</span>
       <h3 class="mt-4 font-display text-xl font-700 text-white">Alle bleiben stehen</h3>
       <p class="mt-3 text-[15px] leading-relaxed text-neutral-400">Der G1 zieht Blicke aus mehreren Dutzend Metern an. Ihr Stand oder Ihr Event wird zum meistfotografierten Ort im Raum.</p>
       <a href="kontakt.html" class="mt-5 inline-flex items-center gap-2 text-[13px] font-600 text-accent transition hover:gap-3">Angebot anfragen →</a>
     </article>
-    <article class="reveal rounded-[28px] border border-accent/30 bg-accent/[.07] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-accent/60" style="--d:.12s">
+    <article class="reveal rounded-[28px] border border-accent/30 bg-accent/[.07] p-6 md:p-8 transition-all duration-500 hover:-translate-y-1 hover:border-accent/60" style="--d:.12s">
       <span class="text-[10px] font-600 uppercase tracking-widest text-accent">Reichweite</span>
       <h3 class="mt-4 font-display text-xl font-700 text-white">Content, der geteilt wird</h3>
       <p class="mt-3 text-[15px] leading-relaxed text-neutral-400">Fotos und Videos mit dem Roboter landen noch während der Veranstaltung in den sozialen Medien — Ihre Marke erscheint in hunderten Stories.</p>
       <a href="kontakt.html" class="mt-5 inline-flex items-center gap-2 text-[13px] font-600 text-accent transition hover:gap-3">Angebot anfragen →</a>
     </article>
-    <article class="reveal rounded-[28px] border border-line-mid bg-surface-2 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-accent/60" style="--d:.19s">
+    <article class="reveal rounded-[28px] border border-line-mid bg-surface-2 p-6 md:p-8 transition-all duration-500 hover:-translate-y-1 hover:border-accent/60" style="--d:.19s">
       <span class="text-[10px] font-600 uppercase tracking-widest text-accent">Anfahrt</span>
       <h3 class="mt-4 font-display text-xl font-700 text-white">Transport inklusive</h3>
       <p class="mt-3 text-[15px] leading-relaxed text-neutral-400">Wir liefern in ganz Österreich ohne Kilometeraufschlag. Der Preis, den wir nennen, ist der Endpreis — ohne Überraschungen.</p>
@@ -303,37 +302,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <picture><source srcset="realizacja-gala-czerwony-dywan-400.webp 400w, realizacja-gala-czerwony-dywan.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
       <img src="realizacja-gala-czerwony-dywan.jpg" alt="Humanoider Roboter im Pailletten-Smoking auf dem roten Teppich einer Gala" loading="lazy" width="720" height="1280"
            class="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105" /></picture>
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-8 text-[12px] font-600 text-white">Roter Teppich</figcaption>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent text-[12px] font-600 text-white px-6 pb-6 pt-10 md:px-8 md:pb-8">Roter Teppich</figcaption>
     </figure>
     <figure class="reveal group relative overflow-hidden rounded-2xl border border-line-mid" style="--d:.9s">
       <picture><source srcset="realizacja-women-in-tech-tlum-400.webp 400w, realizacja-women-in-tech-tlum.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
       <img src="realizacja-women-in-tech-tlum.jpg" alt="Publikum filmt den humanoiden Roboter mit Handys" loading="lazy" width="720" height="1280"
            class="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105" /></picture>
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-8 text-[12px] font-600 text-white">Alle zücken ihr Handy</figcaption>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent text-[12px] font-600 text-white px-6 pb-6 pt-10 md:px-8 md:pb-8">Alle zücken ihr Handy</figcaption>
     </figure>
     <figure class="reveal group relative overflow-hidden rounded-2xl border border-line-mid" style="--d:.14s">
       <picture><source srcset="realizacja-gala-wsrod-gosci-400.webp 400w, realizacja-gala-wsrod-gosci.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
       <img src="realizacja-gala-wsrod-gosci.jpg" alt="Humanoider Roboter zwischen Gala-Gästen" loading="lazy" width="720" height="1280"
            class="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105" /></picture>
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-8 text-[12px] font-600 text-white">Mitten unter den Gästen</figcaption>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent text-[12px] font-600 text-white px-6 pb-6 pt-10 md:px-8 md:pb-8">Mitten unter den Gästen</figcaption>
     </figure>
     <figure class="reveal group relative overflow-hidden rounded-2xl border border-line-mid" style="--d:.19s">
       <picture><source srcset="realizacja-lexai-starowka-400.webp 400w, realizacja-lexai-starowka.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
       <img src="realizacja-lexai-starowka.jpg" alt="Humanoider Roboter auf der Straße, Passanten fotografieren" loading="lazy" width="720" height="1280"
            class="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105" /></picture>
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-8 text-[12px] font-600 text-white">Die Straße bleibt stehen</figcaption>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent text-[12px] font-600 text-white px-6 pb-6 pt-10 md:px-8 md:pb-8">Die Straße bleibt stehen</figcaption>
     </figure>
     <figure class="reveal group relative overflow-hidden rounded-2xl border border-line-mid" style="--d:.24s">
       <picture><source srcset="realizacja-spotkanie-biznesowe-400.webp 400w, realizacja-spotkanie-biznesowe.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
       <img src="realizacja-spotkanie-biznesowe.jpg" alt="Humanoider Roboter bei einem Business-Meeting auf der Terrasse" loading="lazy" width="720" height="1280"
            class="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105" /></picture>
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-8 text-[12px] font-600 text-white">Firmen-Meetings</figcaption>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent text-[12px] font-600 text-white px-6 pb-6 pt-10 md:px-8 md:pb-8">Firmen-Meetings</figcaption>
     </figure>
     <figure class="reveal group relative overflow-hidden rounded-2xl border border-line-mid" style="--d:.29s">
       <picture><source srcset="realizacja-nocny-pokaz-400.webp 400w, realizacja-nocny-pokaz.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
       <img src="realizacja-nocny-pokaz.jpg" alt="Humanoider Roboter im roten Umhang bei einer Nachtshow" loading="lazy" width="720" height="1280"
            class="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-105" /></picture>
-      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent px-4 pb-3 pt-8 text-[12px] font-600 text-white">Nacht-Shows</figcaption>
+      <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent text-[12px] font-600 text-white px-6 pb-6 pt-10 md:px-8 md:pb-8">Nacht-Shows</figcaption>
     </figure>
   </div>
 </section>
@@ -370,7 +369,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="mx-auto max-w-5xl px-5 pb-16 md:px-8 md:pb-20">
-  <div class="reveal flex flex-col items-center gap-8 rounded-[28px] border border-line-mid bg-surface-2 p-7 md:flex-row md:p-9">
+  <div class="reveal flex flex-col items-center gap-8 rounded-[28px] border border-line-mid bg-surface-2 p-6 md:p-8 md:flex-row md:p-9">
     <video controls muted playsinline preload="none" poster="video/robot-taniec-poster.jpg" width="300" height="533"
            class="w-full max-w-[280px] rounded-2xl border border-line-mid bg-ink"
            aria-label="Humanoider Roboter Unitree G1 in Aktion"></video>
@@ -388,25 +387,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h2 class="reveal mb-8 font-display text-3xl font-700 tracking-[-.025em] text-white md:text-4xl" style="--d:.08s">Bevor Sie fragen</h2>
   <div class="reveal divide-y divide-line border-y border-line" style="--d:.14s">
       <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
+        <button class="faq-btn flex w-full items-center justify-between gap-4 py-6 md:py-8 text-left transition hover:text-accent">
           <span class="font-600 text-white">Was kostet es, einen Roboter in Eisenstadt zu mieten?</span>
           <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
         </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Der Preis hängt von Dauer, Location und Programm ab. Ihr Fixpreis-Angebot enthält Operator, Transport nach Eisenstadt, Auf- und Abbau sowie kostenloses Branding – Antwort innerhalb von 24 Stunden.</p></div>
+        <div class="faq-panel"><p class="pb-6 md:pb-8 text-[14px] leading-relaxed text-neutral-400">Der Preis hängt von Dauer, Location und Programm ab. Ihr Fixpreis-Angebot enthält Operator, Transport nach Eisenstadt, Auf- und Abbau sowie kostenloses Branding – Antwort innerhalb von 24 Stunden.</p></div>
       </div>
       <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
+        <button class="faq-btn flex w-full items-center justify-between gap-4 py-6 md:py-8 text-left transition hover:text-accent">
           <span class="font-600 text-white">Liefert 33bots auch an den Neusiedler See und ins restliche Burgenland?</span>
           <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
         </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Ja, wir beliefern das gesamte Burgenland – etwa Rust, Neusiedl am See, Mattersburg oder Oberwart. Auch Weingüter und Seelocations sind für uns problemlos erreichbar; Eisenstadt liegt nur eine Stunde von Wien entfernt.</p></div>
+        <div class="faq-panel"><p class="pb-6 md:pb-8 text-[14px] leading-relaxed text-neutral-400">Ja, wir beliefern das gesamte Burgenland – etwa Rust, Neusiedl am See, Mattersburg oder Oberwart. Auch Weingüter und Seelocations sind für uns problemlos erreichbar; Eisenstadt liegt nur eine Stunde von Wien entfernt.</p></div>
       </div>
       <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
+        <button class="faq-btn flex w-full items-center justify-between gap-4 py-6 md:py-8 text-left transition hover:text-accent">
           <span class="font-600 text-white">Kann der Roboter bei einer Hochzeit oder einem Weinfest auftreten?</span>
           <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
         </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Ja – der G1 tritt regelmäßig bei Hochzeiten und Festen auf. Er braucht nur eine ebene Fläche und einen Stromanschluss; bei Outdoor-Events planen wir gemeinsam mit Ihnen eine Schlechtwetter-Variante ein.</p></div>
+        <div class="faq-panel"><p class="pb-6 md:pb-8 text-[14px] leading-relaxed text-neutral-400">Ja – der G1 tritt regelmäßig bei Hochzeiten und Festen auf. Er braucht nur eine ebene Fläche und einen Stromanschluss; bei Outdoor-Events planen wir gemeinsam mit Ihnen eine Schlechtwetter-Variante ein.</p></div>
       </div>
   </div>
 </section>
@@ -420,10 +419,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="reveal font-display text-3xl font-700 leading-[1.05] tracking-[-.025em] text-white md:text-5xl">Roboter für Ihr<br />Event in Eisenstadt.</h2>
     <p class="reveal mx-auto mt-5 max-w-xl text-neutral-400 md:text-lg" style="--d:.08s">Wir prüfen die Verfügbarkeit für Ihren Wunschtermin in Eisenstadt und das Burgenland und melden uns innerhalb von 24 Stunden.</p>
     <div class="reveal mt-8 flex flex-col justify-center gap-3 sm:flex-row" style="--d:.16s">
-      <a href="kontakt.html" class="cta-shine group inline-flex items-center justify-center gap-3 rounded-2xl px-9 py-5 font-display text-base font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-1">
+      <a href="kontakt.html" class="cta-shine group inline-flex items-center justify-center gap-3 rounded-2xl px-5 py-4 font-display text-sm font-700 uppercase tracking-normal text-ink transition-all duration-300 hover:-translate-y-1 sm:px-9 sm:text-base sm:tracking-wider">
         Kostenloses Angebot anfordern <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
       </a>
-      <a href="mailto:kontakt@33bots.at" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-line-hi px-9 py-5 font-display text-base font-600 uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-1 hover:border-accent/60">
+      <a href="mailto:kontakt@33bots.at" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-line-hi px-9 py-4 font-display text-base font-600 uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-1 hover:border-accent/60">
         kontakt@33bots.at
       </a>
     </div>
