@@ -572,6 +572,10 @@ html[data-a11y-theme="light"][data-a11y-contrast="high"] { --text-2: #1a1a1a; --
 html[data-a11y-motion="off"] *, html[data-a11y-motion="off"] *::before, html[data-a11y-motion="off"] *::after {
   transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 
+/* Niemieckie strony (33bots.de, 33bots.at): na najwęższych telefonach
+   „Veranstaltung.” nie mieści się w kolumnie przy 44 px. */
+@media (max-width: 359px) { :lang(de) .display { font-size: 2.5rem; } }
+
 /* ——— Mobile ——— */
 @media (max-width: 1023px) {
   .hero { padding-inline: var(--margin); min-height: 0; }
