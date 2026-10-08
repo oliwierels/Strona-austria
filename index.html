@@ -43,207 +43,100 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <script>history.scrollRestoration = 'manual';</script>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
-<link rel="preload" as="image" href="robot-g1-960.webp" type="image/webp" fetchpriority="high" />
 
-<!-- Tailwind statisch kompiliert (30 KB) — kein CDN, kein Runtime-JS.
-     Neu bauen nach HTML-Änderungen:
-     npx tailwindcss -c tailwind.config.js -i tw-input.css -o assets-redesign.css --minify -->
-<link rel="stylesheet" href="assets-redesign.css?v=b0a2fbc6" />
-
-<style>
-  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-  body { background: #050505; }
-  [id] { scroll-margin-top: 90px; }
-  ::selection { background: #6fd6ff; color: #050505; }
-
-  /* ——— Scroll-reveal: kaskadowe wejście z opóźnieniem ——— */
-  .reveal { opacity: 0; transform: translateY(28px) scale(.985); }
-  .reveal.in {
-    opacity: 1; transform: none;
-    transition: opacity .8s cubic-bezier(.16,1,.3,1) var(--d, 0s),
-                transform .8s cubic-bezier(.16,1,.3,1) var(--d, 0s);
-  }
-
-  /* ——— Robot w hero: wtopienie krawędzi kadru w tło ——— */
-  .hero-robot {
-    /* tło kadru to niemal czerń (3,2,10) — "screen" sprawia, że znika bez śladu ramki */
-    mix-blend-mode: screen;
-    -webkit-mask-image: radial-gradient(ellipse 68% 76% at 50% 50%, #000 38%, rgba(0,0,0,.55) 72%, transparent 92%);
-            mask-image: radial-gradient(ellipse 68% 76% at 50% 50%, #000 38%, rgba(0,0,0,.55) 72%, transparent 92%);
-  }
-
-  /* ——— Przesuwające się pasy zdjęć ——— */
-  .strip { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-                              mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
-  .strip-track { display: flex; gap: 1rem; width: max-content; animation: slide 52s linear infinite; }
-  .strip-track--rev { animation-direction: reverse; animation-duration: 64s; }
-  .strip:hover .strip-track,
-  .strip.paused .strip-track { animation-play-state: paused; }
-  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .strip-item { position: relative; flex: 0 0 auto; width: 260px; height: 340px; border-radius: 20px;
-                overflow: hidden; border: 1px solid #2a2a30; background: #111113; }
-  .strip-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-               opacity: .9; transition: transform .7s cubic-bezier(.16,1,.3,1), opacity .5s ease; }
-  .strip-item:hover .strip-img { transform: scale(1.07); opacity: 1; }
-  .strip-item::after { content: ''; position: absolute; inset: 0;
-                       background: linear-gradient(to top, rgba(5,5,5,.9), transparent 55%); }
-  .strip-cap { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 2;
-               font-size: 12px; font-weight: 600; letter-spacing: .04em; color: #fff; }
-  .strip-item--wide   { width: 380px; }
-  .strip-item--narrow { width: 190px; }
-  .strip-item[data-full] { cursor: zoom-in; }
-  @media (max-width: 640px) {
-    .strip-item { width: 180px; height: 240px; }
-    .strip-item--wide { width: 260px; }
-    .strip-item--narrow { width: 140px; }
-  }
-
-  /* ——— Baner cookie ——— */
-  .cookies { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 80;
-             display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
-             max-width: 640px; margin: 0 auto; padding: 1rem 1.25rem;
-             background: rgba(17,17,19,.94); backdrop-filter: blur(16px);
-             -webkit-backdrop-filter: blur(16px); border: 1px solid #2a2a30;
-             border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
-             transform: translateY(140%); transition: transform .6s cubic-bezier(.16,1,.3,1); }
-  .cookies.show { transform: none; }
-  @media (max-width: 640px) { .cookies { bottom: 5.5rem; } }
-
-  /* ——— Lightbox ——— */
-  .lb { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center;
-        background: rgba(5,5,5,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-        opacity: 0; pointer-events: none; transition: opacity .35s ease; padding: 4vh 4vw; }
-  .lb.open { opacity: 1; pointer-events: auto; }
-  .lb img { max-width: 100%; max-height: 88vh; border-radius: 18px; transform: scale(.94);
-            transition: transform .4s cubic-bezier(.16,1,.3,1); box-shadow: 0 40px 120px rgba(0,0,0,.7); }
-  .lb.open img { transform: scale(1); }
-  .lb-cap { position: absolute; bottom: 3vh; left: 0; right: 0; text-align: center;
-            font-size: 13px; color: #a3a3a3; padding: 0 1rem; }
-  .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px;
-            border-radius: 50%; border: 1px solid #3a3a42; background: rgba(17,17,19,.8);
-            color: #fff; font-size: 20px; display: grid; place-items: center; transition: all .25s ease; }
-  .lb-btn:hover { border-color: #6fd6ff; box-shadow: 0 0 20px rgba(111,214,255,.3); }
-  .lb-prev { left: 2vw; } .lb-next { right: 2vw; }
-  .lb-close { position: absolute; top: 3vh; right: 3vw; width: 44px; height: 44px; border-radius: 50%;
-              border: 1px solid #3a3a42; background: rgba(17,17,19,.8); color: #fff; font-size: 22px;
-              display: grid; place-items: center; transition: all .25s ease; }
-  .lb-close:hover { border-color: #6fd6ff; transform: rotate(90deg); }
-  @media (max-width: 640px) { .lb-btn { width: 44px; height: 44px; } }
-  @media (prefers-reduced-motion: reduce) { .strip-track { animation: none; } .strip { overflow-x: auto; } }
-
-  /* ——— Ziarno: premium film grain ——— */
-  .grain::after {
-    content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .03;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* ——— Siatka geometryczna w tle ——— */
-  .bg-grid {
-    background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-  }
-
-  /* ——— CTA: przesuwający się połysk ——— */
-  .cta-shine {
-    background-image: linear-gradient(110deg, #fff 0%, #fff 38%, #cdf0ff 50%, #fff 62%, #fff 100%);
-    background-size: 200% 100%;
-  }
-  .cta-shine:hover { animation: shimmer 1.4s linear infinite; }
-
-  /* ——— Bento: obramowanie reagujące na kursor ——— */
-  .bento { position: relative; isolation: isolate; }
-  .bento::before {
-    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: 2;
-    background: radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(111,214,255,.8), transparent 70%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    opacity: 0; transition: opacity .45s ease;
-  }
-  .bento:hover::before { opacity: 1; }
-
-  /* ——— Linia procesu rysowana przy scrollu ——— */
-  .track-line { transform: scaleX(0); transform-origin: left; transition: transform 1.6s cubic-bezier(.16,1,.3,1); }
-  .track-line.in { transform: scaleX(1); }
-  @media (max-width: 767px) {
-    .track-line { transform: scaleY(0); transform-origin: top; }
-    .track-line.in { transform: scaleY(1); }
-  }
-
-  /* ——— FAQ ——— */
-  .faq-panel { max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.16,1,.3,1); }
-  .faq-item[open-state="1"] .faq-panel { max-height: 320px; }
-  .faq-item[open-state="1"] .faq-sign { transform: rotate(45deg); color: #6fd6ff; }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
-    .reveal { opacity: 1; transform: none; }
-    .track-line { transform: none; }
-  }
-</style>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/space-grotesk-latin-wght-normal.woff2" />
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="css/site.css?v=5d3568cb" />
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product","name":"Humanoiden Roboter Unitree G1 mieten","description":"Vermietung des humanoiden Roboters Unitree G1 für Events, Messen und Konferenzen in ganz Österreich.","url":"https://33bots.at","image":"https://33bots.at/robot-g1.jpg","brand":{"@type":"Brand","name":"Unitree"},"offers":{"@type":"AggregateOffer","priceCurrency":"EUR","lowPrice":"2300","availability":"https://schema.org/InStock","url":"https://33bots.at/#preise","description":"Ganzer Event-Tag mit Transport, Operator und Branding im Preis. Kürzere Auftritte auf individuelle Anfrage, mehrtägige Einsätze mit 15 % Rabatt pro Tag. Keine Aufschläge, keine Anzahlung, Rechnung nach dem Event."},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"3","bestRating":"5","worstRating":"1"}}
 </script>
 <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
-  {
-   "@type": "Question",
-   "name": "Was kostet die Miete genau?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Ab 2.300 € netto für einen ganzen Event-Tag — der endgültige Betrag hängt von Dauer, Ort und Programm ab. Sie können den Roboter auch für einen kürzeren Auftritt mieten, etwa für einige Stunden während einer Konferenzpause — dann kalkulieren wir individuell und immer günstiger als einen vollen Tag. Bei Einsätzen ab zwei Tagen gewähren wir 15 % Rabatt pro Tag. Transport, Operator, Branding und Haftpflichtversicherung sind inklusive; der Roboterhund ist auf Anfrage zubuchbar."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Spricht der Roboter mit den Gästen?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Ja. Der Roboter spricht Deutsch mit natürlicher Sprachsynthese — er begrüßt Gäste, beantwortet Fragen und kündigt Programmpunkte an. Vor der Veranstaltung legen wir seinen Charakter fest und spielen ihm Wissen über Ihr Unternehmen ein: Ihr Angebot, Produktnamen, häufige Kundenfragen und die Event-Agenda. Die Konfiguration ist im Mietpreis enthalten."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Muss ich eine Anzahlung leisten?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Nein. Die Terminreservierung ist kostenlos und ohne Anzahlung. Die Rechnung stellen wir erst nach der Veranstaltung — bei Bedarf vereinbaren wir ein längeres Zahlungsziel."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Muss ich den Roboter selbst steuern können?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Nein. Während des gesamten Events ist unser zertifizierter Operator vor Ort — er übernimmt Konfiguration, Bedienung und die Sicherheit der Show."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Ist der Roboter für die Gäste sicher?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Ja. LiDAR und Computer Vision lassen ihn Menschen und Hindernisse in Echtzeit umgehen, ein Operator überwacht die Show, und jeder Einsatz ist haftpflichtversichert."
-   }
-  },
-  {
-   "@type": "Question",
-   "name": "Kommen Sie auch in meine Stadt?",
-   "acceptedAnswer": {
-    "@type": "Answer",
-    "text": "Ja — in jede Stadt Österreichs, ohne Aufschlag und ohne Kilometerlimit. Von Wien bis Dornbirn, von Innsbruck bis Eisenstadt."
-   }
-  }
- ]
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Was kostet die Miete genau?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ab 2.300 € netto für einen ganzen Veranstaltungstag — den endgültigen Betrag kalkulieren wir nach Dauer, Ort und Programm. Sie können den Roboter auch für einen kürzeren Auftritt mieten, etwa für einige Stunden während einer Konferenzpause — dann kalkulieren wir individuell und immer günstiger als einen ganzen Tag. Bei Einsätzen ab zwei Tagen gewähren wir 15 % Rabatt auf jeden Tag. Transport, Operator, Branding und Haftpflichtversicherung sind inklusive; der Roboterhund ist auf Anfrage zubuchbar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Sind die Preise netto oder brutto?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Netto. Alle Beträge auf dieser Seite sind Nettopreise."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie arbeitet der Roboter den ganzen Tag, wenn ein Akku kürzer hält?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der Roboter arbeitet mit Wechselakkus. Der Operator hat einen Satz Ersatzakkus dabei und tauscht sie während der Veranstaltung — die Show unterbricht nicht zum Laden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie viel Platz braucht der Roboter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Einige Quadratmeter genügen. Der Roboter arbeitet am Messestand, auf der Bühne und im Gang zwischen den Gästen — ohne eigene Zone oder technisches Backoffice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Spricht der Roboter mit den Gästen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Der Roboter spricht Deutsch und jede andere Sprache, mit natürlicher Sprachsynthese — er begrüßt Gäste, beantwortet Fragen und kündigt Programmpunkte an. Vor der Veranstaltung legen wir seinen Charakter fest und spielen ihm Wissen über Ihr Unternehmen auf: Angebot, Produktnamen, häufige Kundenfragen und die Agenda. Die Konfiguration ist im Mietpreis enthalten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Muss ich eine Anzahlung leisten?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Die Reservierung erfolgt ohne Anzahlung. Die Rechnung stellen wir erst nach der Veranstaltung, bei Bedarf mit längerem Zahlungsziel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Muss ich den Roboter selbst bedienen können?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Während der gesamten Veranstaltung ist unser zertifizierter Operator vor Ort — er ist für Konfiguration, Bedienung und Sicherheit der Show verantwortlich."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ist der Roboter für die Gäste sicher?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Dank LiDAR und Computer Vision weicht der Roboter Menschen und Hindernissen in Echtzeit aus, der Operator überwacht die Show, und jeder Einsatz ist haftpflichtversichert."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kommen Sie auch in meine Stadt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja — in jede Stadt Österreichs, ohne Aufschlag und ohne Kilometerlimit. Von Wien bis Dornbirn, von Innsbruck bis Eisenstadt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Sind Sie auch international im Einsatz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Wir waren auf Veranstaltungen in Polen, Litauen, Deutschland, Tschechien und Rumänien im Einsatz. Der Roboter spricht jede Sprache — auf einer internationalen Veranstaltung begrüßt er die Gäste in ihrer Sprache und beantwortet ihre Fragen."
+      }
+    }
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -298,1040 +191,1065 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </script>
 </head>
 
-<body class="grain bg-ink font-sans text-neutral-200 antialiased selection:bg-accent selection:text-ink">
+<body id="top">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MR7R7CJ3"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<!-- ══════════ PASEK POSTĘPU ══════════ -->
-<div id="progress" class="fixed inset-x-0 top-0 z-[70] h-[2px] w-0 bg-gradient-to-r from-accent to-white shadow-[0_0_12px_rgba(111,214,255,.5)]"></div>
+<a href="#hauptinhalt" class="skip-link">Zum Hauptinhalt springen</a>
 
-<!-- ══════════ NAV ══════════ -->
-<header id="nav" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
-  <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 md:px-8">
-    <a href="#" class="font-display text-lg font-700 tracking-tight text-white">33BOTS</a>
-    <nav class="hidden items-center gap-8 text-sm text-neutral-400 md:flex">
-      <a href="#referenzen" class="transition hover:text-white">Referenzen</a>
-      <a href="#moeglichkeiten" class="transition hover:text-white">Möglichkeiten</a>
-      <a href="#preise" class="transition hover:text-white">Preise</a>
-      <a href="#ablauf" class="transition hover:text-white">Ablauf</a>
-      <a href="humanoider-roboter-mieten.html" class="transition hover:text-white">Angebot</a>
+<!-- ══════════ 01 NAWIGACJA ══════════ -->
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="nav__logo" href="#top" aria-label="33bots — Startseite">33BOTS</a>
+    <nav class="nav__menu" aria-label="Hauptnavigation">
+      <a href="#referenzen">Referenzen</a>
+      <a href="#auftritt">Auftritt</a>
+      <a href="#preise">Preise</a>
+      <a href="#ablauf">Ablauf</a>
+      <a class="nav__drugi" href="humanoider-roboter-mieten.html">Angebot</a>
     </nav>
-    <a href="#kontakt"
-       class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-5 py-2.5 text-[13px] font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_0_28px_rgba(111,214,255,.45)]">
-      Kostenloses Angebot
-      <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-    </a>
+    <div class="nav__akcje">
+      <a class="nav__tel" href="tel:+48531408004" data-tel="nav">+48 531 408 004</a>
+      <a class="link nav__cta" href="#kontakt" data-cta="nav">Termin prüfen</a>
+      <button class="nav__przycisk" id="navPrzycisk" type="button" aria-expanded="false" aria-controls="navPanel">Menü</button>
+    </div>
+  </div>
+  <div class="nav__panel" id="navPanel" hidden>
+    <ul>
+      <li><a href="#referenzen">Referenzen</a></li>
+      <li><a href="#auftritt">Auftritt</a></li>
+      <li><a href="#preise">Preise</a></li>
+      <li><a href="#ablauf">Ablauf</a></li>
+      <li><a href="humanoider-roboter-mieten.html">Angebot</a></li>
+    </ul>
+    <a class="nav__tel" href="tel:+48531408004" data-tel="menu">+48 531 408 004</a>
+    <a class="btn" href="#kontakt" data-cta="nav">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a>
   </div>
 </header>
 
-<main>
+<main id="hauptinhalt" tabindex="-1">
 
-<!-- ══════════════════════════════════════════════════════
-     1. HERO — animowane tło (aurora + siatka + orbity), parallax
-     ══════════════════════════════════════════════════════ -->
-<section class="relative flex min-h-[100svh] items-center overflow-hidden px-5 pt-24 pb-14 md:px-8">
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" aria-labelledby="hero-label">
+  <div class="hero__text">
+    <h1 id="hero-label" class="label">Humanoide Roboter mieten für Events in Österreich</h1>
+    <p class="display">Der meist&shy;fotografierte Gast Ihrer Veranstaltung.</p>
+    <p class="lead">Ein humanoider Roboter mit Charakter und Drehbuch für Ihre Gala, Konferenz oder Ihren Messestand. Er spricht Deutsch und jede andere Sprache. Operator, Transport und Branding im Preis. <strong>Sie zahlen nach der Veranstaltung.</strong></p>
+    <div class="hero__actions">
+      <a class="btn" href="#kontakt" data-cta="hero">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a>
+      <a class="link" href="#referenzen">Referenzen ansehen</a>
+    </div>
+  </div>
+  <figure class="hero__media" id="heroMedia">
+    <img src="realizacja-gala-wsrod-gosci.jpg" alt="Humanoider Roboter unter den Gästen einer Gala" fetchpriority="high" decoding="async" width="900" height="1200">
+    <figcaption class="hero__podpis">
+      <span class="label" id="heroLicznik">01 / 06</span>
+      <span class="hero__opis" id="heroOpis"><b>Dresdner Schlössernacht</b> · Dresden</span>
+      <button class="hero__pauza" id="heroPauza" type="button" aria-pressed="false" hidden>Pause</button>
+    </figcaption>
+  </figure>
+</section>
 
-  <!-- Warstwy tła -->
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <div class="absolute inset-0 bg-grid animate-grid-pan"></div>
-    <div class="absolute -left-[10%] top-[6%] h-[38rem] w-[38rem] rounded-full bg-accent/20 blur-[130px] animate-aurora"></div>
-    <div class="absolute -right-[8%] bottom-[2%] h-[34rem] w-[34rem] rounded-full bg-violet/15 blur-[130px] animate-aurora-slow"></div>
-    <div class="absolute left-1/2 top-1/3 h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-accent-deep/10 blur-[120px] animate-aurora"></div>
-    <!-- geometryczne akcenty -->
-    <div class="absolute left-[12%] top-[22%] h-24 w-24 rotate-12 rounded-2xl border border-white/10 animate-float"></div>
-    <div class="absolute right-[16%] top-[62%] h-16 w-16 rounded-full border border-accent/25 animate-float [animation-delay:1.5s]"></div>
-    <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-ink to-transparent"></div>
+<section class="proof" aria-label="Bekannt aus">
+  <p class="label proof__label">Bekannt aus</p>
+  <ul class="proof__list">
+    <li><a href="https://vod.tvp.pl/programy,88/pytanie-na-sniadanie-odcinki,2542729/odcinek-1287,S03E1287,3348151" target="_blank" rel="noopener">Pytanie na śniadanie, TVP2 <span class="proof__note">0:35–1:00</span></a></li>
+    <li><a href="https://www.tiktok.com/@teleexpress.tvp/video/7654958168786619680" target="_blank" rel="noopener">Teleexpress, TVP</a></li>
+    <li><a href="#referenzen">Women in Tech Summit</a></li>
+    <li><a href="https://naszemiasto.pl/wielki-final-eco-studio-electro-system-z-okazji-sprzatania-swiata/ar/c1p2-29359081" target="_blank" rel="noopener">Eko Partner 2026, ELECTRO-SYSTEM</a></li>
+  </ul>
+</section>
+
+<!-- ══════════ 04 IM EINSATZ ══════════ -->
+<section id="referenzen" class="sec" aria-labelledby="referenzen-h">
+  <span class="kotwica" id="vertrauen"></span>
+  <div class="wrap">
+    <div class="sec__glowa wejscie">
+      <p class="label sec__meta">04 / 11 · Im Einsatz</p>
+      <h2 id="referenzen-h" class="h2">Im Einsatz</h2>
+      <p class="body">Vom Ball in einem Dresdner Palais und der Messe MSPO bis zur Gemeindeparade und zur Hochzeit — Dutzende Veranstaltungen in fünf Ländern. Klicken Sie auf ein Bild, um zu sehen, was der Roboter gemacht hat.</p>
+    </div>
+    <div class="nasali wejscie">
+      <div class="nasali__duzy">
+        <figure>
+          <button class="kadr" type="button" data-cs="drezno" aria-label="Einsatz ansehen: Dresdner Schlössernacht"><picture><source type="image/webp" srcset="realizacja-gala-palac-400.webp 400w, realizacja-gala-palac.webp 900w" sizes="(max-width: 1023px) 100vw, 55vw" /><img src="realizacja-gala-palac.jpg" alt="Humanoider Roboter im Smoking im Ballsaal eines Palais" width="900" height="1200" loading="lazy" decoding="async" /></picture></button>
+          <figcaption class="podpis"><b>Dresdner Schlössernacht</b> · Dresden</figcaption>
+        </figure>
+      </div>
+      <div class="nasali__pion">
+        <figure>
+          <button class="kadr" type="button" data-cs="women-in-tech" aria-label="Einsatz ansehen: Women in Tech Summit"><picture><source type="image/webp" srcset="realizacja-women-in-tech-wybieg-400.webp 400w, realizacja-women-in-tech-wybieg.webp 900w" sizes="(max-width: 1023px) 50vw, 30vw" /><img src="realizacja-women-in-tech-wybieg.jpg" alt="Humanoider Roboter auf dem rosa Laufsteg des Women in Tech Summit" width="900" height="1200" loading="lazy" decoding="async" /></picture></button>
+          <figcaption class="podpis"><b>Women in Tech Summit</b> · EXPO XXI, Warschau · 2026</figcaption>
+        </figure>
+        <figure>
+          <button class="kadr" type="button" data-cs="lexai" aria-label="Einsatz ansehen: LEX AI"><picture><source type="image/webp" srcset="realizacja-lexai-starowka-400.webp 400w, realizacja-lexai-starowka.webp 900w" sizes="(max-width: 1023px) 50vw, 30vw" /><img src="realizacja-lexai-starowka.jpg" alt="Humanoider Roboter im LEX-AI-T-Shirt in der Altstadt, Passanten machen Fotos" width="900" height="1200" loading="lazy" decoding="async" /></picture></button>
+          <figcaption class="podpis"><b>LEX AI</b> · Langer Markt, Danzig</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="pasy__glowa">
+      <h3 class="label">Weitere Einsätze</h3>
+      <button class="pasy__pauza" type="button" aria-pressed="false" data-pasy="zdjecia" hidden>Bewegung anhalten</button>
+    </div>
   </div>
 
-  <div class="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr]">
-
-    <!-- Kolumna tekstowa -->
-    <div>
-      <p class="reveal mb-6 inline-flex items-center gap-2.5 rounded-full border border-line-mid bg-white/[.03] px-4 py-2 text-[11px] font-600 uppercase tracking-[.18em] text-neutral-400 backdrop-blur" style="--d:.05s">
-        <span class="relative flex h-1.5 w-1.5">
-          <span class="absolute inline-flex h-full w-full rounded-full bg-accent animate-pulse-ring"></span>
-          <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent"></span>
-        </span>
-        Humanoide Roboter mieten · ganz Österreich
-      </p>
-
-      <h1 class="reveal font-display font-700 tracking-[-.03em] text-white" style="--d:.12s">
-        <span class="block text-[1.15rem] font-600 leading-tight text-neutral-300 sm:text-2xl xl:text-[1.7rem]">Humanoide Roboter mieten</span>
-        <span class="mt-2 block text-[2.2rem] leading-[1.02] sm:text-[2.9rem] xl:text-[3.15rem]">für Events, die<br />
-          <span class="bg-gradient-to-r from-white via-accent to-accent-deep bg-clip-text text-transparent">in Erinnerung bleiben.</span>
-        </span>
-      </h1>
-
-      <p class="reveal mt-5 max-w-lg leading-relaxed text-neutral-400 md:text-lg" style="--d:.2s">
-        Der Humanoid Unitree G1 auf Ihrer Messe, Konferenz oder Gala.
-        Ein ganzer Show-Tag — <span class="text-white">Transport, Operator und Branding inklusive</span>.
-      </p>
-
-      <!-- Kotwica cenowa -->
-      <div class="reveal mt-6 flex items-end gap-4 border-l-2 border-accent/60 pl-5" style="--d:.26s">
-        <div>
-          <p class="font-display text-4xl font-700 leading-none text-white">ab 2.300 €</p>
-          <p class="mt-1.5 text-xs font-600 uppercase tracking-[.14em] text-neutral-500">pro Event-Tag · keine Aufschläge</p>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="reveal mt-7 flex flex-col gap-3 sm:flex-row" style="--d:.32s">
-        <a href="#kontakt"
-           class="cta-shine group relative inline-flex items-center justify-center gap-3 rounded-2xl px-9 py-5 font-display text-base font-700 uppercase tracking-wider text-ink shadow-[0_0_40px_rgba(111,214,255,.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_60px_rgba(111,214,255,.5)]">
-          Kostenloses Angebot anfordern
-          <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-        </a>
-        <a href="#preise"
-           class="inline-flex items-center justify-center gap-2 rounded-2xl border border-line-hi px-9 py-5 font-display text-base font-600 uppercase tracking-wider text-white transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:bg-white/[.03] hover:shadow-[0_0_30px_rgba(111,214,255,.18)]">
-          Preise ansehen ↓
-        </a>
-      </div>
-
-      <!-- Mikro-dowody -->
-      <ul class="reveal mt-6 flex flex-wrap gap-x-6 gap-y-2.5 text-[13px] text-neutral-400" style="--d:.38s">
-        <li class="flex items-center gap-2"><span class="text-accent">✓</span> Keine Anzahlung</li>
-        <li class="flex items-center gap-2"><span class="text-accent">✓</span> Rechnung nach dem Event</li>
-        <li class="flex items-center gap-2"><span class="text-accent">✓</span> Transport inklusive</li>
-        <li class="flex items-center gap-2"><span class="text-accent">✓</span> Angebot in 24 h</li>
+  <div class="pasy wejscie" data-grupa="zdjecia">
+    <div class="pas" data-predkosc="26" data-kierunek="-1">
+      <ul class="pas__tor">
+        <li><button class="realizacja" type="button" data-cs="eco-studio"><picture><source type="image/webp" srcset="realizacja-eco-studio-scena-400.webp 400w, realizacja-eco-studio-scena.webp 720w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-eco-studio-scena.jpg" alt="Humanoider Roboter auf der Bühne des Eco-Studio-Finales in rotem Licht" width="720" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">ELECTRO-SYSTEM · Eco Studio</span><span class="realizacja__opis">Finale der 7. Staffel · Warschau · 2026</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="grupa-rekord"><picture><source type="image/webp" srcset="realizacja-grupa-rekord-mspo-400.webp 400w, realizacja-grupa-rekord-mspo.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-grupa-rekord-mspo.jpg" alt="Humanoider Roboter in den Farben der Grupa Rekord am Stand der Messe MSPO in Kielce" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Grupa Rekord</span><span class="realizacja__opis">MSPO · Messe Kielce · 2026</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="przelewice"><picture><source type="image/webp" srcset="realizacja-przelewice-noc-bajek-400.webp 400w, realizacja-przelewice-noc-bajek.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-przelewice-noc-bajek.jpg" alt="Humanoider Roboter in beleuchteten Arkaden während der Märchennacht in Przelewice" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Dendrologischer Garten Przelewice</span><span class="realizacja__opis">Märchennacht der Generationen</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="loza"><picture><source type="image/webp" srcset="realizacja-event-nad-woda-400.webp 400w, realizacja-event-nad-woda.webp 900w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-event-nad-woda.jpg" alt="Humanoider Roboter winkt auf einer Terrasse über einem Jachthafen" width="900" height="1200" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Loża Przedsiębiorców</span><span class="realizacja__opis">Mikołajki</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="yeah-gym"><picture><source type="image/webp" srcset="realizacja-yeah-gym-silownia-400.webp 400w, realizacja-yeah-gym-silownia.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-yeah-gym-silownia.jpg" alt="Humanoider Roboter im Trainingsbereich des Clubs YEAH GYM" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">YEAH GYM</span><span class="realizacja__opis">Fitnessclub · Breslau</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="jednorozec"><picture><source type="image/webp" srcset="realizacja-jednorozec-parada-400.webp 400w, realizacja-jednorozec-parada.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-jednorozec-parada.jpg" alt="Humanoider Roboter im T-Shirt der Gemeinde Jednorożec unter den Teilnehmern der Parade" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Gemeinde Jednorożec</span><span class="realizacja__opis">Einhorn-Parade</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="wesele"><picture><source type="image/webp" srcset="realizacja-wesele-konfetti-400.webp 400w, realizacja-wesele-konfetti.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-wesele-konfetti.jpg" alt="Humanoider Roboter im Nebel auf der Tanzfläche einer Hochzeit" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Hochzeit</span><span class="realizacja__opis">Hochzeitsfeier</span></button></li>
       </ul>
     </div>
-
-    <!-- Robot z parallaxem -->
-    <div class="relative hidden lg:block" data-par data-speed="-.06">
-      <div class="absolute inset-0 -z-10 rounded-full bg-accent/10 blur-[100px]"></div>
-      <img src="robot-g1-960.webp" alt="Humanoider Roboter Unitree G1 — Roboter mieten für Events in ganz Österreich"
-           width="600" height="800" fetchpriority="high"
-           class="reveal mx-auto max-h-[68vh] w-auto hero-robot" style="--d:.2s" />
-      <!-- pływające etykiety spec -->
-      <span class="reveal absolute left-2 top-[28%] rounded-lg border border-line-mid bg-surface-2/80 px-3 py-1.5 text-[11px] font-600 uppercase tracking-widest text-neutral-400 backdrop-blur animate-float" style="--d:.5s">23 DOF</span>
-      <span class="reveal absolute right-2 top-[52%] rounded-lg border border-line-mid bg-surface-2/80 px-3 py-1.5 text-[11px] font-600 uppercase tracking-widest text-neutral-400 backdrop-blur animate-float [animation-delay:2s]" style="--d:.6s">132 cm</span>
-      <span class="reveal absolute bottom-[14%] left-6 rounded-lg border border-accent/30 bg-accent/10 px-3 py-1.5 text-[11px] font-600 uppercase tracking-widest text-accent backdrop-blur animate-float [animation-delay:1s]" style="--d:.7s">2 m/s</span>
+    <div class="pas" data-predkosc="20" data-kierunek="1">
+      <ul class="pas__tor">
+        <li><button class="realizacja" type="button" data-cs="women-in-tech"><picture><source type="image/webp" srcset="realizacja-women-in-tech-tlum-400.webp 400w, realizacja-women-in-tech-tlum.webp 900w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-women-in-tech-tlum.jpg" alt="Teilnehmerinnen des Women in Tech Summit filmen den humanoiden Roboter mit dem Handy" width="900" height="1200" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Women in Tech Summit</span><span class="realizacja__opis">EXPO XXI · Warschau · 2026</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="kopernik"><picture><source type="image/webp" srcset="realizacja-kopernik-noc-400.webp 400w, realizacja-kopernik-noc.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-kopernik-noc.jpg" alt="Humanoider Roboter in der Ausstellung des Centrum Nauki Kopernik bei einem Abend für Erwachsene" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Centrum Nauki Kopernik</span><span class="realizacja__opis">„Wovon Roboter träumen“ · Warschau</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="tet-trung-thu"><picture><source type="image/webp" srcset="realizacja-tet-trung-thu-tlum-400.webp 400w, realizacja-tet-trung-thu-tlum.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-tet-trung-thu-tlum.jpg" alt="Gäste des Mittherbstfests rund um den humanoiden Roboter" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Tết Trung Thu</span><span class="realizacja__opis">Mittherbstfest</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="gonia-auto"><picture><source type="image/webp" srcset="realizacja-robot-w-deszczu-400.webp 400w, realizacja-robot-w-deszczu.webp 900w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-robot-w-deszczu.jpg" alt="Humanoider Roboter im roten T-Shirt mit Regenschirm vor einem Autohaus" width="900" height="1200" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Gonia Auto</span><span class="realizacja__opis">Autohaus</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="dream-med"><picture><source type="image/webp" srcset="realizacja-dream-med-expo-400.webp 400w, realizacja-dream-med-expo.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-dream-med-expo.jpg" alt="Humanoider Roboter am Stand von Dream-Med auf der Warsaw Medical Expo" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Dream-Med</span><span class="realizacja__opis">Warsaw Medical Expo · 2026</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="lexai"><picture><source type="image/webp" srcset="realizacja-lexai-ulica-400.webp 400w, realizacja-lexai-ulica.webp 900w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-lexai-ulica.jpg" alt="Humanoider Roboter LEX AI geht mit einer Aktentasche durch die Altstadt" width="900" height="1186" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">LEX AI</span><span class="realizacja__opis">Langer Markt · Danzig</span></button></li>
+      </ul>
+    </div>
+    <div class="pas" data-predkosc="23" data-kierunek="-1">
+      <ul class="pas__tor">
+        <li><button class="realizacja" type="button" data-cs="matys"><picture><source type="image/webp" srcset="realizacja-matys-stoisko-400.webp 400w, realizacja-matys-stoisko.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-matys-stoisko.jpg" alt="Humanoider Roboter im Matys-T-Shirt am Stand des Bauträgers" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Matys Development</span><span class="realizacja__opis">Immobilienmesse · Stettin</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="jednorozec"><picture><source type="image/webp" srcset="realizacja-jednorozec-zachod-400.webp 400w, realizacja-jednorozec-zachod.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-jednorozec-zachod.jpg" alt="Humanoider Roboter bei einer Parade im Freien bei Sonnenuntergang" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Gemeinde Jednorożec</span><span class="realizacja__opis">Einhorn-Parade</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="loza"><picture><source type="image/webp" srcset="realizacja-spotkanie-biznesowe-400.webp 400w, realizacja-spotkanie-biznesowe.webp 900w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-spotkanie-biznesowe.jpg" alt="Humanoider Roboter im T-Shirt der Loża Przedsiębiorców auf einer Terrasse" width="900" height="1200" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Loża Przedsiębiorców</span><span class="realizacja__opis">Mikołajki</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="szkola-kosmos"><picture><source type="image/webp" srcset="realizacja-szkola-kosmos-scena-400.webp 400w, realizacja-szkola-kosmos-scena.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-szkola-kosmos-scena.jpg" alt="Humanoider Roboter auf der Bühne der Szkoła Kosmos vor Schülern" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Szkoła Kosmos</span><span class="realizacja__opis">Schuljahresbeginn · Majaland</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="yeah-gym"><picture><source type="image/webp" srcset="realizacja-yeah-gym-trening-400.webp 400w, realizacja-yeah-gym-trening.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-yeah-gym-trening.jpg" alt="Humanoider Roboter neben einer Trainerin im Fitnessclub" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">YEAH GYM</span><span class="realizacja__opis">Fitnessclub · Breslau</span></button></li>
+        <li><button class="realizacja" type="button" data-cs="tet-trung-thu"><picture><source type="image/webp" srcset="realizacja-tet-trung-thu-400.webp 400w, realizacja-tet-trung-thu.webp 810w" sizes="(max-width: 767px) 168px, 248px" /><img src="realizacja-tet-trung-thu.jpg" alt="Humanoider Roboter im festlichen Branding beim Mittherbstfest" width="810" height="1080" loading="lazy" decoding="async" draggable="false" /></picture><span class="realizacja__klient">Tết Trung Thu</span><span class="realizacja__opis">Mittherbstfest</span></button></li>
+      </ul>
     </div>
   </div>
 
-  <!-- Wskaźnik scrolla -->
-  <a href="#vertrauen" class="absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-neutral-600 transition hover:text-accent md:flex">
-    <span class="text-[10px] uppercase tracking-[.25em]">Scrollen</span>
-    <span class="animate-bob text-lg">↓</span>
-  </a>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
-     2. PAS ZAUFANIA — jedna linia, zero zbędnego miejsca
-     ══════════════════════════════════════════════════════ -->
-<section id="vertrauen" class="border-y border-line bg-surface/60 py-8">
-  <div class="mx-auto max-w-7xl px-5 md:px-8">
-    <div class="flex flex-col items-center gap-6 md:flex-row md:justify-between">
-      <p class="reveal text-[11px] font-600 uppercase tracking-[.18em] text-neutral-600">Sie vertrauen uns</p>
-      <div class="reveal flex flex-wrap items-center justify-center gap-x-9 gap-y-3 font-display text-lg font-600 text-neutral-400" style="--d:.08s">
-        <a href="#referenzen" class="transition hover:text-white">Fundacja Perspektywy</a>
-        <span class="text-neutral-500">DSV</span>
-        <span class="text-neutral-500">Cashify</span>
-        <a href="#referenzen" class="transition hover:text-white">LEX AI</a>
-      </div>
-      <a href="https://gdansk.tvp.pl/93950197/pan-mecenas-robot" target="_blank" rel="noopener noreferrer"
-         class="reveal group inline-flex items-center gap-2 rounded-full border border-line-mid px-4 py-2 text-[12px] text-neutral-400 transition hover:border-accent/50 hover:text-white" style="--d:.16s">
-        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-        Im TV gesehen
-        <span class="transition-transform group-hover:translate-x-1">↗</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
-     3. BENTO BOX — możliwości / realizacje, wideo na hover
-     ══════════════════════════════════════════════════════ -->
-<section id="referenzen" class="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
-  <div class="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-    <div>
-      <p class="reveal mb-4 text-[11px] font-600 uppercase tracking-[.18em] text-accent">Referenzen</p>
-      <h2 class="reveal font-display text-4xl font-700 leading-[1.02] tracking-[-.025em] text-white md:text-6xl" style="--d:.08s">
-        Was er auf dem Event macht
-      </h2>
-    </div>
-    <p class="reveal max-w-sm text-neutral-400" style="--d:.16s">
-      Fahren Sie über ein Bild — das Band stoppt, das Video startet. Klicken zum Vergrößern.<br class="hidden md:block" /><span class="text-neutral-500">14 Aufnahmen von echten Einsätzen. Keine Stockfotos, keine Renderings.</span>
-    </p>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       GALERIA REALIZACJI — dwa pasy w przeciwnych kierunkach.
-       Najechanie zatrzymuje pas, kliknięcie otwiera zdjęcie na pełnym ekranie.
-       Szerokości kafelków celowo przeplatane (wąski / zwykły / szeroki),
-       żeby rytm przewijania nie był monotonny.
-
-       ▸ NOWE ZDJĘCIE: uruchom  python3 dodaj-zdjecia.py <katalog>
-         i wklej wygenerowany blok DWA RAZY — w części ORYGINAŁ i KOPIA.
-       ═══════════════════════════════════════════════════════════════ -->
-  <div class="strip reveal -mx-5 md:-mx-8" style="--d:.05s">
-    <div class="strip-track py-1">
-      <!-- ORYGINAŁ -->
-      <figure class="strip-item " data-full="realizacja-gala-czerwony-dywan.jpg" data-alt="Humanoider Roboter im Pailletten-Smoking auf dem roten Teppich einer Gala">
-        <picture><source srcset="realizacja-gala-czerwony-dywan-400.webp 400w, realizacja-gala-czerwony-dywan.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-czerwony-dywan.jpg" alt="Humanoider Roboter im Pailletten-Smoking auf dem roten Teppich einer Gala" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Roter Teppich</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--wide" data-full="realizacja-women-in-tech-tlum.jpg" data-alt="Teilnehmerinnen des Women in Tech Summit filmen den humanoiden Roboter mit ihren Handys">
-        <picture><source srcset="realizacja-women-in-tech-tlum-400.webp 400w, realizacja-women-in-tech-tlum.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-women-in-tech-tlum.jpg" alt="Teilnehmerinnen des Women in Tech Summit filmen den humanoiden Roboter mit ihren Handys" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Alle zücken ihr Handy</figcaption>
-      </figure>
-      <figure class="strip-item ">
-        <video class="strip-img" poster="video/robot-taniec-poster.jpg" muted loop playsinline preload="none"
-               onmouseenter="this.play()" onmouseleave="this.pause()"></video>
-        <source-marker data-src="video/robot-taniec.mp4"></source-marker>
-        <figcaption class="strip-cap">Tanz · hover</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--wide" data-full="realizacja-lexai-starowka.jpg" data-alt="Humanoider Roboter im LEX-AI-Shirt in der Altstadt, Passanten fotografieren">
-        <picture><source srcset="realizacja-lexai-starowka-400.webp 400w, realizacja-lexai-starowka.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-lexai-starowka.jpg" alt="Humanoider Roboter im LEX-AI-Shirt in der Altstadt, Passanten fotografieren" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Die Straße bleibt stehen</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--narrow" data-full="realizacja-gala-detal.jpg" data-alt="Nahaufnahme des humanoiden Roboters mit Krone und Pailletten-Smoking">
-        <picture><source srcset="realizacja-gala-detal-400.webp 400w, realizacja-gala-detal.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-detal.jpg" alt="Nahaufnahme des humanoiden Roboters mit Krone und Pailletten-Smoking" loading="lazy" class="strip-img" /></picture>
-      </figure>
-      <figure class="strip-item " data-full="realizacja-event-nad-woda.jpg" data-alt="Humanoider Roboter winkt auf einer Terrasse über dem Yachthafen">
-        <picture><source srcset="realizacja-event-nad-woda-400.webp 400w, realizacja-event-nad-woda.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-event-nad-woda.jpg" alt="Humanoider Roboter winkt auf einer Terrasse über dem Yachthafen" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Open-Air-Events</figcaption>
-      </figure>
-      <figure class="strip-item " data-full="robot-pies-branding-klienta.jpg" data-alt="Roboterhund im Firmenshirt des Kunden bei einer Promo-Aktion im Autohaus">
-        <picture><source srcset="robot-pies-branding-klienta-400.webp 400w, robot-pies-branding-klienta.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="robot-pies-branding-klienta.jpg" alt="Roboterhund im Firmenshirt des Kunden bei einer Promo-Aktion im Autohaus" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Roboterhund im Branding</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--narrow" data-full="realizacja-nocny-pokaz.jpg" data-alt="Humanoider Roboter im roten Umhang bei einer Nachtshow vor einem historischen Gebäude">
-        <picture><source srcset="realizacja-nocny-pokaz-400.webp 400w, realizacja-nocny-pokaz.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-nocny-pokaz.jpg" alt="Humanoider Roboter im roten Umhang bei einer Nachtshow vor einem historischen Gebäude" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Nacht-Shows</figcaption>
-      </figure>
-      <!-- KOPIA — bezszwowa pętla -->
-      <figure aria-hidden="true" class="strip-item " data-full="realizacja-gala-czerwony-dywan.jpg" data-alt="Humanoider Roboter im Pailletten-Smoking auf dem roten Teppich einer Gala">
-        <picture><source srcset="realizacja-gala-czerwony-dywan-400.webp 400w, realizacja-gala-czerwony-dywan.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-czerwony-dywan.jpg" alt="Humanoider Roboter im Pailletten-Smoking auf dem roten Teppich einer Gala" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Roter Teppich</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--wide" data-full="realizacja-women-in-tech-tlum.jpg" data-alt="Teilnehmerinnen des Women in Tech Summit filmen den humanoiden Roboter mit ihren Handys">
-        <picture><source srcset="realizacja-women-in-tech-tlum-400.webp 400w, realizacja-women-in-tech-tlum.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-women-in-tech-tlum.jpg" alt="Teilnehmerinnen des Women in Tech Summit filmen den humanoiden Roboter mit ihren Handys" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Alle zücken ihr Handy</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item ">
-        <video class="strip-img" poster="video/robot-taniec-poster.jpg" muted loop playsinline preload="none"
-               onmouseenter="this.play()" onmouseleave="this.pause()"></video>
-        <source-marker data-src="video/robot-taniec.mp4"></source-marker>
-        <figcaption class="strip-cap">Tanz · hover</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--wide" data-full="realizacja-lexai-starowka.jpg" data-alt="Humanoider Roboter im LEX-AI-Shirt in der Altstadt, Passanten fotografieren">
-        <picture><source srcset="realizacja-lexai-starowka-400.webp 400w, realizacja-lexai-starowka.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-lexai-starowka.jpg" alt="Humanoider Roboter im LEX-AI-Shirt in der Altstadt, Passanten fotografieren" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Die Straße bleibt stehen</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--narrow" data-full="realizacja-gala-detal.jpg" data-alt="Nahaufnahme des humanoiden Roboters mit Krone und Pailletten-Smoking">
-        <picture><source srcset="realizacja-gala-detal-400.webp 400w, realizacja-gala-detal.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-detal.jpg" alt="Nahaufnahme des humanoiden Roboters mit Krone und Pailletten-Smoking" loading="lazy" class="strip-img" /></picture>
-      </figure>
-      <figure aria-hidden="true" class="strip-item " data-full="realizacja-event-nad-woda.jpg" data-alt="Humanoider Roboter winkt auf einer Terrasse über dem Yachthafen">
-        <picture><source srcset="realizacja-event-nad-woda-400.webp 400w, realizacja-event-nad-woda.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-event-nad-woda.jpg" alt="Humanoider Roboter winkt auf einer Terrasse über dem Yachthafen" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Open-Air-Events</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item " data-full="robot-pies-branding-klienta.jpg" data-alt="Roboterhund im Firmenshirt des Kunden bei einer Promo-Aktion im Autohaus">
-        <picture><source srcset="robot-pies-branding-klienta-400.webp 400w, robot-pies-branding-klienta.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="robot-pies-branding-klienta.jpg" alt="Roboterhund im Firmenshirt des Kunden bei einer Promo-Aktion im Autohaus" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Roboterhund im Branding</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--narrow" data-full="realizacja-nocny-pokaz.jpg" data-alt="Humanoider Roboter im roten Umhang bei einer Nachtshow vor einem historischen Gebäude">
-        <picture><source srcset="realizacja-nocny-pokaz-400.webp 400w, realizacja-nocny-pokaz.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-nocny-pokaz.jpg" alt="Humanoider Roboter im roten Umhang bei einer Nachtshow vor einem historischen Gebäude" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Nacht-Shows</figcaption>
-      </figure>
-    </div>
-  </div>
-  <div class="strip reveal -mx-5 md:-mx-8 mt-4" style="--d:.12s">
-    <div class="strip-track strip-track--rev py-1">
-      <!-- ORYGINAŁ -->
-      <figure class="strip-item " data-full="realizacja-women-in-tech-wybieg.jpg" data-alt="Humanoider Roboter auf dem pinken Laufsteg des Women in Tech Summit vor Publikum">
-        <picture><source srcset="realizacja-women-in-tech-wybieg-400.webp 400w, realizacja-women-in-tech-wybieg.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-women-in-tech-wybieg.jpg" alt="Humanoider Roboter auf dem pinken Laufsteg des Women in Tech Summit vor Publikum" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Women in Tech Summit</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--wide" data-full="realizacja-gala-zdjecia-gosci.jpg" data-alt="Gala-Gäste fotografieren den humanoiden Roboter vor der Sponsorenwand">
-        <picture><source srcset="realizacja-gala-zdjecia-gosci-400.webp 400w, realizacja-gala-zdjecia-gosci.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-zdjecia-gosci.jpg" alt="Gala-Gäste fotografieren den humanoiden Roboter vor der Sponsorenwand" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Gäste fotografieren</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--narrow" data-full="realizacja-robot-w-deszczu.jpg" data-alt="Humanoider Roboter im roten Shirt mit Regenschirm bei Regen">
-        <picture><source srcset="realizacja-robot-w-deszczu-400.webp 400w, realizacja-robot-w-deszczu.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-robot-w-deszczu.jpg" alt="Humanoider Roboter im roten Shirt mit Regenschirm bei Regen" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Auch bei Regen</figcaption>
-      </figure>
-      <figure class="strip-item ">
-        <video class="strip-img" poster="video/robot-branding-poster.jpg" muted loop playsinline preload="none"
-               onmouseenter="this.play()" onmouseleave="this.pause()"></video>
-        <source-marker data-src="video/robot-branding.mp4"></source-marker>
-        <figcaption class="strip-cap">Logo und QR-Code · 0 €</figcaption>
-      </figure>
-      <figure class="strip-item " data-full="realizacja-lexai-ulica.jpg" data-alt="Humanoider Roboter LEX AI geht mit Aktentasche durch die Altstadt">
-        <picture><source srcset="realizacja-lexai-ulica-400.webp 400w, realizacja-lexai-ulica.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-lexai-ulica.jpg" alt="Humanoider Roboter LEX AI geht mit Aktentasche durch die Altstadt" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Marketing in der Stadt</figcaption>
-      </figure>
-      <figure class="strip-item " data-full="realizacja-gala-palac.jpg" data-alt="Humanoider Roboter im Smoking im Ballsaal eines Schlosses">
-        <picture><source srcset="realizacja-gala-palac-400.webp 400w, realizacja-gala-palac.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-palac.jpg" alt="Humanoider Roboter im Smoking im Ballsaal eines Schlosses" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Schloss-Ambiente</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--narrow" data-full="realizacja-spotkanie-biznesowe.jpg" data-alt="Humanoider Roboter im Firmenshirt auf der Terrasse eines Business-Meetings">
-        <picture><source srcset="realizacja-spotkanie-biznesowe-400.webp 400w, realizacja-spotkanie-biznesowe.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-spotkanie-biznesowe.jpg" alt="Humanoider Roboter im Firmenshirt auf der Terrasse eines Business-Meetings" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Firmen-Meetings</figcaption>
-      </figure>
-      <figure class="strip-item strip-item--wide" data-full="realizacja-gala-wsrod-gosci.jpg" data-alt="Humanoider Roboter zwischen gut gelaunten Gala-Gästen mit Sektgläsern">
-        <picture><source srcset="realizacja-gala-wsrod-gosci-400.webp 400w, realizacja-gala-wsrod-gosci.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-wsrod-gosci.jpg" alt="Humanoider Roboter zwischen gut gelaunten Gala-Gästen mit Sektgläsern" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Mitten unter den Gästen</figcaption>
-      </figure>
-      <!-- KOPIA — bezszwowa pętla -->
-      <figure aria-hidden="true" class="strip-item " data-full="realizacja-women-in-tech-wybieg.jpg" data-alt="Humanoider Roboter auf dem pinken Laufsteg des Women in Tech Summit vor Publikum">
-        <picture><source srcset="realizacja-women-in-tech-wybieg-400.webp 400w, realizacja-women-in-tech-wybieg.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-women-in-tech-wybieg.jpg" alt="Humanoider Roboter auf dem pinken Laufsteg des Women in Tech Summit vor Publikum" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Women in Tech Summit</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--wide" data-full="realizacja-gala-zdjecia-gosci.jpg" data-alt="Gala-Gäste fotografieren den humanoiden Roboter vor der Sponsorenwand">
-        <picture><source srcset="realizacja-gala-zdjecia-gosci-400.webp 400w, realizacja-gala-zdjecia-gosci.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-zdjecia-gosci.jpg" alt="Gala-Gäste fotografieren den humanoiden Roboter vor der Sponsorenwand" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Gäste fotografieren</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--narrow" data-full="realizacja-robot-w-deszczu.jpg" data-alt="Humanoider Roboter im roten Shirt mit Regenschirm bei Regen">
-        <picture><source srcset="realizacja-robot-w-deszczu-400.webp 400w, realizacja-robot-w-deszczu.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-robot-w-deszczu.jpg" alt="Humanoider Roboter im roten Shirt mit Regenschirm bei Regen" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Auch bei Regen</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item ">
-        <video class="strip-img" poster="video/robot-branding-poster.jpg" muted loop playsinline preload="none"
-               onmouseenter="this.play()" onmouseleave="this.pause()"></video>
-        <source-marker data-src="video/robot-branding.mp4"></source-marker>
-        <figcaption class="strip-cap">Logo und QR-Code · 0 €</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item " data-full="realizacja-lexai-ulica.jpg" data-alt="Humanoider Roboter LEX AI geht mit Aktentasche durch die Altstadt">
-        <picture><source srcset="realizacja-lexai-ulica-400.webp 400w, realizacja-lexai-ulica.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-lexai-ulica.jpg" alt="Humanoider Roboter LEX AI geht mit Aktentasche durch die Altstadt" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Marketing in der Stadt</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item " data-full="realizacja-gala-palac.jpg" data-alt="Humanoider Roboter im Smoking im Ballsaal eines Schlosses">
-        <picture><source srcset="realizacja-gala-palac-400.webp 400w, realizacja-gala-palac.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-palac.jpg" alt="Humanoider Roboter im Smoking im Ballsaal eines Schlosses" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Schloss-Ambiente</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--narrow" data-full="realizacja-spotkanie-biznesowe.jpg" data-alt="Humanoider Roboter im Firmenshirt auf der Terrasse eines Business-Meetings">
-        <picture><source srcset="realizacja-spotkanie-biznesowe-400.webp 400w, realizacja-spotkanie-biznesowe.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-spotkanie-biznesowe.jpg" alt="Humanoider Roboter im Firmenshirt auf der Terrasse eines Business-Meetings" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Firmen-Meetings</figcaption>
-      </figure>
-      <figure aria-hidden="true" class="strip-item strip-item--wide" data-full="realizacja-gala-wsrod-gosci.jpg" data-alt="Humanoider Roboter zwischen gut gelaunten Gala-Gästen mit Sektgläsern">
-        <picture><source srcset="realizacja-gala-wsrod-gosci-400.webp 400w, realizacja-gala-wsrod-gosci.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-        <img src="realizacja-gala-wsrod-gosci.jpg" alt="Humanoider Roboter zwischen gut gelaunten Gala-Gästen mit Sektgläsern" loading="lazy" class="strip-img" /></picture>
-        <figcaption class="strip-cap">Mitten unter den Gästen</figcaption>
-      </figure>
-    </div>
-  </div>
-  <!-- Pas kluczowych atutów pod galerią -->
-  <div class="mt-10 grid gap-3 sm:grid-cols-3">
-    <div class="reveal rounded-2xl border border-line-mid bg-surface-2 p-5" style="--d:.05s">
-      <p class="font-display text-3xl font-700 text-white"><span data-count="10" data-suffix="×">0</span></p>
-      <p class="mt-1 text-[13px] text-neutral-400">mehr Aufmerksamkeit als jede andere Attraktion</p>
-    </div>
-    <div class="reveal rounded-2xl border border-accent/30 bg-accent/[.07] p-5" style="--d:.12s">
-      <p class="font-display text-3xl font-700 text-accent">0 €</p>
-      <p class="mt-1 text-[13px] text-neutral-300">für das Branding — Ihr Logo und QR-Code auf dem Roboter</p>
-    </div>
-    <a href="https://www.tiktok.com/@teleexpress.tvp/video/7654958168786619680" target="_blank" rel="noopener noreferrer"
-       class="reveal group rounded-2xl border border-line-mid bg-surface-2 p-5 transition hover:border-accent/40" style="--d:.19s">
-      <p class="flex items-center gap-2 font-display text-lg font-700 text-white">
-        <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"></span> Teleexpress TVP
-      </p>
-      <p class="mt-1 text-[13px] text-neutral-400">unser Roboter im landesweiten Fernsehen
-        <span class="inline-block text-accent transition-transform group-hover:translate-x-1">↗</span></p>
-    </a>
-  </div>
-  <div class="reveal mt-10 flex justify-center" style="--d:.1s">
-    <a href="humanoider-roboter-mieten.html" class="group inline-flex items-center gap-2 text-sm font-600 text-neutral-400 transition hover:text-white">
-      Mehr über den Robotereinsatz
-      <span class="transition-transform group-hover:translate-x-1">→</span>
-    </a>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
-     MOŻLIWOŚCI ROBOTA — co potrafi i dlaczego to się opłaca
-     ══════════════════════════════════════════════════════ -->
-<section id="moeglichkeiten" class="relative overflow-hidden border-t border-line py-24 md:py-32">
-  <div class="pointer-events-none absolute right-0 top-1/4 -z-10 h-[28rem] w-[42rem] rounded-full bg-violet/10 blur-[140px]"></div>
-
-  <div class="mx-auto max-w-7xl px-5 md:px-8">
-
-    <div class="mb-12 max-w-3xl">
-      <p class="reveal mb-4 text-[11px] font-600 uppercase tracking-[.18em] text-accent">Möglichkeiten</p>
-      <h2 class="reveal font-display text-4xl font-700 leading-[1.02] tracking-[-.025em] text-white md:text-6xl" style="--d:.08s">
-        Keine Attraktion für eine Viertelstunde.<br />Ein Gesprächsthema für Wochen.
-      </h2>
-      <p class="reveal mt-6 text-lg leading-relaxed text-neutral-400" style="--d:.16s">
-        Vor der Veranstaltung bekommt der Roboter Stimme, Charakter und Wissen über das, was bei Ihnen passiert.
-        <span class="text-white">Das Ergebnis: Der Saal wird still, die Handys gehen hoch, und die Gäste erzählen noch lange davon.</span>
-      </p>
-    </div>
-
-    <!-- Dwie kluczowe zdolności -->
-    <div class="grid gap-4 lg:grid-cols-2">
-
-      <!-- Mowa i rozmowa -->
-      <article class="reveal group relative overflow-hidden rounded-[28px] border border-accent/30 bg-surface-2 p-7 transition-all duration-500 hover:border-accent/60 md:p-9" style="--d:.05s">
-        <div class="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-accent/12 blur-3xl transition-transform duration-700 group-hover:scale-150"></div>
-
-        <div class="relative">
-          <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-accent/40 bg-accent/10 text-accent">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-6 w-6" aria-hidden="true">
-              <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" stroke-linecap="round"/>
-              <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8" stroke-linecap="round"/>
-            </svg>
-          </span>
-
-          <h3 class="mt-5 font-display text-2xl font-700 text-white">Spricht und unterhält sich auf Deutsch</h3>
-          <p class="mt-3 text-[15px] leading-relaxed text-neutral-400">
-            Er begrüßt Gäste, beantwortet Fragen, macht Witze und kündigt Programmpunkte an — mit natürlicher Sprache,
-            ohne künstlichen Roboter-Klang. Die Leute sprechen ihn aus Neugier an und bleiben für ein längeres Gespräch.
-          </p>
-
-          <!-- Przykładowa rozmowa -->
-          <div class="mt-6 space-y-2.5 rounded-2xl border border-line-mid bg-ink/50 p-4">
-            <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-surface-3 px-4 py-2.5 text-[13px] text-neutral-300">
-              Tanzt du mit mir?
-            </p>
-            <p class="w-fit max-w-[90%] rounded-2xl rounded-bl-sm bg-accent/15 px-4 py-2.5 text-[13px] text-white">
-              Sehr gern. Ich habe 23 Freiheitsgrade und keinerlei Hemmungen — führst du oder führe ich?
-            </p>
-          </div>
-
-          <p class="mt-5 border-l-2 border-accent/60 pl-4 text-[14px] leading-relaxed text-neutral-300">
-            <span class="font-600 text-white">Warum das wirkt:</span> Niemand filmt ein Ausstellungsstück.
-            Alle filmen jemanden, der ihnen gerade geantwortet hat — und schicken es noch am selben Abend an Freunde.
-          </p>
-        </div>
-      </article>
-
-      <!-- Osobowość i wiedza -->
-      <article class="reveal group relative flex flex-col overflow-hidden rounded-[28px] border border-line-mid bg-surface-2 p-7 transition-all duration-500 hover:border-accent/40 md:p-9" style="--d:.12s">
-        <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-line-hi bg-surface-3 text-accent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-6 w-6" aria-hidden="true">
-            <path d="M12 3a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z" stroke-linecap="round"/>
-            <path d="M5 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1" stroke-linecap="round"/>
-            <circle cx="18.5" cy="6.5" r="2.5"/>
-          </svg>
-        </span>
-
-        <h3 class="mt-5 font-display text-2xl font-700 text-white">Persönlichkeit und Wissensbasis nach Ihren Vorgaben</h3>
-        <p class="mt-3 text-[15px] leading-relaxed text-neutral-400">
-          Vor dem Event legen wir den Charakter des Roboters fest und spielen ihm Wissen über Ihre Veranstaltung ein: wessen
-          Jubiläum gefeiert wird, wer auf der Bühne steht, unter welchem Motto das Event läuft und was man mit einem Augenzwinkern erwähnen darf.
-        </p>
-
-        <div class="mt-6 flex flex-wrap gap-2">
-          <span class="rounded-full border border-line-hi bg-surface-3 px-3.5 py-1.5 text-[12px] text-neutral-300">Eleganter Moderator</span>
-          <span class="rounded-full border border-line-hi bg-surface-3 px-3.5 py-1.5 text-[12px] text-neutral-300">Spaßvogel</span>
-          <span class="rounded-full border border-line-hi bg-surface-3 px-3.5 py-1.5 text-[12px] text-neutral-300">Technik-Experte</span>
-          <span class="rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1.5 text-[12px] text-accent">Weiß, was auf der Bühne passiert</span>
-          <span class="rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1.5 text-[12px] text-accent">Kennt Ihre Insider-Witze</span>
-        </div>
-
-        <p class="mt-auto pt-6 border-l-2 border-accent/60 pl-4 text-[14px] leading-relaxed text-neutral-300">
-          <span class="font-600 text-white">Warum das wirkt:</span> den größten Wirbel macht der Moment,
-          in dem der Roboter etwas sagt, das er gar nicht wissen dürfte. Dann wird der Saal laut, und die Leute rufen ihre Kollegen herbei.
-        </p>
-      </article>
-    </div>
-
-    <!-- Pozostałe zdolności -->
-    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-
-      <article class="reveal group flex flex-col rounded-[24px] border border-line-mid bg-surface/70 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40" style="--d:.05s">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line-hi bg-surface-3 text-accent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5" aria-hidden="true">
-            <path d="M4 7h3l2-3h6l2 3h3v13H4z" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5"/>
-          </svg>
-        </span>
-        <h3 class="mt-4 font-display text-lg font-700 leading-snug text-white md:min-h-[3.25rem]">Posiert für Fotos</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">
-          Er stellt sich für Selfies auf, winkt in die Kamera, posiert mit den Gästen. Die Schlange bildet sich von selbst.
-        </p>
-        <p class="mt-auto pt-3 text-[13px] leading-relaxed text-accent">Die Fotos kursieren noch während der Veranstaltung in den sozialen Medien.</p>
-      </article>
-
-      <article class="reveal group flex flex-col rounded-[24px] border border-line-mid bg-surface/70 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40" style="--d:.12s">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line-hi bg-surface-3 text-accent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5" aria-hidden="true">
-            <path d="M9 18V5l11-2v13" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>
-          </svg>
-        </span>
-        <h3 class="mt-4 font-display text-lg font-700 leading-snug text-white md:min-h-[3.25rem]">Tanzt zur Musik</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">
-          Ganze Choreografien im Takt — von ruhig bis spektakulär.
-        </p>
-        <p class="mt-auto pt-3 text-[13px] leading-relaxed text-accent">Der Moment, in dem der ganze Saal gleichzeitig zum Handy greift.</p>
-      </article>
-
-      <article class="reveal group flex flex-col rounded-[24px] border border-line-mid bg-surface/70 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40" style="--d:.19s">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line-hi bg-surface-3 text-accent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5" aria-hidden="true">
-            <path d="M8 4h8v4a4 4 0 0 1-8 0z" stroke-linejoin="round"/>
-            <path d="M12 12v4M8 20h8" stroke-linecap="round"/><path d="M4 6h2M18 6h2" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <h3 class="mt-4 font-display text-lg font-700 leading-snug text-white md:min-h-[3.25rem]">Ein Drehbuch für Ihren Tag</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">
-          Gästebegrüßung, Ankündigung des Redners, Countdown um Mitternacht, Preisverleihung.
-        </p>
-        <p class="mt-auto pt-3 text-[13px] leading-relaxed text-accent">Eine Überraschung im perfekten Moment statt einer Attraktion, die nur danebensteht.</p>
-      </article>
-
-      <article class="reveal group flex flex-col rounded-[24px] border border-line-mid bg-surface/70 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40" style="--d:.26s">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line-hi bg-surface-3 text-accent">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5" aria-hidden="true">
-            <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
-            <rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 20h1M18 20h-1v1" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <h3 class="mt-4 font-display text-lg font-700 leading-snug text-white md:min-h-[3.25rem]">Trägt Ihre Marke</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">
-          Logo und QR-Code auf der Brust, das Outfit passend zum Charakter der Veranstaltung.
-        </p>
-        <p class="mt-auto pt-3 text-[13px] leading-relaxed text-accent">Ihr Logo landet auf hunderten Fotos, die Ihre Gäste machen. Ohne Aufpreis.</p>
-      </article>
-    </div>
-
-    <!-- Domknięcie -->
-    <div class="reveal mt-10 flex flex-col items-center gap-4 rounded-[24px] border border-line bg-surface/50 px-7 py-8 text-center md:flex-row md:justify-between md:text-left" style="--d:.1s">
-      <p class="max-w-2xl text-[15px] leading-relaxed text-neutral-300">
-        Ein Gespräch genügt — Sie sagen uns, welchen Eindruck Sie hinterlassen wollen, und wir bereiten Stimme,
-        Charakter und Drehbuch vor. <span class="text-white">Alles im Mietpreis enthalten.</span>
-      </p>
-      <a href="#kontakt" class="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-white px-7 py-4 font-display text-sm font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_36px_rgba(111,214,255,.4)]">
-        Ihr Drehbuch besprechen
-        <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════
-     4. CENNIK — kompaktowa karta + upsell + rabat
-     ══════════════════════════════════════════════════════ -->
-<section id="preise" class="relative overflow-hidden border-y border-line py-24 md:py-32">
-  <div class="pointer-events-none absolute left-1/2 top-0 -z-10 h-[30rem] w-[60rem] -translate-x-1/2 rounded-full bg-accent/10 blur-[140px]"></div>
-
-  <div class="mx-auto max-w-6xl px-5 md:px-8">
-    <div class="mb-12 text-center">
-      <p class="reveal mb-4 text-[11px] font-600 uppercase tracking-[.18em] text-accent">Preise</p>
-      <h2 class="reveal font-display text-4xl font-700 leading-[1.02] tracking-[-.025em] text-white md:text-6xl" style="--d:.08s">
-        Beste Preise in Österreich
-      </h2>
-      <p class="reveal mx-auto mt-5 max-w-xl text-neutral-400" style="--d:.16s">
-        Für diese Qualität geht es realistisch nicht günstiger. Sie mieten den Roboter für ein paar Stunden, einen ganzen Tag oder die komplette Messe —
-        <span class="text-white">und was Sie im Angebot hören, steht später auf der Rechnung</span>.
-      </p>
-    </div>
-
-    <!-- Wybór długości realizacji -->
-    <div class="mb-5 grid gap-3 sm:grid-cols-3">
-      <div class="reveal rounded-2xl border border-line-mid bg-surface/70 p-5 transition duration-500 hover:-translate-y-1 hover:border-line-hi" style="--d:.02s">
-        <p class="text-[10px] font-600 uppercase tracking-widest text-neutral-500">Kürzer als ein Tag</p>
-        <p class="mt-2 font-display text-xl font-700 text-white">Einige Stunden</p>
-        <p class="mt-1.5 text-[13px] leading-relaxed text-neutral-400">Effektvoller Auftritt, Gästebegrüßung oder der Höhepunkt des Abends. <span class="text-neutral-300">Individuelles Angebot — immer günstiger als ein voller Tag.</span></p>
-      </div>
-      <div class="reveal rounded-2xl border border-accent/50 bg-accent/[.07] p-5 shadow-[0_0_30px_rgba(111,214,255,.12)] transition duration-500 hover:-translate-y-1" style="--d:.08s">
-        <p class="text-[10px] font-600 uppercase tracking-widest text-accent">Am häufigsten gewählt</p>
-        <p class="mt-2 font-display text-xl font-700 text-white">Ganzer Tag</p>
-        <p class="mt-1.5 text-[13px] leading-relaxed text-neutral-300">Volle Betreuung vom Aufbau bis zum Finale. <span class="font-600 text-white">ab 2.300 €</span></p>
-      </div>
-      <div class="reveal rounded-2xl border border-line-mid bg-surface/70 p-5 transition duration-500 hover:-translate-y-1 hover:border-accent/40" style="--d:.14s">
-        <p class="text-[10px] font-600 uppercase tracking-widest text-neutral-500">Zwei Tage und mehr</p>
-        <p class="mt-2 font-display text-xl font-700 text-white">Mehrtägig <span class="text-accent">−15%</span></p>
-        <p class="mt-1.5 text-[13px] leading-relaxed text-neutral-400">Messen, Festivals, Roadshows. <span class="text-neutral-300">Den Rabatt gewähren wir auf jeden Einsatztag.</span></p>
-      </div>
-    </div>
-
-    <div class="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
-
-      <!-- Karta główna -->
-      <article class="reveal group relative overflow-hidden rounded-[28px] border border-accent/40 bg-surface-2 p-8 shadow-[0_0_70px_rgba(111,214,255,.12)] transition-all duration-500 hover:border-accent/70 hover:shadow-[0_0_90px_rgba(111,214,255,.22)] md:p-10" style="--d:.05s">
-        <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-accent/15 blur-3xl transition-transform duration-700 group-hover:scale-150"></div>
-
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <span class="rounded-full bg-accent px-4 py-1.5 text-[11px] font-700 uppercase tracking-widest text-ink">Alles inklusive</span>
-          <span class="text-[12px] font-600 uppercase tracking-widest text-neutral-500">Unitree G1 · ganzer Tag</span>
-        </div>
-
-        <div class="mt-8 flex flex-wrap items-end gap-x-4 gap-y-1">
-          <span class="font-display text-xl font-600 text-neutral-500">ab</span>
-          <span class="font-display text-6xl font-700 leading-none tracking-[-.03em] text-white md:text-7xl">2.300</span>
-          <span class="font-display text-3xl font-600 text-neutral-400">€</span>
-        </div>
-        <p class="mt-3 text-sm text-neutral-400">
-          Netto, für einen ganzen Einsatztag. Den endgültigen Fixpreis kalkulieren wir nach Dauer, Ort und Programm.
-        </p>
-
-        <ul class="mt-8 grid gap-3 sm:grid-cols-2">
-          <li class="flex items-start gap-2.5 text-[14px] text-neutral-200"><span class="mt-0.5 text-accent">✓</span> Roboter den ganzen Tag</li>
-          <li class="flex items-start gap-2.5 text-[14px] text-neutral-200"><span class="mt-0.5 text-accent">✓</span> Zertifizierter Operator</li>
-          <li class="flex items-start gap-2.5 text-[14px] text-neutral-200"><span class="mt-0.5 text-accent">✓</span> Transport in ganz Österreich</li>
-          <li class="flex items-start gap-2.5 text-[14px] text-neutral-200"><span class="mt-0.5 text-accent">✓</span> Branding: Logo und QR-Code</li>
-          <li class="flex items-start gap-2.5 text-[14px] text-neutral-200"><span class="mt-0.5 text-accent">✓</span> Choreografien und Interaktionen</li>
-          <li class="flex items-start gap-2.5 text-[14px] text-neutral-200"><span class="mt-0.5 text-accent">✓</span> Haftpflichtversicherung</li>
-        </ul>
-
-        <p class="mt-7 rounded-2xl border border-accent/30 bg-accent/10 px-5 py-3.5 text-center text-sm text-white">
-          Der Preis enthält absolut alles. <strong class="font-700 text-accent">NULL Aufschläge.</strong>
-        </p>
-
-        <a href="#kontakt"
-           class="cta-shine group/btn mt-7 flex w-full items-center justify-center gap-3 rounded-2xl px-8 py-5 font-display text-base font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_50px_rgba(111,214,255,.45)]">
-          Kostenloses Angebot anfordern
-          <span class="transition-transform duration-300 group-hover/btn:translate-x-1.5">→</span>
-        </a>
-      </article>
-
-      <!-- Kolumna boczna -->
-      <div class="flex flex-col gap-4">
-        <!-- Upsell: robot-pies -->
-        <article class="reveal group relative overflow-hidden rounded-[28px] border border-line-mid bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-accent/40" style="--d:.12s">
-          <picture>
-            <source srcset="robot-pies-branding-klienta-400.webp 400w, robot-pies-branding-klienta.webp 1200w" sizes="(max-width: 760px) 400px, 760px" type="image/webp" />
-            <img src="robot-pies-branding-klienta.jpg" loading="lazy" width="900" height="1200"
-                 alt="Roboterhund im Firmenshirt des Kunden bei einer Promo-Aktion im Autohaus"
-                 class="absolute inset-0 h-full w-full object-cover object-[62%_50%] opacity-40 transition-all duration-700 group-hover:scale-105 group-hover:opacity-60" />
-          </picture>
-          <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface via-surface/90 to-surface/40"></div>
-          <div class="relative p-7">
-            <span class="rounded-full border border-line-hi bg-surface-3/80 px-3.5 py-1.5 text-[10px] font-600 uppercase tracking-widest text-neutral-300 backdrop-blur">Zusatzoption</span>
-            <h3 class="mt-5 font-display text-2xl font-700 text-white">Roboterhund</h3>
-            <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">
-              Ein unschlagbares Duo: Der Humanoid macht die Show, der Hund stiehlt die Herzen der Gäste. In Ihrem Branding.
-            </p>
-            <p class="mt-5 font-display text-4xl font-700 leading-none text-white">auf <span class="text-2xl text-neutral-400">Anfrage</span></p>
-            <p class="mt-1.5 text-[11px] font-600 uppercase tracking-widest text-neutral-500">pro Tag</p>
-            <a href="#kontakt" class="mt-5 inline-flex items-center gap-2 text-[13px] font-600 text-accent transition-transform duration-300 hover:translate-x-1">Zum Angebot hinzufügen →</a>
-          </div>
-        </article>
-
-        <!-- Rabat -->
-        <article class="reveal group relative flex-1 overflow-hidden rounded-[28px] border border-dashed border-accent/40 bg-gradient-to-br from-accent/[.08] to-transparent p-7 transition-all duration-500 hover:-translate-y-1 hover:border-accent/70" style="--d:.18s">
-          <span class="text-[10px] font-600 uppercase tracking-widest text-accent">Langzeit-Rabatt</span>
-          <p class="mt-4 font-display text-5xl font-700 leading-none text-white">−15%</p>
-          <p class="mt-3 text-[13px] leading-relaxed text-neutral-300">
-            auf <strong class="text-white">jeden Tag</strong> bei Einsätzen ab zwei Tagen. Messen, Festivals, Roadshows.
-          </p>
-        </article>
+  <div class="wrap">
+    <div class="klienci" id="klienci">
+      <div class="pasy__glowa">
+        <p class="label">Für wen wir gearbeitet haben</p>
+        <button class="pasy__pauza" type="button" aria-pressed="false" data-pasy="nazwy" hidden>Bewegung anhalten</button>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ══════════════════════════════════════════════════════
-     5. PROCES — oś czasu z animowaną linią
-     ══════════════════════════════════════════════════════ -->
-<section id="ablauf" class="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
-  <div class="mb-14 text-center">
-    <p class="reveal mb-4 text-[11px] font-600 uppercase tracking-[.18em] text-accent">So arbeiten wir</p>
-    <h2 class="reveal font-display text-4xl font-700 leading-[1.02] tracking-[-.025em] text-white md:text-6xl" style="--d:.08s">
-      Stressfrei ab dem ersten Anruf
-    </h2>
-    <p class="reveal mx-auto mt-5 max-w-lg text-neutral-400" style="--d:.16s">
-      Sie reservieren den Termin kostenlos. Sie zahlen erst nach dem gelungenen Event. Das gesamte Risiko übernehmen wir.
-    </p>
+  <div class="pasy pasy--nazwy wejscie" data-grupa="nazwy">
+    <div class="pas pas--nazwy" data-predkosc="34" data-kierunek="1">
+      <ul class="pas__tor">
+        <li>REMONDIS Electrorecycling</li>
+        <li>Centrum Nauki Kopernik</li>
+        <li>YEAH GYM</li>
+        <li>VELUX</li>
+        <li>Gemeinde Jednorożec</li>
+        <li>Perspektywy Foundation · Women in Tech Summit</li>
+        <li>Studio Figura</li>
+        <li>Grupa Rekord</li>
+        <li>Dresdner Schlössernacht</li>
+        <li>Meblostyl</li>
+        <li>Poznańska Akademia Medyczna</li>
+        <li>Blue Energy</li>
+        <li>Gonia Auto</li>
+      </ul>
+    </div>
+    <div class="pas pas--nazwy" data-predkosc="28" data-kierunek="-1">
+      <ul class="pas__tor">
+        <li>Play · Grupa P4</li>
+        <li>Dendrologischer Garten Przelewice</li>
+        <li>Dream-Med</li>
+        <li>Westernacher</li>
+        <li>Szkoła Kosmos</li>
+        <li>ELECTRO-SYSTEM</li>
+        <li>Kurort Ciechocinek</li>
+        <li>KDT Europe</li>
+        <li>Dary Posejdona</li>
+        <li>Urząd Marszałkowski Woj. Lubuskiego</li>
+        <li>LEX AI</li>
+        <li>DELKOM 2000</li>
+        <li>ELITE Groomer &amp; SPA</li>
+      </ul>
+    </div>
+    <div class="pas pas--nazwy" data-predkosc="31" data-kierunek="1">
+      <ul class="pas__tor">
+        <li>Adamed</li>
+        <li>Loża Przedsiębiorców</li>
+        <li>ZTM · Stadt Warschau</li>
+        <li>Matys Development</li>
+        <li>VBASS</li>
+        <li>DSV GBS</li>
+        <li>GOK Kobylin</li>
+        <li>Stowarzyszenie Inwestorów Indywidualnych · WallStreet 30</li>
+        <li>Studio Diament</li>
+        <li>Seba Tech Group</li>
+        <li>JustSpeak</li>
+        <li>BETMAR</li>
+        <li>Polish Zone</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="relative">
-    <!-- animowana linia -->
-    <div class="absolute left-6 top-0 h-full w-px bg-gradient-to-b from-accent via-accent/40 to-transparent track-line md:left-0 md:top-6 md:h-px md:w-full md:bg-gradient-to-r"></div>
+  <div class="wrap">
+    <p class="body-sm klienci__kraje">Konzerne und öffentliche Einrichtungen, Wissenschaftszentren, Gemeinden, Clubs und private Feiern — in Polen, Litauen, Deutschland, Tschechien und Rumänien.</p>
+  </div>
+</section>
 
-    <ol class="relative grid gap-8 md:grid-cols-5 md:gap-4">
-      <li class="reveal pl-16 md:pl-0" style="--d:.05s">
-        <span class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border border-line-mid bg-surface-2 font-display text-sm font-700 text-neutral-400 md:relative md:mb-6">01</span>
-        <h3 class="font-display text-base font-700 text-white">Schneller Kontakt</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">Sie hinterlassen Ihre Kontaktdaten. Zwei Minuten Arbeit.</p>
+<!-- ══════════ 05 AUFTRITT ══════════ -->
+<section id="auftritt" class="sec" aria-labelledby="auftritt-h">
+  <span class="kotwica" id="moeglichkeiten"></span>
+  <div class="wrap grid12">
+    <div class="wystep__glowa wejscie">
+      <p class="label sec__meta">05 / 11 · Auftritt</p>
+      <h2 id="auftritt-h" class="h2">Wie wir den Auftritt planen</h2>
+      <p class="body">Dasselbe Robotermodell kann als Dekoration in der Ecke stehen oder eine Gala moderieren. Den Unterschied macht die Vorbereitung: Charakter, Gespräch und Reaktionen auf das Publikum, die wir auf Dutzenden Veranstaltungen verfeinert haben — von Firmenkonferenzen bis zu Picknicks.</p>
+    </div>
+    <ol class="wiersze wejscie">
+      <li class="wiersz">
+        <span class="label wiersz__nr">01</span>
+        <div><h3 class="h3">Charakter</h3>
+          <p class="body">Wir legen fest, wie sich der Roboter verhält: eleganter Moderator, locker und humorvoll oder sachlicher Experte. Am meisten beeindruckt meist der Moment, in dem er auf etwas eingeht, das gerade im Saal passiert.</p></div>
       </li>
-      <li class="reveal pl-16 md:pl-0" style="--d:.13s">
-        <span class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border border-line-mid bg-surface-2 font-display text-sm font-700 text-neutral-400 md:relative md:mb-6">02</span>
-        <h3 class="font-display text-base font-700 text-white">Anruf und Angebot</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">Wir rufen zurück und nennen einen konkreten Betrag — meist noch am selben Tag.</p>
+      <li class="wiersz">
+        <span class="label wiersz__nr">02</span>
+        <div><h3 class="h3">Stimme und Wissen</h3>
+          <p class="body">Er spricht Deutsch und jede andere Sprache — natürlich, ohne künstlichen Roboterklang. Wir waren auf Veranstaltungen in Polen, Litauen, Deutschland, Tschechien und Rumänien im Einsatz. Er begrüßt Gäste, beantwortet Fragen und kündigt Programmpunkte an. Wir spielen ihm Wissen über die Veranstaltung auf: wer auftritt, was auf dem Programm steht und aus welchem Anlass Sie zusammenkommen.</p></div>
       </li>
-      <li class="reveal pl-16 md:pl-0" style="--d:.21s">
-        <span class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border border-accent bg-accent font-display text-sm font-700 text-ink shadow-[0_0_28px_rgba(111,214,255,.45)] md:relative md:mb-6">03</span>
-        <h3 class="font-display text-base font-700 text-accent">Einfacher Vertrag</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400"><strong class="text-white">Kostenlose Reservierung, keine Anzahlung.</strong> Längeres Zahlungsziel möglich.</p>
+      <li class="wiersz">
+        <span class="label wiersz__nr">03</span>
+        <div><h3 class="h3">Drehbuch</h3>
+          <p class="body">Begrüßung der Gäste, Ankündigung der Redner, Countdown bis Mitternacht, Preisverleihung. Er beherrscht mehrere Choreografien — von ruhig bis dynamisch. Ein Roboter, der Teil des Programms ist, statt nur im Saal zu stehen.</p></div>
       </li>
-      <li class="reveal pl-16 md:pl-0" style="--d:.29s">
-        <span class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border border-line-mid bg-surface-2 font-display text-sm font-700 text-neutral-400 md:relative md:mb-6">04</span>
-        <h3 class="font-display text-base font-700 text-white">Durchführung</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">Wir arbeiten, Sie entspannen sich und kümmern sich um Ihre Gäste.</p>
+      <li class="wiersz">
+        <span class="label wiersz__nr">04</span>
+        <div><h3 class="h3">Branding</h3>
+          <p class="body">Logo und QR-Code auf der Brust und ein Auftritt, der zum Charakter der Veranstaltung passt — vom Firmen-T-Shirt bis zum Paillettensmoking mit Krone. Das Branding ist im Preis enthalten.</p>
+          <figure class="wiersz__foto"><picture><source type="image/webp" srcset="realizacja-gala-detal-400.webp 400w, realizacja-gala-detal.webp 900w" sizes="240px" /><img src="realizacja-gala-detal.jpg" alt="Nahaufnahme des humanoiden Roboters mit Krone und Paillettensmoking" width="900" height="1200" loading="lazy" decoding="async" /></picture><figcaption class="podpis">Dresdner Schlössernacht</figcaption></figure></div>
       </li>
-      <li class="reveal pl-16 md:pl-0" style="--d:.37s">
-        <span class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border border-accent bg-accent font-display text-sm font-700 text-ink shadow-[0_0_28px_rgba(111,214,255,.45)] md:relative md:mb-6">05</span>
-        <h3 class="font-display text-base font-700 text-accent">Rechnung nach dem Event</h3>
-        <p class="mt-2 text-[13px] leading-relaxed text-neutral-400">Erst das Ergebnis, dann die Zahlung. Nicht umgekehrt.</p>
+      <li class="wiersz">
+        <span class="label wiersz__nr">05</span>
+        <div><h3 class="h3">Fotos und Videos</h3>
+          <p class="body">Der Roboter ist der Gast, den alle mit dem Handy filmen. Wir planen Momente für gute Bilder — Begrüßung an der Fotowand, Auftritt auf der Bühne, Tanz — und das Branding sorgt dafür, dass Ihre Marke in jedem Video zu sehen ist.</p></div>
       </li>
     </ol>
   </div>
+</section>
 
-  <!-- Opinie: kompaktowy pas -->
-  <div class="mt-20 grid gap-4 md:grid-cols-3">
-    <blockquote class="reveal rounded-2xl border border-line bg-surface/60 p-6 transition-colors duration-500 hover:border-line-hi" style="--d:.05s">
-      <p class="text-[14px] leading-relaxed text-neutral-300">„Das Ergebnis hat unsere kühnsten Erwartungen übertroffen. Das Interesse war während der gesamten Veranstaltung enorm."</p>
-      <footer class="mt-4 text-[12px] text-neutral-500">Karolina M. · Marketing, IT-Branche</footer>
-    </blockquote>
-    <blockquote class="reveal rounded-2xl border border-line bg-surface/60 p-6 transition-colors duration-500 hover:border-line-hi" style="--d:.12s">
-      <p class="text-[14px] leading-relaxed text-neutral-300">„Eine der besten organisatorischen Entscheidungen. Die Reaktionen der Teilnehmer sind für uns die beste Bewertung."</p>
-      <footer class="mt-4 text-[12px] text-neutral-500">Piotr Z. · Firmengala</footer>
-    </blockquote>
-    <blockquote class="reveal rounded-2xl border border-line bg-surface/60 p-6 transition-colors duration-500 hover:border-line-hi" style="--d:.19s">
-      <p class="text-[14px] leading-relaxed text-neutral-300">„Unglaubliche Reichweite in den sozialen Medien. Diese Art von Aufmerksamkeit lässt sich schlicht nicht kaufen."</p>
-      <footer class="mt-4 text-[12px] text-neutral-500">Magdalena T. · Technologiemesse</footer>
+<!-- ══════════ 06 CASE STUDY — jedyna jasna sekcja ══════════ -->
+<section id="case-study" class="sec sec--jasna" aria-labelledby="cs-h">
+  <div class="wrap grid12">
+    <div class="cs__tekst wejscie">
+      <p class="label sec__meta">06 / 11 · Case Study</p>
+      <h2 id="cs-h" class="h2">Großes Finale Eco Studio ELECTRO-SYSTEM</h2>
+      <dl class="cs__opis">
+        <div><dt class="label">Veranstaltung</dt>
+          <dd class="body">Finale der 7. Staffel eines landesweiten Bildungs- und Umweltprojekts für Schulen in Polen. Im Publikum Schülerinnen und Schüler aus dem ganzen Land, auf der Bühne Saszan, Antek Smykiewicz und Vicky.</dd></div>
+        <div><dt class="label">Rolle des Roboters</dt>
+          <dd class="body">Eine der Attraktionen des Finales, neben Konzerten und dem offiziellen Teil — auf der Bühne mit den Moderatoren und Finalisten sowie an der Sponsorenwand.</dd></div>
+        <div><dt class="label">Ergebnis</dt>
+          <dd class="body">Der Veranstalter verlieh 33&nbsp;Bots den Titel Eko Partner 2026, und das Team von „Pytanie na śniadanie“ (TVP2) berichtete über das Finale.</dd></div>
+      </dl>
+    </div>
+    <figure class="cs__foto wejscie">
+      <picture><source type="image/webp" srcset="realizacja-eco-studio-eko-partner-400.webp 400w, realizacja-eco-studio-eko-partner.webp 1200w" sizes="(max-width: 1023px) 100vw, 45vw" /><img src="realizacja-eco-studio-eko-partner.jpg" alt="Überreichung der Eko-Partner-Urkunde auf der Bühne des Eco-Studio-Finales, auf dem Bildschirm das Logo von 33bots" width="1200" height="800" loading="lazy" decoding="async" /></picture>
+      <figcaption class="podpis">Eko-Partner-Urkunde für 33bots, überreicht auf der Bühne des Finales.</figcaption>
+    </figure>
+    <ul class="cs__fakty wejscie">
+      <li><a href="https://vod.tvp.pl/programy,88/pytanie-na-sniadanie-odcinki,2542729/odcinek-1287,S03E1287,3348151" target="_blank" rel="noopener"><span class="cs__fakt">„Pytanie na śniadanie“ TVP2</span><span class="label">Bericht vom Finale · 15.09.2026 · Roboter bei 0:35–1:00 und 2:00–2:10</span></a></li>
+      <li><a href="https://naszemiasto.pl/wielki-final-eco-studio-electro-system-z-okazji-sprzatania-swiata/ar/c1p2-29359081" target="_blank" rel="noopener"><span class="cs__fakt">Eko Partner 2026</span><span class="label">Titel von ELECTRO-SYSTEM</span></a></li>
+      <li><span class="cs__fakt">Finale der 7. Staffel Eco Studio</span><span class="label">Terminal Kultury Gocław, Warschau</span></li>
+    </ul>
+    <blockquote class="cs__cytat wejscie">
+      <p>„Musik, Ökologie und ein humanoider Roboter haben junge Menschen verbunden.“</p>
+      <footer class="label">aus dem Titel des Berichts, übersetzt · <a href="https://4influ.pl/wielki-final-eco-studio-electro-system-muzyka-ekologia-i-robot-humanoidalny-polaczyly-mlodych-ludzi/" target="_blank" rel="noopener">4influ.pl</a></footer>
     </blockquote>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════
-     6. FAQ — kompaktowy akordeon
-     ══════════════════════════════════════════════════════ -->
-<section id="faq" class="border-t border-line py-24 md:py-28">
-  <div class="mx-auto max-w-3xl px-5 md:px-8">
-    <h2 class="reveal mb-10 text-center font-display text-3xl font-700 tracking-[-.02em] text-white md:text-4xl">Bevor Sie fragen</h2>
-    <div class="divide-y divide-line border-y border-line">
-      <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
-          <span class="font-600 text-white">Was kostet die Miete genau?</span>
-          <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Ab 2.300 € netto für einen ganzen Event-Tag — der endgültige Betrag hängt von Dauer, Ort und Programm ab. Sie können den Roboter auch für einen kürzeren Auftritt mieten, etwa für einige Stunden während einer Konferenzpause — dann kalkulieren wir individuell und immer günstiger als einen vollen Tag. Bei Einsätzen ab zwei Tagen gewähren wir 15 % Rabatt pro Tag. Transport, Operator, Branding und Haftpflichtversicherung sind inklusive; der Roboterhund ist auf Anfrage zubuchbar.</p></div>
+<!-- ══════════ 07 FORMATE UND PREISE ══════════ -->
+<section id="preise" class="sec" aria-labelledby="preise-h">
+  <div class="wrap">
+    <div class="sec__glowa wejscie">
+      <p class="label sec__meta">07 / 11 · Formate</p>
+      <h2 id="preise-h" class="h2">Formate und Preise</h2>
+      <p class="body">Wir kalkulieren einen Auftritt, keine Gerätemiete. In jedem Format kommt der Roboter mit Operator, Drehbuch und Wissen über Ihre Veranstaltung.</p>
+    </div>
+    <ul class="formaty wejscie">
+      <li class="format">
+        <h3 class="h3">Einige Stunden</h3>
+        <p class="body">Ein paar Stunden im Programm — Eröffnung, Bühnenblock, Stoßzeiten am Messestand.</p>
+        <p class="num">Individuelles Angebot</p>
+        <p class="label format__cena-opis">immer günstiger als ein ganzer Tag</p>
+      </li>
+      <li class="format">
+        <h3 class="h3">Ganzer Tag</h3>
+        <p class="body">Der Roboter steht Ihnen den ganzen Veranstaltungstag zur Verfügung, mit Operator und Ersatzakkus.</p>
+        <p class="num">ab 2.300&nbsp;€</p>
+        <p class="label format__cena-opis">netto</p>
+      </li>
+      <li class="format">
+        <h3 class="h3">Mehrere Tage</h3>
+        <p class="body">Zwei Tage und mehr — Messen, Festivals, Roadshows.</p>
+        <p class="num">−15&nbsp;%</p>
+        <p class="label format__cena-opis">auf jeden Tag</p>
+      </li>
+    </ul>
+    <p class="body formaty__wcenie">Im Preis: Operator, Transport in ganz Österreich, Branding (Logo, QR-Code), Haftpflichtversicherung. <strong>Sie zahlen nach der Veranstaltung.</strong> Den endgültigen Preis kalkulieren wir nach Dauer, Ort und Programm. Zusatzoption: Roboterhund, auf Anfrage.</p>
+    <p class="formaty__cta"><a class="btn" href="#kontakt" data-cta="formaty">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+<!-- ══════════ 08 ABLAUF ══════════ -->
+<section id="ablauf" class="sec" aria-labelledby="ablauf-h">
+  <div class="wrap">
+    <div class="sec__glowa wejscie">
+      <p class="label sec__meta">08 / 11 · Ablauf</p>
+      <h2 id="ablauf-h" class="h2">Vom Gespräch zur Rechnung</h2>
+    </div>
+    <ol class="kroki wejscie">
+      <li class="krok">
+        <span class="label">01</span>
+        <h3 class="h3">Gespräch</h3>
+        <p class="label krok__czas">innerhalb von 24 Werkstunden</p>
+        <p class="body">Sie hinterlassen Ihre Kontaktdaten oder rufen an. Wir rufen zurück und nennen einen konkreten Betrag, meist noch am selben Tag.</p>
+      </li>
+      <li class="krok">
+        <span class="label">02</span>
+        <h3 class="h3">Drehbuch und Vertrag</h3>
+        <p class="label krok__czas">meist 1–2 Wochen</p>
+        <p class="body">Wir legen Drehbuch und Branding fest und bestätigen Ort und Termin. Reservierung ohne Anzahlung.</p>
+      </li>
+      <li class="krok">
+        <span class="label">03</span>
+        <h3 class="h3">Veranstaltung</h3>
+        <p class="label krok__czas">am Veranstaltungstag</p>
+        <p class="body">Wir kommen mit Roboter und Operator. Um Technisches müssen Sie sich nicht kümmern.</p>
+      </li>
+      <li class="krok">
+        <span class="label">04</span>
+        <h3 class="h3">Rechnung nach der Veranstaltung</h3>
+        <p class="label krok__czas">nach der Veranstaltung</p>
+        <p class="body">Die Rechnung stellen wir nach der Veranstaltung. Bei Bedarf vereinbaren wir ein längeres Zahlungsziel.</p>
+      </li>
+    </ol>
+    <p class="proces__akcent wejscie">Sie zahlen nach der Veranstaltung.</p>
+  </div>
+</section>
+
+<!-- ══════════ 09 FAQ ══════════ -->
+<section id="faq" class="sec" aria-labelledby="faq-h">
+  <div class="wrap grid12">
+    <div class="faq__glowa wejscie">
+      <p class="label sec__meta">09 / 11 · FAQ</p>
+      <h2 id="faq-h" class="h2">Bevor Sie fragen</h2>
+    </div>
+    <div class="faq wejscie">
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-1-q" aria-expanded="false" aria-controls="faq-1" data-faq="Was kostet die Miete genau?">Was kostet die Miete genau?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-1" role="region" aria-labelledby="faq-1-q" hidden><p>Ab 2.300 € netto für einen ganzen Veranstaltungstag — den endgültigen Betrag kalkulieren wir nach Dauer, Ort und Programm. Sie können den Roboter auch für einen kürzeren Auftritt mieten, etwa für einige Stunden während einer Konferenzpause — dann kalkulieren wir individuell und immer günstiger als einen ganzen Tag. Bei Einsätzen ab zwei Tagen gewähren wir 15 % Rabatt auf jeden Tag. Transport, Operator, Branding und Haftpflichtversicherung sind inklusive; der Roboterhund ist auf Anfrage zubuchbar.</p></div>
       </div>
-      <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
-          <span class="font-600 text-white">Spricht der Roboter mit den Gästen?</span>
-          <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Ja. Der Roboter spricht Deutsch mit natürlicher Sprachsynthese — er begrüßt Gäste, beantwortet Fragen und kündigt Programmpunkte an. Vor der Veranstaltung legen wir seinen Charakter fest und spielen ihm Wissen über Ihr Unternehmen ein: Ihr Angebot, Produktnamen, häufige Kundenfragen und die Event-Agenda. Die Konfiguration ist im Mietpreis enthalten.</p></div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-2-q" aria-expanded="false" aria-controls="faq-2" data-faq="Sind die Preise netto oder brutto?">Sind die Preise netto oder brutto?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-2" role="region" aria-labelledby="faq-2-q" hidden><p>Netto. Alle Beträge auf dieser Seite sind Nettopreise.</p></div>
       </div>
-      <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
-          <span class="font-600 text-white">Muss ich eine Anzahlung leisten?</span>
-          <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Nein. Die Terminreservierung ist kostenlos und ohne Anzahlung. Die Rechnung stellen wir erst nach der Veranstaltung — bei Bedarf vereinbaren wir ein längeres Zahlungsziel.</p></div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-3-q" aria-expanded="false" aria-controls="faq-3" data-faq="Wie arbeitet der Roboter den ganzen Tag, wenn ein Akku kürzer hält?">Wie arbeitet der Roboter den ganzen Tag, wenn ein Akku kürzer hält?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-3" role="region" aria-labelledby="faq-3-q" hidden><p>Der Roboter arbeitet mit Wechselakkus. Der Operator hat einen Satz Ersatzakkus dabei und tauscht sie während der Veranstaltung — die Show unterbricht nicht zum Laden.</p></div>
       </div>
-      <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
-          <span class="font-600 text-white">Muss ich den Roboter selbst steuern können?</span>
-          <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Nein. Während des gesamten Events ist unser zertifizierter Operator vor Ort — er übernimmt Konfiguration, Bedienung und die Sicherheit der Show.</p></div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-4-q" aria-expanded="false" aria-controls="faq-4" data-faq="Wie viel Platz braucht der Roboter?">Wie viel Platz braucht der Roboter?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-4" role="region" aria-labelledby="faq-4-q" hidden><p>Einige Quadratmeter genügen. Der Roboter arbeitet am Messestand, auf der Bühne und im Gang zwischen den Gästen — ohne eigene Zone oder technisches Backoffice.</p></div>
       </div>
-      <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
-          <span class="font-600 text-white">Ist der Roboter für die Gäste sicher?</span>
-          <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Ja. LiDAR und Computer Vision lassen ihn Menschen und Hindernisse in Echtzeit umgehen, ein Operator überwacht die Show, und jeder Einsatz ist haftpflichtversichert.</p></div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-5-q" aria-expanded="false" aria-controls="faq-5" data-faq="Spricht der Roboter mit den Gästen?">Spricht der Roboter mit den Gästen?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-5" role="region" aria-labelledby="faq-5-q" hidden><p>Ja. Der Roboter spricht Deutsch und jede andere Sprache, mit natürlicher Sprachsynthese — er begrüßt Gäste, beantwortet Fragen und kündigt Programmpunkte an. Vor der Veranstaltung legen wir seinen Charakter fest und spielen ihm Wissen über Ihr Unternehmen auf: Angebot, Produktnamen, häufige Kundenfragen und die Agenda. Die Konfiguration ist im Mietpreis enthalten.</p></div>
       </div>
-      <div class="faq-item" open-state="0">
-        <button class="faq-btn flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-accent">
-          <span class="font-600 text-white">Kommen Sie auch in meine Stadt?</span>
-          <span class="faq-sign shrink-0 text-xl text-neutral-500 transition-transform duration-300">+</span>
-        </button>
-        <div class="faq-panel"><p class="pb-5 text-[14px] leading-relaxed text-neutral-400">Ja — in jede Stadt Österreichs, ohne Aufschlag und ohne Kilometerlimit. Von Wien bis Dornbirn, von Innsbruck bis Eisenstadt.</p></div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-6-q" aria-expanded="false" aria-controls="faq-6" data-faq="Muss ich eine Anzahlung leisten?">Muss ich eine Anzahlung leisten?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-6" role="region" aria-labelledby="faq-6-q" hidden><p>Nein. Die Reservierung erfolgt ohne Anzahlung. Die Rechnung stellen wir erst nach der Veranstaltung, bei Bedarf mit längerem Zahlungsziel.</p></div>
+      </div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-7-q" aria-expanded="false" aria-controls="faq-7" data-faq="Muss ich den Roboter selbst bedienen können?">Muss ich den Roboter selbst bedienen können?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-7" role="region" aria-labelledby="faq-7-q" hidden><p>Nein. Während der gesamten Veranstaltung ist unser zertifizierter Operator vor Ort — er ist für Konfiguration, Bedienung und Sicherheit der Show verantwortlich.</p></div>
+      </div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-8-q" aria-expanded="false" aria-controls="faq-8" data-faq="Ist der Roboter für die Gäste sicher?">Ist der Roboter für die Gäste sicher?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-8" role="region" aria-labelledby="faq-8-q" hidden><p>Ja. Dank LiDAR und Computer Vision weicht der Roboter Menschen und Hindernissen in Echtzeit aus, der Operator überwacht die Show, und jeder Einsatz ist haftpflichtversichert.</p></div>
+      </div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-9-q" aria-expanded="false" aria-controls="faq-9" data-faq="Kommen Sie auch in meine Stadt?">Kommen Sie auch in meine Stadt?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-9" role="region" aria-labelledby="faq-9-q" hidden><p>Ja — in jede Stadt Österreichs, ohne Aufschlag und ohne Kilometerlimit. Von Wien bis Dornbirn, von Innsbruck bis Eisenstadt.</p></div>
+      </div>
+      <div class="faq__item">
+        <h3 class="faq__h"><button class="faq__q" type="button" id="faq-10-q" aria-expanded="false" aria-controls="faq-10" data-faq="Sind Sie auch international im Einsatz?">Sind Sie auch international im Einsatz?<span class="faq__znak" aria-hidden="true"><span></span><span></span></span></button></h3>
+        <div class="faq__a" id="faq-10" role="region" aria-labelledby="faq-10-q" hidden><p>Ja. Wir waren auf Veranstaltungen in Polen, Litauen, Deutschland, Tschechien und Rumänien im Einsatz. Der Roboter spricht jede Sprache — auf einer internationalen Veranstaltung begrüßt er die Gäste in ihrer Sprache und beantwortet ihre Fragen.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════
-     7. FINAŁOWE CTA + kompaktowy formularz
-     ══════════════════════════════════════════════════════ -->
-<section id="kontakt" class="relative overflow-hidden border-t border-line py-24 md:py-32">
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <div class="absolute left-1/2 top-1/2 h-[36rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/12 blur-[150px] animate-aurora"></div>
-    <div class="absolute inset-0 bg-grid opacity-60"></div>
-  </div>
-
-  <div class="mx-auto grid max-w-6xl items-center gap-14 px-5 md:px-8 lg:grid-cols-2">
-    <div>
-      <h2 class="reveal font-display text-4xl font-700 leading-[1.02] tracking-[-.025em] text-white md:text-6xl">
-        Prüfen Sie, ob Ihr<br />Wunschtermin frei ist.
-      </h2>
-      <p class="reveal mt-6 max-w-md text-lg text-neutral-400" style="--d:.08s">
-        Hinterlassen Sie Ihre Kontaktdaten — wir rufen zurück und nennen einen konkreten Betrag. Unverbindlich, ohne Anzahlung.
-      </p>
-
-      <div class="reveal mt-8 flex flex-col gap-3" style="--d:.16s">
-        <a href="tel:+48531408004" class="group flex items-center gap-4 text-2xl font-600 text-white transition hover:text-accent md:text-3xl">
-          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-line-mid text-base transition group-hover:border-accent">☎</span>
-          +48 531 408 004
-        </a>
-        <a href="mailto:kontakt@33bots.at" class="group flex items-center gap-4 text-lg text-neutral-400 transition hover:text-white">
-          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-line-mid text-base transition group-hover:border-accent">✉</span>
-          kontakt@33bots.at
-        </a>
-      </div>
-
-      <ul class="reveal mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-neutral-500" style="--d:.24s">
-        <li>✓ Antwort in 24 h</li>
-        <li>✓ Keine Anzahlung</li>
-        <li>✓ Ganz Österreich</li>
+<!-- ══════════ 10 RESERVIERUNG ══════════
+     Formular: Schritt 1 — Veranstaltung (Klick), Schritt 2 — Kontakt. Feldnamen wie bisher
+     (name, company, email, phone, date, location, message) plus event_type und guests. -->
+<section id="kontakt" class="sec sec--powierzchnia" aria-labelledby="kontakt-h">
+  <div class="wrap grid12">
+    <div class="rez__lewa wejscie">
+      <p class="label sec__meta">10 / 11 · Reservierung</p>
+      <h2 id="kontakt-h" class="h2">Prüfen Sie, ob Ihr Termin frei ist.</h2>
+      <ul class="osoby">
+        <li class="osoba"><p class="label">Telefon</p>
+          <a class="osoba__tel" href="tel:+48531408004" data-tel="kontakt">+48 531 408 004</a></li>
+        <li class="osoba"><p class="label">E-Mail</p>
+          <a class="link osoba__mail" href="mailto:kontakt@33bots.at" data-mail="kontakt">kontakt@33bots.at</a></li>
       </ul>
+      <p class="body-sm">Wir antworten innerhalb von 24 Werkstunden, meist noch am selben Tag. Reservierung ohne Anzahlung, in ganz Österreich.</p>
     </div>
 
-    <!-- Formularz -->
-    <form id="contactForm" class="reveal rounded-[28px] border border-line-mid bg-surface-2/80 p-7 backdrop-blur md:p-9" style="--d:.1s" novalidate>
-
-      <!-- Wskaźnik kroków -->
-      <div class="mb-7 flex items-center gap-3 text-[11px] font-600 uppercase tracking-widest">
-        <span id="stepInd1" class="text-accent transition-colors">01 — Kontaktdaten</span>
-        <span class="text-neutral-700">/</span>
-        <span id="stepInd2" class="text-neutral-600 transition-colors">02 — Ihr Event</span>
+    <form class="rez__form wejscie" id="formularz" novalidate>
+      <div class="kroki-form" aria-hidden="true">
+        <span class="label" data-krok-etykieta="1" aria-current="step">01 Veranstaltung</span>
+        <span class="label" data-krok-etykieta="2">02 Kontakt</span>
       </div>
 
-      <!-- KROK 1 -->
-      <div id="formStep1" class="transition-opacity duration-200">
-        <div class="grid gap-4 sm:grid-cols-2">
-          <label class="block">
-            <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">Vor- und Nachname *</span>
-            <input id="f-name" type="text" name="name" placeholder="Max Mustermann" autocomplete="name" required class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)]" />
-            <span class="mt-1.5 block text-[12px] text-red-400" data-err aria-live="polite"></span>
-          </label>
-          <label class="block">
-            <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">Firma</span>
-            <input id="f-company" type="text" name="company" placeholder="Firmenname" autocomplete="organization" class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)]" />
-          </label>
-          <label class="block">
-            <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">E-Mail *</span>
-            <input id="f-email" type="email" name="email" placeholder="kontakt@firma.at" autocomplete="email" required class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)]" />
-            <span class="mt-1.5 block text-[12px] text-red-400" data-err aria-live="polite"></span>
-          </label>
-          <label class="block">
-            <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">Telefon</span>
-            <input id="f-phone" type="tel" name="phone" placeholder="+43 660 1234567" autocomplete="tel" class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)]" />
-          </label>
+      <div class="krok-form" id="krok1">
+        <fieldset class="pole" id="pole-typ">
+          <legend>Art der Veranstaltung *</legend>
+          <div class="chipy">
+            <label class="chip"><input type="radio" name="event_type" value="Gala" required /><span>Gala</span></label>
+            <label class="chip"><input type="radio" name="event_type" value="Konferenz" required /><span>Konferenz</span></label>
+            <label class="chip"><input type="radio" name="event_type" value="Messe" required /><span>Messe</span></label>
+            <label class="chip"><input type="radio" name="event_type" value="Outdoor" required /><span>Outdoor</span></label>
+            <label class="chip"><input type="radio" name="event_type" value="Sonstiges" required /><span>Sonstiges</span></label>
+          </div>
+          <p class="pole__blad" id="blad-typ" hidden>Wählen Sie die Art der Veranstaltung.</p>
+        </fieldset>
+        <div class="dwa">
+          <div class="pole">
+            <label for="pole-data">Datum</label>
+            <input type="date" id="pole-data" name="date" />
+            <div class="chipy"><label class="chip"><input type="checkbox" id="data-nieustalona" /><span>Termin noch offen</span></label></div>
+          </div>
+          <div class="pole">
+            <label for="pole-miejsce">Stadt oder Ort</label>
+            <input type="text" id="pole-miejsce" name="location" placeholder="z. B. Wien, Messe Wien" autocomplete="address-level2" />
+          </div>
         </div>
-        <button type="button" id="btnNext" class="cta-shine group flex w-full items-center justify-center gap-3 rounded-2xl px-8 py-5 font-display text-base font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_50px_rgba(111,214,255,.45)] mt-6">
-          Weiter — erzählen Sie vom Event
-          <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-        </button>
-      </div>
-
-      <!-- KROK 2 -->
-      <div id="formStep2" class="hidden transition-opacity duration-200" aria-hidden="true">
-        <div class="grid gap-4 sm:grid-cols-2">
-          <label class="block">
-            <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">Geplantes Event-Datum</span>
-            <input id="f-date" type="date" name="date" class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)]" />
-          </label>
-          <label class="block">
-            <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">Stadt / Location</span>
-            <input id="f-location" type="text" name="location" placeholder="z. B. Wien, Messe Wien" autocomplete="address-level2" class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)]" />
-          </label>
-        </div>
-        <label class="mt-4 block">
-          <span class="mb-2 block text-[11px] font-600 uppercase tracking-widest text-neutral-500">Beschreiben Sie Ihr Event *</span>
-          <textarea id="f-message" name="message" rows="5" required
-            placeholder="Art des Events (Messe, Konferenz, Gala …), ungefähre Gästezahl, wie lange Sie den Roboter möchten und alles, was Ihnen sonst noch wichtig ist."
-            class="w-full rounded-xl border border-line-mid bg-ink/60 px-4 py-3.5 text-white outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(111,214,255,.15)] resize-y"></textarea>
-          <span class="mt-1.5 flex items-center justify-between text-[12px]">
-            <span class="text-red-400" data-err aria-live="polite"></span>
-            <span class="text-neutral-600"><span id="charCount">0</span> / 600</span>
-          </span>
-        </label>
-        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-          <button type="button" id="btnBack" class="rounded-2xl border border-line-hi px-6 py-5 font-display text-sm font-600 uppercase tracking-wider text-neutral-400 transition hover:border-accent/50 hover:text-white sm:w-auto">← Zurück</button>
-          <button type="submit" class="cta-shine group flex w-full items-center justify-center gap-3 rounded-2xl px-8 py-5 font-display text-base font-700 uppercase tracking-wider text-ink transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_50px_rgba(111,214,255,.45)] flex-1">
-            Absenden und Angebot erhalten
-            <span class="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-          </button>
+        <fieldset class="pole">
+          <legend>Anzahl der Gäste</legend>
+          <div class="chipy">
+            <label class="chip"><input type="radio" name="guests" value="bis 100" /><span>bis 100</span></label>
+            <label class="chip"><input type="radio" name="guests" value="100–500" /><span>100–500</span></label>
+            <label class="chip"><input type="radio" name="guests" value="500–2000" /><span>500–2000</span></label>
+            <label class="chip"><input type="radio" name="guests" value="über 2000" /><span>über 2000</span></label>
+          </div>
+        </fieldset>
+        <div class="form-akcje">
+          <button class="btn" type="button" id="dalej">Weiter <span aria-hidden="true">→</span></button>
         </div>
       </div>
 
-      <p id="formMsg" class="mt-4 text-center text-[13px] text-neutral-500">Wir antworten innerhalb von 24 Werkstunden.</p>
+      <div class="krok-form" id="krok2" hidden>
+        <div class="dwa">
+          <div class="pole" id="pole-imie">
+            <label for="pole-name">Vor- und Nachname *</label>
+            <input type="text" id="pole-name" name="name" required autocomplete="name" />
+            <p class="pole__blad" hidden>Bitte geben Sie Ihren Namen an.</p>
+          </div>
+          <div class="pole" id="pole-mail">
+            <label for="pole-email">E-Mail *</label>
+            <input type="email" id="pole-email" name="email" required autocomplete="email" />
+            <p class="pole__blad" hidden>Bitte geben Sie eine gültige E-Mail-Adresse an.</p>
+          </div>
+          <div class="pole">
+            <label for="pole-company">Firma</label>
+            <input type="text" id="pole-company" name="company" autocomplete="organization" />
+          </div>
+          <div class="pole">
+            <label for="pole-phone">Telefon</label>
+            <input type="tel" id="pole-phone" name="phone" autocomplete="tel" />
+          </div>
+        </div>
+        <div class="pole">
+          <label for="pole-message">Beschreibung der Veranstaltung</label>
+          <textarea id="pole-message" name="message" maxlength="600" rows="4" placeholder="Programm, Uhrzeiten, was Sie vom Roboter erwarten — falls Sie es schon wissen."></textarea>
+          <span class="pole__licznik"><span id="licznik">0</span> / 600</span>
+        </div>
+        <div class="form-akcje">
+          <button class="wstecz" type="button" id="wstecz">Zurück</button>
+          <button class="btn" type="submit" id="wyslij">Verfügbarkeit prüfen <span aria-hidden="true">→</span></button>
+        </div>
+        <p class="pole__blad" id="blad-wysylki" role="alert" hidden></p>
+      </div>
     </form>
   </div>
 </section>
 
 </main>
 
-<!-- ══════════ FOOTER ══════════ -->
-<footer class="border-t border-line bg-surface/40 px-5 py-14 md:px-8">
-  <div class="mx-auto max-w-7xl">
-    <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-      <div>
-        <p class="font-display text-lg font-700 text-white">33BOTS</p>
-        <p class="mt-2 text-[13px] text-neutral-500">Humanoide Roboter mieten · ganz Österreich</p>
-        <p class="mt-2 text-[13px] text-neutral-500" data-sprachen><a href="https://33bots.pl/" hreflang="pl" lang="pl" class="underline underline-offset-2 transition hover:text-white">Polski — 33bots.pl</a> · <a href="https://33bots.de/" hreflang="de" lang="de" class="underline underline-offset-2 transition hover:text-white">Deutschland — 33bots.de</a> · <a href="https://33bots.lt/" hreflang="lt" lang="lt" class="underline underline-offset-2 transition hover:text-white">Lietuvių — 33bots.lt</a></p>
-        <div class="mt-4 flex gap-4 text-[13px] text-neutral-400">
-          <a href="tel:+48531408004" class="transition hover:text-white">+48 531 408 004</a>
-          <a href="mailto:kontakt@33bots.at" class="transition hover:text-white">kontakt@33bots.at</a>
-        </div>
-      </div>
-      <nav class="flex flex-wrap gap-x-7 gap-y-2 text-[13px] text-neutral-400">
-        <a href="humanoider-roboter-mieten.html" class="transition hover:text-white">Angebot</a>
-        <a href="messe-roboter-mieten.html" class="transition hover:text-white">Messen</a>
-        <a href="unitree-g1-mieten.html" class="transition hover:text-white">Unitree G1</a>
-        <a href="kontakt.html" class="transition hover:text-white">Kontakt</a>
-        <a href="impressum.html" class="transition hover:text-white">Impressum</a>
-        <a href="datenschutz.html" class="transition hover:text-white">Datenschutz</a>
-      </nav>
-      <div class="flex gap-4 text-[13px] text-neutral-400">
-        <a href="https://www.instagram.com/robotollern" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">Instagram</a>
-        <a href="https://www.tiktok.com/@robotollern" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">TikTok</a>
-        <a href="https://www.youtube.com/@robotollern" target="_blank" rel="noopener noreferrer" class="transition hover:text-white">YouTube</a>
-      </div>
+<!-- ══════════ 11 FUSSZEILE ══════════ -->
+<footer class="stopka">
+  <div class="wrap grid12">
+    <div class="stopka__marka">
+      <p class="stopka__logo">33BOTS</p>
+      <p>Humanoide Roboter mieten · ganz Österreich</p>
+      <p><a href="tel:+48531408004" data-tel="stopka">+48 531 408 004</a> · <a href="mailto:kontakt@33bots.at" data-mail="stopka">kontakt@33bots.at</a></p>
+      <p data-jezyki><a href="https://33bots.pl/" hreflang="pl" lang="pl">Polski — 33bots.pl</a> · <a href="https://33bots.de/" hreflang="de" lang="de">Deutschland — 33bots.de</a> · <a href="https://33bots.lt/" hreflang="lt" lang="lt">Lietuvių — 33bots.lt</a></p>
     </div>
-
-    <!-- Miasta: SEO, zwinięte -->
-    <details class="mt-10 border-t border-line pt-6">
-      <summary class="cursor-pointer list-none text-[11px] font-600 uppercase tracking-widest text-neutral-600 transition hover:text-neutral-400">Roboter mieten in Ihrer Stadt ▾</summary>
-      <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[12px] text-neutral-500">
-        <a href="roboter-mieten-wien.html" class="transition hover:text-accent">Wien</a>
-        <a href="roboter-mieten-graz.html" class="transition hover:text-accent">Graz</a>
-        <a href="roboter-mieten-linz.html" class="transition hover:text-accent">Linz</a>
-        <a href="roboter-mieten-salzburg.html" class="transition hover:text-accent">Salzburg</a>
-        <a href="roboter-mieten-innsbruck.html" class="transition hover:text-accent">Innsbruck</a>
-        <a href="roboter-mieten-klagenfurt.html" class="transition hover:text-accent">Klagenfurt</a>
-        <a href="roboter-mieten-villach.html" class="transition hover:text-accent">Villach</a>
-        <a href="roboter-mieten-wels.html" class="transition hover:text-accent">Wels</a>
-        <a href="roboter-mieten-st-poelten.html" class="transition hover:text-accent">St. Pölten</a>
-        <a href="roboter-mieten-dornbirn.html" class="transition hover:text-accent">Dornbirn</a>
-        <a href="roboter-mieten-eisenstadt.html" class="transition hover:text-accent">Eisenstadt</a>
+    <ul class="stopka__kol" aria-label="Angebot">
+      <li><a href="humanoider-roboter-mieten.html">Humanoider Roboter mieten</a></li>
+      <li><a href="messe-roboter-mieten.html">Roboter für Messen</a></li>
+      <li><a href="unitree-g1-mieten.html">Unitree G1 mieten</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+    <ul class="stopka__kol" aria-label="Social Media">
+      <li><a href="https://www.instagram.com/robotollern" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@robotollern" target="_blank" rel="noopener">TikTok</a></li>
+      <li><a href="https://www.youtube.com/@robotollern" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+    <ul class="stopka__kol" aria-label="Rechtliches">
+      <li><a href="impressum.html">Impressum</a></li>
+      <li><a href="datenschutz.html">Datenschutz</a></li>
+    </ul>
+    <details class="stopka__miasta">
+      <summary>Roboter mieten in Ihrer Stadt</summary>
+      <div>
+        <a href="roboter-mieten-wien.html">Wien</a>
+        <a href="roboter-mieten-graz.html">Graz</a>
+        <a href="roboter-mieten-linz.html">Linz</a>
+        <a href="roboter-mieten-salzburg.html">Salzburg</a>
+        <a href="roboter-mieten-innsbruck.html">Innsbruck</a>
+        <a href="roboter-mieten-klagenfurt.html">Klagenfurt</a>
+        <a href="roboter-mieten-villach.html">Villach</a>
+        <a href="roboter-mieten-wels.html">Wels</a>
+        <a href="roboter-mieten-st-poelten.html">St. Pölten</a>
+        <a href="roboter-mieten-dornbirn.html">Dornbirn</a>
+        <a href="roboter-mieten-eisenstadt.html">Eisenstadt</a>
       </div>
     </details>
-
-    <p class="mt-8 text-[12px] text-neutral-600">© 2026 33bots Österreich. Alle Rechte vorbehalten.</p>
+    <p class="stopka__prawa">© 2026 33bots Österreich. Alle Rechte vorbehalten.</p>
   </div>
 </footer>
 
-<!-- ══════════ STICKY CTA (mobile) ══════════ -->
-<div class="fixed inset-x-0 bottom-0 z-50 border-t border-line-mid bg-ink/95 p-3 backdrop-blur md:hidden">
-  <a href="#kontakt" class="cta-shine flex items-center justify-center gap-2 rounded-xl px-6 py-4 font-display text-sm font-700 uppercase tracking-wider text-ink">
-    Kostenloses Angebot →
-  </a>
+<!-- ══════════ Pasek mobilny: pojawia się po minięciu hero ══════════ -->
+<div class="pasek" id="pasekMobilny">
+  <a class="btn" href="#kontakt" data-cta="sticky">Termin prüfen <span aria-hidden="true">→</span></a>
 </div>
-<div class="h-20 md:hidden"></div>
+<div class="pasek-odstep"></div>
 
 <!-- Baner cookie -->
 <div class="cookies" id="cookies" aria-live="polite">
-  <p class="flex-1 text-[13px] leading-relaxed text-neutral-400" style="min-width:220px">
+  <p class="cookies__text">
     Wir verwenden Cookies zu Analysezwecken.
   </p>
-  <button id="cookiesOk" class="rounded-xl bg-white px-5 py-2.5 text-[12px] font-700 uppercase tracking-wider text-ink transition hover:scale-105">
+  <button id="cookiesOk" class="btn btn--sm">
     Verstanden
   </button>
 </div>
 
-<!-- Lightbox galerii -->
-<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Vergrößertes Foto">
-  <button class="lb-close" id="lbClose" aria-label="Schließen">×</button>
-  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Vorheriges Foto">‹</button>
-  <img id="lbImg" src="" alt="" />
-  <button class="lb-btn lb-next" id="lbNext" aria-label="Nächstes Foto">›</button>
-  <p class="lb-cap" id="lbCap"></p>
-</div>
+<div class="szuflada-tlo" id="szufladaTlo" hidden></div>
+<aside class="szuflada" id="szuflada" role="dialog" aria-modal="true" aria-labelledby="szufladaTytul" hidden>
+  <div class="szuflada__glowa">
+    <div>
+      <p class="label" id="szufladaPodpis"></p>
+      <h2 class="h3" id="szufladaTytul"></h2>
+    </div>
+    <button class="szuflada__zamknij" id="szufladaZamknij" type="button">Schließen</button>
+  </div>
+  <dl class="szuflada__liczby" id="szufladaLiczby"></dl>
+  <p class="body" id="szufladaOpis"></p>
+  <div class="szuflada__zdjecia" id="szufladaZdjecia"></div>
+  <p><a class="link" id="szufladaLink" href="#">Zur Case Study <span aria-hidden="true">→</span></a></p>
+</aside>
 
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ——— Video-Quellen einhängen (preload=none, lazy) ——— */
-  document.querySelectorAll('source-marker').forEach(m => {
-    const video = m.previousElementSibling;
-    if (video && video.tagName === 'VIDEO') {
-      const s = document.createElement('source');
-      s.src = m.dataset.src; s.type = 'video/mp4';
-      video.appendChild(s);
-    }
-    m.remove();
-  });
+  /* ——— Hero: rotacja zdjęć z realizacji ———
+     Jeden element img: przygaszenie, podmiana źródła, rozjaśnienie. Co 3 s, od załadowania
+     strony; pauza przyciskiem, najechaniem i fokusem (WCAG 2.2.2). Przy ograniczonym
+     ruchu nic nie zmienia się samo — przycisk przełącza zdjęcia ręcznie. */
+  const SLAJDY = [
+    { src: "realizacja-gala-wsrod-gosci.jpg", alt: "Humanoider Roboter unter den Gästen einer Gala", klient: "Dresdner Schlössernacht", gdzie: "Dresden" },
+    { src: "realizacja-eco-studio-wywiad.jpg", alt: "Eine Journalistin interviewt den humanoiden Roboter an der Sponsorenwand von Eco Studio", klient: "Finale Eco Studio ELECTRO-SYSTEM", gdzie: "Warschau" },
+    { src: "realizacja-przelewice-arkady.jpg", alt: "Humanoider Roboter in beleuchteten Arkaden während der Märchennacht", klient: "Dendrologischer Garten Przelewice", gdzie: "Märchennacht" },
+    { src: "realizacja-yeah-gym-koszulka.jpg", alt: "Humanoider Roboter im T-Shirt des Clubs YEAH GYM winkt zur Begrüßung", klient: "YEAH GYM", gdzie: "Breslau" },
+    { src: "realizacja-matys-silver-garden.jpg", alt: "Humanoider Roboter an der Wand des Projekts Silver Garden am Stand von Matys Development", klient: "Matys Development", gdzie: "Stettin" },
+    { src: "realizacja-szkola-kosmos-majaland.jpg", alt: "Humanoider Roboter in der Schürze der Szkoła Kosmos beim Schuljahresbeginn", klient: "Szkoła Kosmos", gdzie: "Majaland" },
+  ];
+  const heroMedia = document.getElementById('heroMedia');
+  const heroImg = heroMedia.querySelector('img');
+  const heroLicznik = document.getElementById('heroLicznik');
+  const heroOpis = document.getElementById('heroOpis');
+  const heroPauza = document.getElementById('heroPauza');
+  const nr = (n) => String(n).padStart(2, '0');
+  let slajd = 0, zatrzymane = false, wstrzymane = false, zegar = null;
 
-  /* ——— Gestaffeltes Einblenden der Elemente ——— */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    });
-  }, { threshold: .12, rootMargin: '0px 0px -60px 0px' });
-  document.querySelectorAll('.reveal, .track-line').forEach(el => io.observe(el));
-
-  /* ——— Zähler ——— */
-  const easeOut = t => 1 - Math.pow(1 - t, 3);
-  const counterIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target, target = +el.dataset.count, suffix = el.dataset.suffix || '', t0 = performance.now();
-      const tick = now => {
-        const p = Math.min((now - t0) / 1100, 1);
-        el.textContent = Math.round(easeOut(p) * target) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      counterIO.unobserve(el);
-    });
-  }, { threshold: .6 });
-  document.querySelectorAll('[data-count]').forEach(el => counterIO.observe(el));
-
-  /* ——— Parallax + Fortschrittsbalken + Nav ——— */
-  const nav = document.getElementById('nav');
-  const bar = document.getElementById('progress');
-  const parItems = [...document.querySelectorAll('[data-par]')];
-  let ticking = false;
-
-  const onScroll = () => {
-    const y = scrollY;
-    const total = document.documentElement.scrollHeight - innerHeight;
-    bar.style.width = total > 0 ? (y / total * 100) + '%' : '0%';
-
-    if (y > 20) nav.classList.add('bg-ink/80', 'backdrop-blur-xl', 'border-b', 'border-line');
-    else nav.classList.remove('bg-ink/80', 'backdrop-blur-xl', 'border-b', 'border-line');
-
-    if (!reduce) parItems.forEach(el => {
-      const speed = parseFloat(el.dataset.speed || '-.05');
-      el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
-    });
-    ticking = false;
+  const pokazSlajd = async (n) => {
+    const s = SLAJDY[n];
+    const wstepnie = new Image();
+    wstepnie.src = s.src;
+    try { await wstepnie.decode(); } catch (e) { /* pokaż mimo to */ }
+    heroImg.classList.add('znika');
+    await new Promise((r) => setTimeout(r, reduce ? 0 : 400));
+    heroImg.removeAttribute('fetchpriority');
+    heroImg.src = s.src; heroImg.alt = s.alt;
+    heroImg.removeAttribute('width'); heroImg.removeAttribute('height');
+    heroLicznik.textContent = `${nr(n + 1)} / ${nr(SLAJDY.length)}`;
+    heroOpis.replaceChildren(Object.assign(document.createElement('b'), { textContent: s.klient }), ` · ${s.gdzie}`);
+    heroImg.classList.remove('znika');
+    slajd = n;
   };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  onScroll();
-
-  /* ——— Bento: podświetlenie krawędzi za kursorem ——— */
-  document.querySelectorAll('.bento').forEach(card => {
-    card.addEventListener('pointermove', e => {
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    }, { passive: true });
-  });
-
-  /* ——— FAQ ——— */
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.querySelector('.faq-btn').addEventListener('click', () => {
-      const open = item.getAttribute('open-state') === '1';
-      document.querySelectorAll('.faq-item').forEach(i => i.setAttribute('open-state', '0'));
-      item.setAttribute('open-state', open ? '0' : '1');
+  const nastepny = () => pokazSlajd((slajd + 1) % SLAJDY.length);
+  const planuj = () => {
+    clearTimeout(zegar);
+    if (reduce || zatrzymane || wstrzymane || document.hidden) return;
+    zegar = setTimeout(async () => { await nastepny(); planuj(); }, 3000);
+  };
+  heroPauza.hidden = false;
+  if (reduce) {
+    heroPauza.textContent = "Nächstes Foto";
+    heroPauza.removeAttribute('aria-pressed');
+    heroPauza.addEventListener('click', nastepny);
+  } else {
+    heroPauza.addEventListener('click', () => {
+      zatrzymane = !zatrzymane;
+      heroPauza.setAttribute('aria-pressed', String(zatrzymane));
+      heroPauza.textContent = zatrzymane ? "Weiter" : "Pause";
+      planuj();
     });
+    const wstrzymaj = (tak) => { wstrzymane = tak; planuj(); };
+    heroMedia.addEventListener('mouseenter', () => wstrzymaj(true));
+    heroMedia.addEventListener('mouseleave', () => wstrzymaj(false));
+    heroMedia.addEventListener('focusin', () => wstrzymaj(true));
+    heroMedia.addEventListener('focusout', () => wstrzymaj(false));
+    document.addEventListener('visibilitychange', planuj);
+    if (document.readyState === 'complete') planuj(); else addEventListener('load', planuj);
+  }
+
+  /* ——— Nawigacja: tło i linia włosowa po przewinięciu ——— */
+  const nav = document.getElementById('nav');
+  const tloNav = () => nav.classList.toggle('nav--tlo', scrollY > 8 || !panel.hidden);
+
+  /* ——— Menu mobilne ——— */
+  const przycisk = document.getElementById('navPrzycisk');
+  const panel = document.getElementById('navPanel');
+  const menu = (otworz) => {
+    panel.hidden = !otworz;
+    przycisk.setAttribute('aria-expanded', String(otworz));
+    przycisk.textContent = otworz ? "Schließen" : "Menü";
+    tloNav();
+  };
+  przycisk.addEventListener('click', () => menu(panel.hidden));
+  panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu(false)));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { menu(false); przycisk.focus(); } });
+  addEventListener('resize', () => { if (innerWidth >= 1024 && !panel.hidden) menu(false); });
+  addEventListener('scroll', tloNav, { passive: true });
+  tloNav();
+
+  /* ——— Wejście sekcji: raz, 12 px, 700 ms ——— */
+  const wejscia = document.querySelectorAll('.wejscie');
+  if (reduce || !('IntersectionObserver' in window)) {
+    wejscia.forEach((el) => el.classList.add('widoczne'));
+  } else {
+    const io = new IntersectionObserver((wpisy) => wpisy.forEach((w) => {
+      if (w.isIntersecting) { w.target.classList.add('widoczne'); io.unobserve(w.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    wejscia.forEach((el) => io.observe(el));
+  }
+
+  /* ——— Pasek mobilny: dopiero po minięciu hero ——— */
+  const pasek = document.getElementById('pasekMobilny');
+  const hero = document.querySelector('.hero');
+  if (pasek && hero) {
+    new IntersectionObserver(([w]) => pasek.classList.toggle('pasek--widoczny', !w.isIntersecting),
+      { rootMargin: '-80px 0px 0px 0px' }).observe(hero);
+  }
+
+  /* ——— Szuflada realizacji ———
+     Dodatkowe zdjęcia wstawiane dopiero przy otwarciu i usuwane przy zamknięciu,
+     więc każdy kadr jest w DOM najwyżej raz. */
+  /* ——— Pasy bez końca: realizacje i klienci ———
+     Przy ograniczonym ruchu pasy zostają zwykłymi rzędami przewijanymi ręcznie.
+     W przeciwnym razie za oryginałem doklejane są kopie rzędu (aria-hidden,
+     poza kolejnością Tab), a tor przesuwa się co klatkę i zawija o szerokość
+     jednego kompletu — rząd nie ma końca. Najechanie i fokus wyhamowują rząd,
+     przycisk zatrzymuje całą grupę (WCAG 2.2.2), rząd można też przeciągnąć
+     myszą albo palcem. */
+  const grupyPasow = [...document.querySelectorAll('.pasy[data-grupa]')];
+  if (!reduce && grupyPasow.length) {
+    const rzedy = [];
+    const zawin = (r) => { if (r.fokus) { r.x = Math.min(r.x, r.margines); return; } r.x %= r.komplet; if (r.x > 0) r.x -= r.komplet; };
+    const rysuj = (r) => { r.tor.style.transform = `translate3d(${r.x.toFixed(2)}px,0,0)`; };
+    const zbuduj = (r) => {
+      r.tor.querySelectorAll('[data-kopia]').forEach((k) => k.remove());
+      const kopiuj = () => r.oryginaly.forEach((li) => {
+        const k = li.cloneNode(true);
+        k.dataset.kopia = ''; k.setAttribute('aria-hidden', 'true');
+        k.querySelectorAll('button, a').forEach((b) => b.setAttribute('tabindex', '-1'));
+        r.tor.append(k);
+      });
+      kopiuj();
+      r.komplet = r.tor.children[r.oryginaly.length].offsetLeft - r.oryginaly[0].offsetLeft;
+      const potrzeba = Math.ceil((r.pas.clientWidth + r.komplet) / r.komplet);
+      for (let i = 2; i < potrzeba; i++) kopiuj();
+      r.margines = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--margin')) || 20;
+      zawin(r); rysuj(r);
+    };
+
+    grupyPasow.forEach((el) => {
+      el.classList.add('pasy--ruch');
+      const grupa = { zatrzymana: false, widoczna: true };
+      const przycisk = document.querySelector(`.pasy__pauza[data-pasy="${el.dataset.grupa}"]`);
+      if (przycisk) {
+        przycisk.hidden = false;
+        przycisk.addEventListener('click', () => {
+          grupa.zatrzymana = !grupa.zatrzymana;
+          przycisk.setAttribute('aria-pressed', String(grupa.zatrzymana));
+          przycisk.textContent = grupa.zatrzymana ? "Bewegung fortsetzen" : "Bewegung anhalten";
+        });
+      }
+      new IntersectionObserver(([w]) => { grupa.widoczna = w.isIntersecting; }, { rootMargin: '200px 0px' }).observe(el);
+
+      el.querySelectorAll('.pas').forEach((pas) => {
+        const tor = pas.querySelector('.pas__tor');
+        const r = { pas, tor, grupa, oryginaly: [...tor.children], x: 0, v: 0, komplet: 1, margines: 20,
+          predkosc: (parseFloat(pas.dataset.predkosc) || 24) * (pas.dataset.kierunek === '1' ? 1 : -1),
+          najechany: false, fokus: false, ciag: null, blokujKlik: false };
+        rzedy.push(r);
+        zbuduj(r);
+
+        pas.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') r.najechany = true; });
+        pas.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') r.najechany = false; });
+        pas.addEventListener('focusin', (e) => {
+          r.fokus = true;
+          const li = e.target.closest('li');
+          if (!li) return;
+          const a = pas.getBoundingClientRect(), b = li.getBoundingClientRect();
+          if (b.left < a.left + r.margines) r.x += a.left + r.margines - b.left;
+          else if (b.right > a.right - r.margines) r.x -= b.right - (a.right - r.margines);
+          r.v = 0; zawin(r); rysuj(r);
+        });
+        pas.addEventListener('focusout', (e) => { if (!pas.contains(e.relatedTarget)) r.fokus = false; });
+
+        // Przeciąganie: dopiero po 6 px, żeby zwykłe kliknięcie otwierało szufladę.
+        pas.addEventListener('pointerdown', (e) => {
+          if (e.button !== 0) return;
+          r.ciag = { id: e.pointerId, x0: e.clientX, y0: e.clientY, start: r.x, aktywne: false, t: performance.now(), ostX: e.clientX, vx: 0 };
+        });
+        pas.addEventListener('pointermove', (e) => {
+          const c = r.ciag;
+          if (!c || c.id !== e.pointerId) return;
+          const dx = e.clientX - c.x0, dy = e.clientY - c.y0;
+          if (!c.aktywne) {
+            if (Math.abs(dx) < 6) return;
+            if (Math.abs(dy) > Math.abs(dx)) { r.ciag = null; return; }
+            c.aktywne = true; pas.setPointerCapture(e.pointerId); pas.classList.add('pas--ciagniety');
+          }
+          const t = performance.now();
+          c.vx = ((e.clientX - c.ostX) / Math.max(8, t - c.t)) * 1000; c.t = t; c.ostX = e.clientX;
+          r.x = c.start + dx; zawin(r); c.start = r.x - dx; rysuj(r);
+        });
+        const puszczony = (e) => {
+          const c = r.ciag;
+          if (!c || c.id !== e.pointerId) return;
+          if (c.aktywne) {
+            r.v = Math.max(-1600, Math.min(1600, c.vx));
+            r.blokujKlik = true; setTimeout(() => { r.blokujKlik = false; }, 0);
+            pas.classList.remove('pas--ciagniety');
+          }
+          r.ciag = null;
+        };
+        pas.addEventListener('pointerup', puszczony);
+        pas.addEventListener('pointercancel', puszczony);
+        pas.addEventListener('click', (e) => { if (r.blokujKlik) { e.preventDefault(); e.stopPropagation(); } }, true);
+      });
+    });
+
+    let ostatnia = 0;
+    const klatka = (t) => {
+      const dt = Math.min(0.05, ostatnia ? (t - ostatnia) / 1000 : 0);
+      ostatnia = t;
+      for (const r of rzedy) {
+        if (!r.grupa.widoczna || r.ciag?.aktywne) continue;
+        const cel = r.grupa.zatrzymana || r.najechany || r.fokus ? 0 : r.predkosc;
+        r.v += (cel - r.v) * (1 - Math.exp(-dt * (cel === 0 ? 6 : 2.5)));
+        if (cel === 0 && Math.abs(r.v) < 0.05) r.v = 0;
+        if (r.v === 0) continue;
+        r.x += r.v * dt; zawin(r); rysuj(r);
+      }
+      requestAnimationFrame(klatka);
+    };
+    requestAnimationFrame(klatka);
+
+    let czekaj = 0;
+    addEventListener('resize', () => { clearTimeout(czekaj); czekaj = setTimeout(() => rzedy.forEach(zbuduj), 150); });
+    addEventListener('load', () => rzedy.forEach(zbuduj));
+  }
+
+  const REALIZACJE = {
+    "eco-studio": {
+      "klient": "ELECTRO-SYSTEM · Eco Studio",
+      "podpis": "Finale der 7. Staffel · Warschau · 2026",
+      "liczby": [
+        [
+          "15.09.2026",
+          "Finale der 7. Staffel"
+        ],
+        [
+          "Eko Partner 2026",
+          "Titel vom Veranstalter"
+        ],
+        [
+          "TVP2",
+          "„Pytanie na śniadanie“"
+        ]
+      ],
+      "opis": "Der Roboter war eine der Attraktionen des Finales, neben Konzerten und dem offiziellen Teil. Er stand mit den Moderatoren und Finalisten auf der Bühne und an der Sponsorenwand, wo ein Interview mit ihm aufgenommen wurde.",
+      "link": null,
+      "zdjecia": []
+    },
+    "women-in-tech": {
+      "klient": "Women in Tech Summit",
+      "podpis": "EXPO XXI · Warschau · 2026",
+      "liczby": [
+        [
+          "~14 000",
+          "Teilnehmerinnen und Teilnehmer"
+        ],
+        [
+          "10.–11.06.2026",
+          "EXPO XXI, Warschau"
+        ]
+      ],
+      "opis": "Die größte Women-in-Tech-Konferenz Europas. Der Roboter war auf dem Laufsteg und mitten unter den Teilnehmerinnen im Einsatz.",
+      "link": null,
+      "zdjecia": []
+    },
+    "lexai": {
+      "klient": "LEX AI",
+      "podpis": "Langer Markt · Danzig",
+      "liczby": [
+        [
+          "Teleexpress",
+          "Beitrag im TVP"
+        ],
+        [
+          "TVP Gdańsk",
+          "Reportage über die App LEX AI"
+        ]
+      ],
+      "opis": "Der Roboter stand am Neptunbrunnen als Symbol der App — er begrüßte Passanten, gab ihnen die Hand, posierte für Fotos und beantwortete Fragen.",
+      "link": null,
+      "zdjecia": []
+    },
+    "grupa-rekord": {
+      "klient": "Grupa Rekord",
+      "podpis": "MSPO · Messe Kielce · 2026",
+      "liczby": [
+        [
+          "8.–9. September",
+          "zwei Messetage"
+        ],
+        [
+          "3Z-05",
+          "Stand in Halle RFS"
+        ]
+      ],
+      "opis": "Der Roboter stellte nacheinander alle Gesellschaften der Gruppe vor und lud die Besucher im Gang zur Vorführung der Gefechtsfeldmedizin am Stand ein.",
+      "link": null,
+      "zdjecia": []
+    },
+    "kopernik": {
+      "klient": "Centrum Nauki Kopernik",
+      "podpis": "„Wovon Roboter träumen“ · Warschau",
+      "liczby": [
+        [
+          "17. September",
+          "Abend nur für Erwachsene"
+        ],
+        [
+          "19:00–22:00",
+          "drei Stunden Einsatz"
+        ]
+      ],
+      "opis": "Der Roboter stand am Luftbrunnen, sprach mit den Besuchern und posierte für Fotos.",
+      "link": null,
+      "zdjecia": []
+    },
+    "przelewice": {
+      "klient": "Dendrologischer Garten Przelewice",
+      "podpis": "Märchennacht der Generationen",
+      "liczby": [
+        [
+          "12. September",
+          "Märchennacht der Generationen"
+        ],
+        [
+          "Mausoleum",
+          "Standort nach Einbruch der Dunkelheit"
+        ]
+      ],
+      "opis": "Der Roboter war nach Einbruch der Dunkelheit am Mausoleum der Familie von Prillwitz im Einsatz, im Licht der Scheinwerfer auf den Arkaden.",
+      "link": null,
+      "zdjecia": []
+    },
+    "drezno": {
+      "klient": "Dresdner Schlössernacht",
+      "podpis": "Dresden · Deutschland",
+      "liczby": [],
+      "opis": "Der Roboter im Paillettensmoking mit Krone auf dem Ball in einem Dresdner Palais — auf dem roten Teppich, im Ballsaal und mitten unter den Gästen.",
+      "link": null,
+      "zdjecia": []
+    },
+    "gonia-auto": {
+      "klient": "Gonia Auto",
+      "podpis": "Autohaus",
+      "liczby": [],
+      "opis": "Der Roboter im Firmenrot vor dem Autohaus Gonia Auto.",
+      "link": null,
+      "zdjecia": []
+    },
+    "loza": {
+      "klient": "Loża Przedsiębiorców",
+      "podpis": "Mikołajki",
+      "liczby": [],
+      "opis": "Der Roboter im T-Shirt der Loża Przedsiębiorców bei einem Treffen in Mikołajki.",
+      "link": null,
+      "zdjecia": []
+    },
+    "dream-med": {
+      "klient": "Dream-Med",
+      "podpis": "Warsaw Medical Expo · 2026",
+      "liczby": [],
+      "opis": "Der Roboter am Stand von Dream-Med auf der Warsaw Medical Expo 2026.",
+      "link": null,
+      "zdjecia": []
+    },
+    "matys": {
+      "klient": "Matys Development",
+      "podpis": "Immobilienmesse · Stettin",
+      "liczby": [],
+      "opis": "Der Roboter am Stand von Matys Development auf der Immobilienmesse in Stettin, mit Materialien zum Projekt Silver Garden.",
+      "link": null,
+      "zdjecia": []
+    },
+    "szkola-kosmos": {
+      "klient": "Szkoła Kosmos",
+      "podpis": "Schuljahresbeginn · Majaland",
+      "liczby": [],
+      "opis": "Der Roboter in der Schürze der Szkoła Kosmos beim Schuljahresbeginn im Majaland.",
+      "link": null,
+      "zdjecia": []
+    },
+    "yeah-gym": {
+      "klient": "YEAH GYM",
+      "podpis": "Fitnessclub · Breslau",
+      "liczby": [],
+      "opis": "Der Roboter im T-Shirt des Clubs YEAH GYM im Trainingsbereich in Breslau.",
+      "link": null,
+      "zdjecia": []
+    },
+    "jednorozec": {
+      "klient": "Gemeinde Jednorożec",
+      "podpis": "Einhorn-Parade",
+      "liczby": [],
+      "opis": "Der Roboter im T-Shirt der Gemeinde bei der Einhorn-Parade, im Freien bis in die Abenddämmerung.",
+      "link": null,
+      "zdjecia": []
+    },
+    "tet-trung-thu": {
+      "klient": "Tết Trung Thu",
+      "podpis": "Mittherbstfest",
+      "liczby": [],
+      "opis": "Der Roboter im festlichen Branding unter den Gästen des Mittherbstfests.",
+      "link": null,
+      "zdjecia": []
+    },
+    "wesele": {
+      "klient": "Hochzeit",
+      "podpis": "Hochzeitsfeier",
+      "liczby": [],
+      "opis": "Der Roboter auf der Tanzfläche im Abendteil einer Hochzeitsfeier.",
+      "link": null,
+      "zdjecia": []
+    }
+  };
+  const szuflada = document.getElementById('szuflada');
+  const tlo = document.getElementById('szufladaTlo');
+  const el = (id) => document.getElementById(id);
+  const zamknij = el('szufladaZamknij');
+  let powrot = null;
+
+  const otworz = (klucz, zrodlo) => {
+    const d = REALIZACJE[klucz];
+    if (!d) return;
+    powrot = zrodlo;
+    el('szufladaPodpis').textContent = d.podpis;
+    el('szufladaTytul').textContent = d.klient;
+    el('szufladaOpis').textContent = d.opis;
+    const liczby = el('szufladaLiczby');
+    liczby.replaceChildren();
+    liczby.hidden = !d.liczby.length;
+    d.liczby.forEach(([a, b]) => {
+      const w = document.createElement('div');
+      const dt = document.createElement('dt'); dt.textContent = a;
+      const dd = document.createElement('dd'); dd.textContent = b;
+      w.append(dt, dd); liczby.append(w);
+    });
+    const zdjecia = el('szufladaZdjecia');
+    zdjecia.replaceChildren();
+    zdjecia.hidden = !d.zdjecia.length;
+    d.zdjecia.forEach((z) => {
+      const pic = document.createElement('picture');
+      const src = document.createElement('source');
+      src.type = 'image/webp'; src.srcset = `${z.plik}-400.webp 400w, ${z.plik}.webp ${z.w}w`; src.sizes = '(max-width: 767px) 100vw, 480px';
+      const img = document.createElement('img');
+      img.src = `${z.plik}.jpg`; img.alt = z.alt; img.width = z.w; img.height = z.h; img.decoding = 'async';
+      pic.append(src, img); zdjecia.append(pic);
+    });
+    const link = el('szufladaLink');
+    link.parentElement.hidden = !d.link;
+    if (d.link) link.href = d.link;
+    tlo.hidden = false; szuflada.hidden = false;
+    document.body.style.overflow = 'hidden';
+    zamknij.focus();
+  };
+  const zamknijSzuflade = () => {
+    if (szuflada.hidden) return;
+    szuflada.hidden = true; tlo.hidden = true;
+    el('szufladaZdjecia').replaceChildren();
+    document.body.style.overflow = '';
+    if (powrot) powrot.focus();
+  };
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-cs]');
+    if (b) otworz(b.dataset.cs, b);
+  });
+  zamknij.addEventListener('click', zamknijSzuflade);
+  tlo.addEventListener('click', zamknijSzuflade);
+  addEventListener('keydown', (e) => {
+    if (szuflada.hidden) return;
+    if (e.key === 'Escape') { zamknijSzuflade(); return; }
+    if (e.key !== 'Tab') return;
+    // Fokus zostaje w szufladzie, dopóki jest otwarta.
+    const f = [...szuflada.querySelectorAll('a[href], button')].filter((x) => x.offsetParent !== null);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
   });
 
-  /* ——— Baner cookie ——— */
+  /* ——— FAQ: akordeon ——— */
+  document.querySelectorAll('.faq__q').forEach((q) => q.addEventListener('click', () => {
+    const otwarte = q.getAttribute('aria-expanded') === 'true';
+    q.setAttribute('aria-expanded', String(!otwarte));
+    document.getElementById(q.getAttribute('aria-controls')).hidden = otwarte;
+  }));
+
+  /* ——— Baner cookie (logika bez zmian) ——— */
   const ciasteczka = document.getElementById('cookies');
   if (!localStorage.getItem('33bots-cookies')) {
     setTimeout(() => ciasteczka.classList.add('show'), 1400);
@@ -1341,140 +1259,93 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     ciasteczka.classList.remove('show');
   });
 
-  /* ——— Bänder: Antippen stoppt den Lauf (mobil gibt es kein Hover) ——— */
-  document.querySelectorAll('.strip').forEach(pas => {
-    pas.addEventListener('touchstart', () => pas.classList.add('paused'), { passive: true });
-    pas.addEventListener('touchend', () => setTimeout(() => pas.classList.remove('paused'), 2500), { passive: true });
-  });
-
-  /* ——— Lightbox galerii ——— */
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-  const lbCap = document.getElementById('lbCap');
-  const kadry = [...document.querySelectorAll('.strip-item[data-full]:not([aria-hidden])')];
-  let idx = 0;
-
-  const pokaz = i => {
-    idx = (i + kadry.length) % kadry.length;
-    const el = kadry[idx];
-    lbImg.src = el.dataset.full;
-    lbImg.alt = el.dataset.alt || '';
-    lbCap.textContent = `${el.dataset.alt || ''}  ·  ${idx + 1} / ${kadry.length}`;
+  /* ——— Formularz: krok 1 wydarzenie, krok 2 kontakt, wysyłka przez FormSubmit ——— */
+  const form = document.getElementById('formularz');
+  const krok1 = el('krok1'), krok2 = el('krok2');
+  const etykiety = form.querySelectorAll('[data-krok-etykieta]');
+  const pokazKrok = (n) => {
+    krok1.hidden = n !== 1; krok2.hidden = n !== 2;
+    etykiety.forEach((e) => { if (e.dataset.krokEtykieta === String(n)) e.setAttribute('aria-current', 'step'); else e.removeAttribute('aria-current'); });
+    (n === 2 ? el('pole-name') : form.querySelector('input[name=event_type]')).focus();
   };
-  const otworz = i => { pokaz(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; };
-  const zamknij = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+  const dataPole = el('pole-data'), nieustalona = el('data-nieustalona');
+  nieustalona.addEventListener('change', () => { dataPole.disabled = nieustalona.checked; if (nieustalona.checked) dataPole.value = ''; });
 
-  kadry.forEach((el, i) => el.addEventListener('click', () => otworz(i)));
-  document.getElementById('lbClose').addEventListener('click', zamknij);
-  document.getElementById('lbPrev').addEventListener('click', e => { e.stopPropagation(); pokaz(idx - 1); });
-  document.getElementById('lbNext').addEventListener('click', e => { e.stopPropagation(); pokaz(idx + 1); });
-  lb.addEventListener('click', e => { if (e.target === lb || e.target === lbImg) zamknij(); });
-  addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') zamknij();
-    if (e.key === 'ArrowLeft') pokaz(idx - 1);
-    if (e.key === 'ArrowRight') pokaz(idx + 1);
+  const poleTyp = el('pole-typ'), bladTyp = el('blad-typ');
+  form.querySelectorAll('input[name=event_type]').forEach((r) => r.addEventListener('change', () => {
+    bladTyp.hidden = true; poleTyp.removeAttribute('data-blad');
+  }));
+  el('dalej').addEventListener('click', () => {
+    const typ = form.querySelector('input[name=event_type]:checked');
+    bladTyp.hidden = !!typ;
+    poleTyp.toggleAttribute('data-blad', !typ);
+    if (!typ) { form.querySelector('input[name=event_type]').focus(); return; }
+    pokazKrok(2);
   });
+  el('wstecz').addEventListener('click', () => pokazKrok(1));
 
-  /* ——— Kontaktformular: zwei Schritte + FormSubmit ——— */
-  const form    = document.getElementById('contactForm');
-  const krok1   = document.getElementById('formStep1');
-  const krok2   = document.getElementById('formStep2');
-  const wsk1    = document.getElementById('stepInd1');
-  const wsk2    = document.getElementById('stepInd2');
-  const msg     = document.getElementById('formMsg');
-
-  const bledy = { valueMissing: 'Dieses Feld ist erforderlich', typeMismatch: 'Ungültiges Format' };
-
-  function sprawdzPole(pole) {
-    const etykieta = pole.closest('label');
-    const errEl = etykieta?.querySelector('[data-err]');
-    if (!pole.validity.valid) {
-      if (errEl) errEl.textContent = pole.validity.valueMissing ? bledy.valueMissing
-                                   : pole.validity.typeMismatch ? bledy.typeMismatch
-                                   : 'Bitte dieses Feld prüfen';
-      pole.classList.add('border-red-500/70');
-      return false;
-    }
-    pole.classList.remove('border-red-500/70');
-    if (errEl) errEl.textContent = '';
-    return true;
-  }
-
-  const sprawdzKrok = el =>
-    [...el.querySelectorAll('input[required], textarea[required]')].map(sprawdzPole).every(Boolean);
-
-  form.querySelectorAll('input, textarea').forEach(pole => {
-    pole.addEventListener('blur', () => sprawdzPole(pole));
-    pole.addEventListener('input', () => {
-      if (pole.classList.contains('border-red-500/70')) sprawdzPole(pole);
-    });
-  });
-
-  function przejdz(z, doKroku, wskZ, wskDo) {
-    z.style.opacity = '0';
-    setTimeout(() => {
-      z.classList.add('hidden');
-      z.setAttribute('aria-hidden', 'true');
-      doKroku.classList.remove('hidden');
-      doKroku.removeAttribute('aria-hidden');
-      requestAnimationFrame(() => { doKroku.style.opacity = '1'; });
-      wskZ.className = 'text-neutral-600 transition-colors';
-      wskDo.className = 'text-accent transition-colors';
-      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 200);
-  }
-
-  document.getElementById('btnNext').addEventListener('click', () => {
-    if (sprawdzKrok(krok1)) przejdz(krok1, krok2, wsk1, wsk2);
-  });
-  document.getElementById('btnBack').addEventListener('click', () => przejdz(krok2, krok1, wsk2, wsk1));
-
-  const opis = document.getElementById('f-message');
-  const licznik = document.getElementById('charCount');
+  const opis = el('pole-message'), licznik = el('licznik');
   opis.addEventListener('input', () => { licznik.textContent = opis.value.length; });
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!sprawdzKrok(krok2)) return;
+  const sprawdz = (pole, ok) => {
+    const box = pole.closest('.pole');
+    box.toggleAttribute('data-blad', !ok);
+    box.querySelector('.pole__blad').hidden = ok;
+    pole.setAttribute('aria-invalid', String(!ok));
+    return ok;
+  };
+  const imie = el('pole-name'), mail = el('pole-email');
+  imie.addEventListener('input', () => { if (imie.hasAttribute('aria-invalid')) sprawdz(imie, imie.value.trim().length > 1); });
+  mail.addEventListener('input', () => { if (mail.hasAttribute('aria-invalid')) sprawdz(mail, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail.value.trim())); });
 
-    const btn = krok2.querySelector('button[type=submit]');
-    const pierwotny = btn.innerHTML;
-    btn.disabled = true; btn.style.opacity = '.6'; btn.innerHTML = 'Wird gesendet…';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const okImie = sprawdz(imie, imie.value.trim().length > 1);
+    const okMail = sprawdz(mail, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail.value.trim()));
+    if (!okImie || !okMail) { (okImie ? mail : imie).focus(); return; }
 
     const d = new FormData(form);
     const payload = {
-      name:     d.get('name'),
-      company:  d.get('company')  || '—',
-      email:    d.get('email'),
-      phone:    d.get('phone')    || '—',
-      date:     d.get('date')     || '—',
-      location: d.get('location') || '—',
-      message:  d.get('message'),
-      _subject: 'Neue Anfrage über 33bots.at',
+      name:       d.get('name').trim(),
+      company:    d.get('company')    || '—',
+      email:      d.get('email').trim(),
+      phone:      d.get('phone')      || '—',
+      date:       nieustalona.checked ? "offen" : (d.get('date') || '—'),
+      location:   d.get('location')   || '—',
+      message:    d.get('message')    || '—',
+      event_type: d.get('event_type') || '—',
+      guests:     d.get('guests')     || '—',
+      _subject: "Neue Anfrage über 33bots.at",
     };
 
+    const btn = el('wyslij');
+    const pierwotny = btn.innerHTML;
+    btn.disabled = true; btn.textContent = "Wird gesendet…";
+    const blad = el('blad-wysylki');
+    blad.hidden = true;
     try {
-      const res = await fetch('https://formsubmit.co/ajax/kontakt@33bots.at', {
+      const res = await fetch("https://formsubmit.co/ajax/kontakt@33bots.at", {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const odp = await res.json().catch(() => ({}));
-        throw new Error(odp?.errors?.map(x => x.message).join(', ') || `HTTP ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       if (typeof gtag === 'function') {
         gtag('event', 'form_submit', { event_category: 'contact', event_label: 'Kontaktformular' });
       }
-      form.innerHTML = `<div class="py-12 text-center">
-        <p class="font-display text-2xl font-700 text-white">Nachricht gesendet</p>
-        <p class="mt-3 text-neutral-400">Wir melden uns an <strong class="text-white">${payload.email}</strong><br />innerhalb von 24 Werkstunden.</p></div>`;
+      const sukces = document.createElement('div');
+      sukces.className = 'form-sukces';
+      sukces.setAttribute('role', 'status');
+      const t = document.createElement('p'); t.className = 'h3'; t.textContent = "Ihre Anfrage ist bei uns angekommen.";
+      const p = document.createElement('p'); p.className = 'body';
+      p.append("Wir melden uns unter ", Object.assign(document.createElement('strong'), { textContent: payload.email }),
+        ". Wir antworten innerhalb von 24 Werkstunden, meist noch am selben Tag.");
+      sukces.append(t, p);
+      form.replaceChildren(sukces);
     } catch (err) {
-      console.error('Kontaktformular — Sendefehler:', err?.message || err);
-      btn.disabled = false; btn.style.opacity = '1'; btn.innerHTML = pierwotny;
-      msg.innerHTML = 'Senden fehlgeschlagen — rufen Sie an: <a class="text-accent underline" href="tel:+48531408004">+48 531 408 004</a> oder schreiben Sie an <a class="text-accent underline" href="mailto:kontakt@33bots.at">kontakt@33bots.at</a>';
-      msg.className = 'mt-4 text-center text-[13px] text-red-400';
+      blad.textContent = "Senden fehlgeschlagen. Rufen Sie an: +48 531 408 004 oder schreiben Sie an kontakt@33bots.at.";
+      blad.hidden = false;
+      btn.disabled = false; btn.innerHTML = pierwotny;
     }
   });
 })();
