@@ -20,19 +20,30 @@ import re
 
 MARKER = "data-sicherheit"
 
-# Genau die Hosts, von denen die Seiten wirklich etwas laden — aus dem Code gelesen,
-# nicht aus einer Vorlage kopiert.
+# Genau die Hosts, von denen die Seiten wirklich etwas laden. Dazu gehören nicht nur
+# die im HTML sichtbaren, sondern auch die Sammel-Hosts der Tags, die GTM-MR7R7CJ3
+# selbst nachlädt: Google Analytics 4 (G-MNE9Y0S9QV) und Google Ads (Conversions,
+# Remarketing) sowie das Albacross-Pixel. Fehlen sie, blockiert die Richtlinie jede
+# Messung, ohne dass die Seite einen sichtbaren Fehler zeigt. Die Liste stammt aus den
+# tatsächlichen Anfragen des Containers.
+GOOGLE = "https://www.google.com https://www.google.pl https://www.google.at https://www.google.de"
 CSP = (
     "default-src 'self'; "
     "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com "
-    "https://serve.albacross.com https://*.albacross.com; "
+    "https://serve.albacross.com https://*.albacross.com "
+    "https://www.googleadservices.com https://www.google.com https://googleads.g.doubleclick.net; "
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-    "img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com; "
+    "img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com "
+    f"https://*.google-analytics.com https://*.analytics.google.com {GOOGLE} "
+    "https://*.doubleclick.net https://www.googleadservices.com https://*.albacross.com; "
     "font-src 'self' data: https://fonts.gstatic.com; "
     "connect-src 'self' https://formsubmit.co https://www.google-analytics.com "
-    "https://*.albacross.com https://serve.albacross.com; "
+    "https://*.albacross.com https://serve.albacross.com https://www.googletagmanager.com "
+    "https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com "
+    f"{GOOGLE} https://*.doubleclick.net https://www.googleadservices.com "
+    "https://pagead2.googlesyndication.com; "
     "frame-src https://www.googletagmanager.com https://www.youtube.com "
-    "https://www.youtube-nocookie.com https://gdansk.tvp.pl; "
+    "https://www.youtube-nocookie.com https://gdansk.tvp.pl https://*.doubleclick.net; "
     "media-src 'self'; form-action 'self' https://formsubmit.co; base-uri 'self'"
 )
 
