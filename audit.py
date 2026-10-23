@@ -8,7 +8,7 @@ auf dem Handy, Sicherheits-Header, /index.html-Weiterleitung und die Sitemap.
 Läuft automatisch vor jedem Deployment (.github/workflows/wdrozenie.yml).
 Manuell:  python3 audit.py . 33bots.de
 """
-import glob, json, os, re, sys
+import glob, html, json, os, re, sys
 from collections import defaultdict
 from html.parser import HTMLParser
 from urllib.parse import urlparse
@@ -47,8 +47,8 @@ for plik in STRONY:
     m = re.search(r'<meta name="description" content="([^"]*)"', zrodlo)
     if not m:
         wyniki["brak_meta"].append(plik)
-    elif len(m.group(1)) > 160:
-        wyniki["meta_za_dluga"].append(f"{plik} ({len(m.group(1))})")
+    elif len(html.unescape(m.group(1))) > 160:   # znaki widoczne w wynikach, nie encje (&amp; to jeden znak)
+        wyniki["meta_za_dluga"].append(f"{plik} ({len(html.unescape(m.group(1)))})")
 
     h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", zrodlo, re.S)
     if len(h1) != 1:
