@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────
-// FORMSUBMIT: Anfragen laufen an das Postfach kontakt@33bots.at
-// AJAX-Endpoint von FormSubmit; die Antworten gehen an das Postfach oben.
+// FORMSPREE: dasselbe Formular wie auf 33bots.pl — Anfragen landen im CRM.
+// (Datei wird von keiner Seite geladen; die Seiten senden selbst an Formspree.)
 // ─────────────────────────────────────────────────────────────
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjwvray';
 
@@ -227,7 +227,7 @@ textarea.addEventListener('input', () => {
   charCount.closest('.char-counter').classList.toggle('near-limit', len > MAX_CHARS * 0.85);
 });
 
-// ── Submit → FormSubmit ───────────────────────────────────────
+// ── Submit → Formspree ────────────────────────────────────────
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!validateStep(step2)) return;

@@ -445,7 +445,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if (ck && !localStorage.getItem('ck-ok')) setTimeout(() => ck.classList.add('show'), 1200);
   const ok = document.getElementById('cookiesOk');
   if (ok) ok.addEventListener('click', () => { localStorage.setItem('ck-ok', '1'); ck.classList.remove('show'); });
-  /* ——— Kontaktformular: zwei Schritte + FormSubmit ——— */
+  /* ——— Kontaktformular: zwei Schritte + Formspree (CRM) ——— */
   const form    = document.getElementById('contactForm');
   const krok1   = document.getElementById('formStep1');
   const krok2   = document.getElementById('formStep2');
