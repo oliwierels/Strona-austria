@@ -41,8 +41,8 @@ for plik in STRONY:
     else:
         t = " ".join(m.group(1).split())
         tytuly[t].append(plik)
-        if len(t) > 65:
-            wyniki["title_za_dlugi"].append(f"{plik} ({len(t)})")
+        if len(html.unescape(t)) > 65:   # znaki w wynikach, nie encje
+            wyniki["title_za_dlugi"].append(f"{plik} ({len(html.unescape(t))})")
 
     m = re.search(r'<meta name="description" content="([^"]*)"', zrodlo)
     if not m:
