@@ -37,14 +37,14 @@ CSP = (
     f"https://*.google-analytics.com https://*.analytics.google.com {GOOGLE} "
     "https://*.doubleclick.net https://www.googleadservices.com https://*.albacross.com; "
     "font-src 'self' data: https://fonts.gstatic.com; "
-    "connect-src 'self' https://formsubmit.co https://www.google-analytics.com "
+    "connect-src 'self' https://formspree.io https://www.google-analytics.com "
     "https://*.albacross.com https://serve.albacross.com https://www.googletagmanager.com "
     "https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com "
     f"{GOOGLE} https://*.doubleclick.net https://www.googleadservices.com "
     "https://pagead2.googlesyndication.com; "
     "frame-src https://www.googletagmanager.com https://www.youtube.com "
     "https://www.youtube-nocookie.com https://gdansk.tvp.pl https://*.doubleclick.net; "
-    "media-src 'self'; form-action 'self' https://formsubmit.co; base-uri 'self'"
+    "media-src 'self'; form-action 'self' https://formspree.io; base-uri 'self'"
 )
 
 BLOCK = (f'<meta http-equiv="Content-Security-Policy" content="{CSP}" {MARKER} />\n'

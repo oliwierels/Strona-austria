@@ -2,7 +2,7 @@
 // FORMSUBMIT: Anfragen laufen an das Postfach kontakt@33bots.at
 // AJAX-Endpoint von FormSubmit; die Antworten gehen an das Postfach oben.
 // ─────────────────────────────────────────────────────────────
-const FORMSPREE_ENDPOINT = 'https://formsubmit.co/ajax/kontakt@33bots.at';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjwvray';
 
 // ── SCROLL TO TOP ON LOAD ─────────────────────────────────────
 window.addEventListener('pageshow', () => window.scrollTo(0, 0));

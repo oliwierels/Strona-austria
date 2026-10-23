@@ -9,7 +9,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-MR7R7CJ3');</script>
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://serve.albacross.com https://*.albacross.com https://www.googleadservices.com https://www.google.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.google.pl https://www.google.at https://www.google.de https://*.doubleclick.net https://www.googleadservices.com https://*.albacross.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://formsubmit.co https://www.google-analytics.com https://*.albacross.com https://serve.albacross.com https://www.googletagmanager.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.google.com https://www.google.pl https://www.google.at https://www.google.de https://*.doubleclick.net https://www.googleadservices.com https://pagead2.googlesyndication.com; frame-src https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com https://gdansk.tvp.pl https://*.doubleclick.net; media-src 'self'; form-action 'self' https://formsubmit.co; base-uri 'self'" data-sicherheit />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://serve.albacross.com https://*.albacross.com https://www.googleadservices.com https://www.google.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.google.pl https://www.google.at https://www.google.de https://*.doubleclick.net https://www.googleadservices.com https://*.albacross.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://*.albacross.com https://serve.albacross.com https://www.googletagmanager.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.google.com https://www.google.pl https://www.google.at https://www.google.de https://*.doubleclick.net https://www.googleadservices.com https://pagead2.googlesyndication.com; frame-src https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com https://gdansk.tvp.pl https://*.doubleclick.net; media-src 'self'; form-action 'self' https://formspree.io; base-uri 'self'" data-sicherheit />
 <meta name="referrer" content="strict-origin-when-cross-origin" data-sicherheit />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Roboter mieten für Events in Österreich — ab 2.300 € | 33bots</title>
@@ -702,6 +702,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <ul class="stopka__kol" aria-label="Angebot">
       <li><a href="humanoider-roboter-mieten.html">Humanoider Roboter mieten</a></li>
       <li><a href="messe-roboter-mieten.html">Roboter für Messen</a></li>
+      <li><a href="roboter-weihnachtsfeier.html">Roboter für die Weihnachtsfeier</a></li>
       <li><a href="unitree-g1-mieten.html">Unitree G1 mieten</a></li>
       <li><a href="kontakt.html">Kontakt</a></li>
     </ul>
@@ -1260,7 +1261,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     ciasteczka.classList.remove('show');
   });
 
-  /* ——— Formularz: krok 1 wydarzenie, krok 2 kontakt, wysyłka przez FormSubmit ——— */
+  /* ——— Formularz: krok 1 wydarzenie, krok 2 kontakt, wysyłka na Formspree ——— */
   const form = document.getElementById('formularz');
   const krok1 = el('krok1'), krok2 = el('krok2');
   const etykiety = form.querySelectorAll('[data-krok-etykieta]');
@@ -1316,7 +1317,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       message:    d.get('message')    || '—',
       event_type: d.get('event_type') || '—',
       guests:     d.get('guests')     || '—',
-      _subject: "Neue Anfrage über 33bots.at",
     };
 
     const btn = el('wyslij');
@@ -1325,7 +1325,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const blad = el('blad-wysylki');
     blad.hidden = true;
     try {
-      const res = await fetch("https://formsubmit.co/ajax/kontakt@33bots.at", {
+      const res = await fetch("https://formspree.io/f/mnjwvray", {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
