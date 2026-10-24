@@ -1,12 +1,6 @@
-/* ══════════════════════════════════════════════════════════════
-   33bots — system wizualny
-   Ładowany po starych arkuszach. Nowe sekcje używają wyłącznie
-   klas z tego pliku, więc stare reguły ich nie dotykają.
-   ══════════════════════════════════════════════════════════════ */
 
-/* ——— Fonty lokalne (OFL-1.1), wersje zmienne ———
-   Nazwy rodzin bez dopisku „Variable”, którego używają pakiety
-   @fontsource-variable — inaczej font-family nie trafiłby w @font-face. */
+
+
 @font-face {
   font-family: "Space Grotesk";
   src: url("../fonts/space-grotesk-latin-ext-wght-normal.woff2") format("woff2-variations");
@@ -36,10 +30,10 @@
 :root {
   --ink: #050505; --surface: #111111; --text: #f0f0f0; --text-2: #888888;
   --line: #1f1f1f; --line-strong: #2c2c2c; --accent: #6fd6ff;
-  /* Tekst ciągły w artykułach — jaśniejszy od --text-2, łagodniejszy od --text. */
+
   --text-prose: #c4c4c4;
   --container: 1440px; --margin: 20px; --gutter: 16px; --nav-h: 72px;
-  /* Najmniejszy odstęp tekstu od krawędzi kontenera z ramką lub tłem. */
+
   --inset: 24px;
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
@@ -47,9 +41,7 @@
 @media (min-width: 640px)  { :root { --margin: 32px; } }
 @media (min-width: 1024px) { :root { --margin: 64px; --gutter: 24px; --inset: 32px; } }
 
-/* Minimalny reset — ten sam co w preflight Tailwinda, którego podstrony bez
-   arkusza Tailwinda (artykuły) nie ładują. :where() = zerowa specyficzność,
-   więc żadna klasa nie przegrywa z resetem. */
+
 :where(*, ::before, ::after) { box-sizing: border-box; border: 0 solid; }
 :where(body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ol, ul) { margin: 0; }
 :where(ol, ul) { padding: 0; }
@@ -61,7 +53,7 @@
 :where(button) { background: transparent; cursor: pointer; }
 :where(table) { border-collapse: collapse; }
 
-/* Atrybut hidden zawsze ukrywa — reguły display w klasach go nie przebijają. */
+
 [hidden] { display: none !important; }
 
 html, body { background: var(--ink); }
@@ -86,9 +78,7 @@ body { color: var(--text); font: 400 1.0625rem/1.6 var(--font-body); -webkit-fon
   text-underline-offset: 6px; text-decoration-color: var(--line-strong); transition: text-decoration-color .2s; }
 .link:hover { text-decoration-color: var(--text); }
 
-/* ——— Hero: tekst w siatce, zdjęcie do prawej krawędzi ekranu ———
-   margin-top: nawigacja jest przyklejona (position: fixed), więc bez tego
-   hero zaczynałby się pod nią. */
+
 .hero { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter);
   min-height: calc(100svh - var(--nav-h)); margin-top: var(--nav-h);
   padding-left: max(var(--margin), calc((100% - var(--container)) / 2 + var(--margin))); padding-right: 0; }
@@ -96,16 +86,11 @@ body { color: var(--text); font: 400 1.0625rem/1.6 var(--font-body); -webkit-fon
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin-top: 16px; }
 .hero__media { grid-column: 7 / -1; margin: 0; }
 .hero__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-/* Rotacja: jedno zdjęcie przygasa i wraca z nowym kadrem. Podpis to pełne pole
-   w kolorze tła — czytelne na każdym zdjęciu, bez gradientu i cienia.
-   Zdjęcie leży absolutnie, więc ramę wyznacza wysokość hero (desktop) lub
-   aspect-ratio (mobile), a nie proporcje pliku: zmiana kadru nie przesuwa
-   układu, a podpis zawsze kończy się na dolnej krawędzi pierwszego ekranu. */
+
 .hero__media { position: relative; }
 .hero__media img { position: absolute; inset: 0; transition: opacity .4s cubic-bezier(.2, 0, 0, 1); }
 .hero__media img.znika { opacity: 0; }
-/* Stała szerokość i dwa rzędy (licznik + pauza, potem podpis), żeby płytka
-   nie zmieniała rozmiaru przy każdej zmianie kadru. */
+
 .hero__podpis { position: absolute; left: 0; bottom: 0; display: grid; grid-template-columns: 1fr auto;
   align-items: baseline; gap: 8px 24px; width: min(100%, 480px); padding: var(--inset); background: var(--ink); }
 .hero__opis { grid-column: 1 / -1; grid-row: 2; font: 400 0.875rem/1.5 var(--font-body); color: var(--text-2); }
@@ -116,8 +101,7 @@ body { color: var(--text); font: 400 1.0625rem/1.6 var(--font-body); -webkit-fon
 .hero__pauza:hover { color: var(--text); }
 .hero__pauza:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
-/* ——— Pasek „Widziani w” ———
-   Linia włosowa u góry, więc tekst trzyma od niej --inset (24 / 32 px). */
+
 .proof { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter);
   max-width: var(--container); margin: 0 auto; padding: var(--inset) var(--margin); border-top: 1px solid var(--line); align-items: baseline; }
 .proof__label { grid-column: 1 / span 2; }
@@ -127,14 +111,14 @@ body { color: var(--text); font: 400 1.0625rem/1.6 var(--font-body); -webkit-fon
 .proof__list a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .proof__note { margin-left: 6px; font-size: 0.75rem; color: var(--text-2); }
 
-/* ——— Baner cookies: tylko wygląd; treść i logika bez zmian ——— */
+
 .cookies { position: fixed; left: var(--margin); bottom: var(--margin); z-index: 80;
   display: none; flex-wrap: wrap; align-items: center; gap: 16px 24px;
   width: min(420px, calc(100vw - 2 * var(--margin))); padding: var(--inset);
   background: var(--surface); border: 1px solid var(--line); border-radius: 0; box-shadow: none; }
 .cookies.show { display: flex; }
 .cookies__text { flex: 1 1 220px; margin: 0; font: 400 0.8125rem/1.6 var(--font-body); color: var(--text-2); }
-/* Na telefonie nad paskiem „Sprawdź termin”, który ma 76 px wysokości. */
+
 @media (max-width: 767px) { .cookies { bottom: calc(76px + 12px); } }
 
 /* ══════════════════════════════════════════════════════════════
@@ -163,12 +147,12 @@ html { scroll-behavior: smooth; }
 .podpis { margin-top: 12px; font: 400 0.75rem/1.5 var(--font-body); color: var(--text-2); }
 .podpis b { font-weight: 500; color: var(--text); }
 
-/* Jedno wejście sekcji: 12 px w górę i pojawienie się, raz. Bez JS treść jest widoczna. */
+
 .js .wejscie { opacity: 0; transform: translateY(12px);
   transition: opacity .7s cubic-bezier(.2, 0, 0, 1), transform .7s cubic-bezier(.2, 0, 0, 1); }
 .js .wejscie.widoczne { opacity: 1; transform: none; }
 
-/* Zdjęcia: kadr 4:5, bez zaokrągleń i efektów; klikalny kadr to zwykły przycisk. */
+
 .kadr { display: block; width: 100%; padding: 0; margin: 0; border: 0; background: var(--surface); cursor: pointer; }
 .kadr img { display: block; width: 100%; aspect-ratio: 4 / 5; height: auto; object-fit: cover; }
 .kadr:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
@@ -218,11 +202,7 @@ figure { margin: 0; }
 .klienci { margin-top: 128px; padding-top: var(--inset); border-top: 1px solid var(--line); }
 .klienci__kraje { margin-top: 32px; max-width: 64ch; }
 
-/* ——— Pasy bez końca: realizacje i klienci ———
-   Bez JS i przy ograniczonym ruchu pas to zwykły rząd przewijany palcem
-   (nazwy klientów zawijają się w listę). Gdy ruch jest dozwolony, skrypt
-   dokleja kopie rzędu (aria-hidden, poza kolejnością Tab) i przesuwa tor
-   w nieskończoność; najechanie, fokus i przycisk zatrzymują ruch. */
+
 :root { --kafel: 168px; }
 @media (min-width: 768px)  { :root { --kafel: 208px; } }
 @media (min-width: 1024px) { :root { --kafel: 248px; } }
@@ -258,7 +238,7 @@ figure { margin: 0; }
   .pasy { row-gap: 24px; }
 }
 
-/* ——— 05 Jak projektujemy występ ——— */
+
 .wystep__glowa { grid-column: 1 / span 4; display: grid; gap: 24px; align-content: start; }
 .wiersze { grid-column: 6 / -1; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .wiersz { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px 24px; padding-block: var(--inset);
@@ -413,7 +393,7 @@ fieldset.pole > legend { margin-bottom: 8px; }
   .stopka__kol { grid-column: span 6; margin-bottom: 24px; }
 }
 
-/* ——— Pasek mobilny „Sprawdź termin” ——— */
+
 .pasek { position: fixed; inset: auto 0 0 0; z-index: 60; padding: 12px var(--margin); background: var(--ink);
   border-top: 1px solid var(--line); transform: translateY(100%); transition: transform .3s cubic-bezier(.2, 0, 0, 1); }
 .pasek--widoczny { transform: none; }
@@ -452,9 +432,7 @@ fieldset.pole > legend { margin-bottom: 8px; }
 }
 
 
-/* ——— Artykuły poradnika ———
-   Ten sam system: tło #050505, Space Grotesk w nagłówkach, linie włosowe,
-   bez cieni i zaokrągleń. Kolumna tekstu ~68 znaków, spis treści obok. */
+
 .art { padding-top: var(--nav-h); }
 .art__glowa { max-width: var(--container); margin: 0 auto; padding: 48px var(--margin) 0;
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 32px; align-items: end; }
@@ -490,7 +468,7 @@ fieldset.pole > legend { margin-bottom: 8px; }
 .prose a { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; text-decoration-color: var(--line-strong); }
 .prose a:hover { text-decoration-color: var(--text); }
 .prose a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-/* Przycisk w treści zostaje przyciskiem — reguła linków wyżej nie zmienia mu koloru. */
+
 .prose .btn { color: var(--ink); text-decoration: none; }
 .prose figure { margin: 48px 0 0; }
 .prose figure img { width: 100%; background: var(--surface); }
@@ -526,22 +504,18 @@ fieldset.pole > legend { margin-bottom: 8px; }
   .prose p, .prose li { font-size: 1.0625rem; }
 }
 @media (max-width: 767px) {
-  /* Blok rezerwacji na całą szerokość ekranu — przycisk mieści się w jednej linii. */
+
   .art__cta { margin-inline: calc(-1 * var(--margin)); }
 }
 
 
-/* ——— Link „pomiń do treści” (dostępność; strony zagraniczne) ——— */
+
 .skip-link { position: absolute; left: -9999px; top: 0; z-index: 10000; padding: 12px 20px;
   background: var(--text); color: var(--ink); font: 500 0.9375rem/1.4 var(--font-body); }
 .skip-link:focus { left: 0; outline: 2px solid var(--accent); outline-offset: 2px; }
 main:focus { outline: none; }
 
-/* ——— Panel dostępności (33bots.de, BFSG) ———
-   Przycisk siedzi w nawigacji, a panel rozwija się pod nią po prawej — nic nie
-   zasłania treści, przycisków ani paska rezerwacji na telefonie. Przełączniki
-   jak dotąd (a11y.js): wielkość tekstu, jasny motyw, wysoki kontrast, animacje.
-   Ustawienia działają przez tokeny kolorów, więc obejmują całą stronę. */
+
 .a11y-toggle { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
   margin: 0 -10px; padding: 0; border: 0; background: none; color: var(--text-2); cursor: pointer; transition: color .2s; }
 .a11y-toggle:hover, .a11y-toggle[aria-expanded="true"] { color: var(--text); }
@@ -550,7 +524,7 @@ main:focus { outline: none; }
 .a11y-panel { position: fixed; top: calc(var(--nav-h) + 8px); right: var(--margin); z-index: 91;
   width: min(360px, calc(100vw - 2 * var(--margin))); max-height: calc(100vh - var(--nav-h) - 24px); overflow-y: auto;
   padding: var(--inset); border: 1px solid var(--line-strong); background: var(--surface); }
-/* Na wąskim telefonie ikona, „Termin prüfen” i „Menü” muszą zmieścić się obok logo. */
+
 @media (max-width: 399px) { .nav__akcje:has(.a11y-toggle) { gap: 20px; } }
 .a11y-panel__title { margin: 0 0 20px; font: 500 1.125rem/1.3 var(--font-body); color: var(--text); }
 .a11y-group { margin: 0 0 20px; padding: 0; border: 0; }
@@ -572,8 +546,7 @@ html[data-a11y-theme="light"][data-a11y-contrast="high"] { --text-2: #1a1a1a; --
 html[data-a11y-motion="off"] *, html[data-a11y-motion="off"] *::before, html[data-a11y-motion="off"] *::after {
   transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 
-/* Niemieckie strony (33bots.de, 33bots.at): na najwęższych telefonach
-   „Veranstaltung.” nie mieści się w kolumnie przy 44 px. */
+
 @media (max-width: 359px) { :lang(de) .display { font-size: 2.5rem; } }
 
 /* ——— Mobile ——— */

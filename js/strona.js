@@ -1,5 +1,3 @@
-// Wspólny skrypt podstron w nowym systemie wizualnym (artykuły poradnika).
-// Te same zachowania co na stronie głównej: menu, tło nawigacji po przewinięciu,
 // pasek mobilny, baner cookie (logika bez zmian) i akordeon FAQ.
 (() => {
   const nav = document.getElementById('nav');
@@ -21,7 +19,6 @@
     tloNav();
   }
 
-  // Pasek mobilny: po minięciu nagłówka artykułu.
   const pasek = document.getElementById('pasekMobilny');
   const glowa = document.querySelector('.art__glowa');
   if (pasek && glowa && 'IntersectionObserver' in window) {
