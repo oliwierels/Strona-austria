@@ -36,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/space-grotesk-latin-wght-normal.woff2" />
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="css/site.css?v=1344c299" />
+<link rel="stylesheet" href="css/site.css?v=aafa00f5" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -98,7 +98,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
     <div class="nav__akcje">
       <a class="nav__tel" href="tel:+48531408004" data-tel="nav">+48 531 408 004</a>
-      <a class="link nav__cta" href="index.html#kontakt" data-cta="nav">Termin prüfen</a>
+      <a class="link nav__cta link--akcja" href="index.html#kontakt" data-cta="nav">Termin prüfen</a>
       <button class="nav__przycisk" id="navPrzycisk" type="button" aria-expanded="false" aria-controls="navPanel">Menü</button>
     </div>
   </div>
@@ -111,7 +111,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="humanoider-roboter-mieten.html">Angebot</a></li>
     </ul>
     <a class="nav__tel" href="tel:+48531408004" data-tel="menu">+48 531 408 004</a>
-    <a class="btn" href="index.html#kontakt" data-cta="nav">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a>
+    <a class="btn btn--akcja" href="index.html#kontakt" data-cta="nav">Termin und Preis prüfen <span aria-hidden="true">→</span></a>
   </div>
 </header>
 
@@ -132,17 +132,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </article>
 
 <section id="kontakt" class="sec sec--powierzchnia" aria-labelledby="kontakt-h">
-  <div class="wrap grid12">
-    <div class="rez__lewa">
+  <div class="wrap grid12 rez">
+    <div class="rez__glowa">
       <p class="label sec__meta">Reservierung</p>
       <h2 id="kontakt-h" class="h2">Ihre Anfrage in zwei Schritten.</h2>
-      <ul class="osoby">
-        <li class="osoba"><p class="label">Telefon</p>
-          <a class="osoba__tel" href="tel:+48531408004" data-tel="kontakt">+48 531 408 004</a></li>
-        <li class="osoba"><p class="label">E-Mail</p>
-          <a class="link osoba__mail" href="mailto:kontakt@33bots.at" data-mail="kontakt">kontakt@33bots.at</a></li>
-      </ul>
-      <p class="body-sm">Wir antworten innerhalb von 24 Werkstunden, meist noch am selben Tag. Reservierung ohne Anzahlung, in ganz Österreich.</p>
     </div>
 
     <form class="rez__form" id="formularz" novalidate>
@@ -184,7 +177,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </fieldset>
         <div class="form-akcje">
-          <button class="btn" type="button" id="dalej">Weiter <span aria-hidden="true">→</span></button>
+          <button class="btn btn--akcja" type="button" id="dalej">Weiter <span aria-hidden="true">→</span></button>
         </div>
       </div>
 
@@ -216,11 +209,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="form-akcje">
           <button class="wstecz" type="button" id="wstecz">Zurück</button>
-          <button class="btn" type="submit" id="wyslij">Verfügbarkeit prüfen <span aria-hidden="true">→</span></button>
+          <button class="btn btn--akcja" type="submit" id="wyslij">Termin und Preis prüfen <span aria-hidden="true">→</span></button>
         </div>
         <p class="pole__blad" id="blad-wysylki" role="alert" hidden></p>
       </div>
     </form>
+
+    <div class="rez__kontakty">
+      <ul class="osoby">
+        <li class="osoba"><p class="label">Telefon</p>
+          <a class="osoba__tel" href="tel:+48531408004" data-tel="kontakt">+48 531 408 004</a></li>
+        <li class="osoba"><p class="label">E-Mail</p>
+          <a class="link osoba__mail" href="mailto:kontakt@33bots.at" data-mail="kontakt">kontakt@33bots.at</a></li>
+      </ul>
+      <p class="body-sm">Wir antworten innerhalb von 24 Werkstunden, meist noch am selben Tag. Reservierung ohne Anzahlung, in ganz Österreich.</p>
+    </div>
   </div>
 </section>
 </main>
@@ -271,7 +274,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="pasek" id="pasekMobilny">
-  <a class="btn" href="#kontakt" data-cta="sticky">Termin prüfen <span aria-hidden="true">→</span></a>
+  <a class="btn btn--akcja" href="#kontakt" data-cta="sticky">Termin prüfen <span aria-hidden="true">→</span></a>
 </div>
 <div class="pasek-odstep"></div>
 

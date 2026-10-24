@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/space-grotesk-latin-wght-normal.woff2" />
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="css/site.css?v=1344c299" />
+<link rel="stylesheet" href="css/site.css?v=aafa00f5" />
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product","name":"Humanoiden Roboter Unitree G1 mieten","description":"Vermietung des humanoiden Roboters Unitree G1 für Events, Messen und Konferenzen in ganz Österreich.","url":"https://33bots.at","image":"https://33bots.at/robot-g1.jpg","brand":{"@type":"Brand","name":"Unitree"},"offers":{"@type":"AggregateOffer","priceCurrency":"EUR","lowPrice":"2300","availability":"https://schema.org/InStock","url":"https://33bots.at/#preise","description":"Ganzer Event-Tag mit Transport, Operator und Branding im Preis. Kürzere Auftritte auf individuelle Anfrage, mehrtägige Einsätze mit 15 % Rabatt pro Tag. Keine Aufschläge, keine Anzahlung, Rechnung nach dem Event."},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"3","bestRating":"5","worstRating":"1"}}
@@ -212,7 +212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
     <div class="nav__akcje">
       <a class="nav__tel" href="tel:+48531408004" data-tel="nav">+48 531 408 004</a>
-      <a class="link nav__cta" href="#kontakt" data-cta="nav">Termin prüfen</a>
+      <a class="link nav__cta link--akcja" href="#kontakt" data-cta="nav">Termin prüfen</a>
       <button class="nav__przycisk" id="navPrzycisk" type="button" aria-expanded="false" aria-controls="navPanel">Menü</button>
     </div>
   </div>
@@ -225,7 +225,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="humanoider-roboter-mieten.html">Angebot</a></li>
     </ul>
     <a class="nav__tel" href="tel:+48531408004" data-tel="menu">+48 531 408 004</a>
-    <a class="btn" href="#kontakt" data-cta="nav">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a>
+    <a class="btn btn--akcja" href="#kontakt" data-cta="nav">Termin und Preis prüfen <span aria-hidden="true">→</span></a>
   </div>
 </header>
 
@@ -236,9 +236,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero__text">
     <h1 id="hero-label" class="label">Humanoide Roboter mieten für Events in Österreich</h1>
     <p class="display">Der meist&shy;fotografierte Gast Ihrer Veranstaltung.</p>
-    <p class="lead">Ein humanoider Roboter mit Charakter und Drehbuch für Ihre Gala, Konferenz oder Ihren Messestand. Er spricht Deutsch und jede andere Sprache. Operator, Transport und Branding im Preis. <strong>Sie zahlen nach der Veranstaltung.</strong></p>
-    <div class="hero__actions">
-      <a class="btn" href="#kontakt" data-cta="hero">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a>
+    <p class="lead">Ein humanoider Roboter mit Charakter und Drehbuch für Ihre Gala, Konferenz oder Ihren Messestand. Er spricht Deutsch und jede andere Sprache. Operator, Transport und Branding im Preis.</p>
+    <div class="hero__actions hero__actions--termin">
+      <div class="termin">
+        <label class="label" for="heroData">Wann findet Ihre Veranstaltung statt?</label>
+        <div class="termin__rzad">
+          <input class="termin__data" type="date" id="heroData" />
+          <a class="btn btn--akcja" href="#kontakt" data-cta="hero">Termin und Preis prüfen <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="termin__obietnica"><strong>Ohne Anzahlung, Sie zahlen nach der Veranstaltung.</strong> Antwort meist noch am selben Tag.</p>
+      </div>
       <a class="link" href="#referenzen">Referenzen ansehen</a>
     </div>
   </div>
@@ -499,7 +506,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </li>
     </ul>
     <p class="body formaty__wcenie">Im Preis: Operator, Transport in ganz Österreich, Branding (Logo, QR-Code), Haftpflichtversicherung. <strong>Sie zahlen nach der Veranstaltung.</strong> Den endgültigen Preis kalkulieren wir nach Dauer, Ort und Programm. Zusatzoption: Roboterhund, auf Anfrage.</p>
-    <p class="formaty__cta"><a class="btn" href="#kontakt" data-cta="formaty">Verfügbarkeit prüfen <span aria-hidden="true">→</span></a></p>
+    <p class="formaty__cta"><a class="btn btn--akcja" href="#kontakt" data-cta="formaty">Termin und Preis prüfen <span aria-hidden="true">→</span></a></p>
   </div>
 </section>
 
@@ -596,17 +603,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      Formular: Schritt 1 — Veranstaltung (Klick), Schritt 2 — Kontakt. Feldnamen wie bisher
      (name, company, email, phone, date, location, message) plus event_type und guests. -->
 <section id="kontakt" class="sec sec--powierzchnia" aria-labelledby="kontakt-h">
-  <div class="wrap grid12">
-    <div class="rez__lewa wejscie">
+  <div class="wrap grid12 rez">
+    <div class="rez__glowa wejscie">
       <p class="label sec__meta">10 / 11 · Reservierung</p>
       <h2 id="kontakt-h" class="h2">Prüfen Sie, ob Ihr Termin frei ist.</h2>
-      <ul class="osoby">
-        <li class="osoba"><p class="label">Telefon</p>
-          <a class="osoba__tel" href="tel:+48531408004" data-tel="kontakt">+48 531 408 004</a></li>
-        <li class="osoba"><p class="label">E-Mail</p>
-          <a class="link osoba__mail" href="mailto:kontakt@33bots.at" data-mail="kontakt">kontakt@33bots.at</a></li>
-      </ul>
-      <p class="body-sm">Wir antworten innerhalb von 24 Werkstunden, meist noch am selben Tag. Reservierung ohne Anzahlung, in ganz Österreich.</p>
     </div>
 
     <form class="rez__form wejscie" id="formularz" novalidate>
@@ -648,7 +648,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </fieldset>
         <div class="form-akcje">
-          <button class="btn" type="button" id="dalej">Weiter <span aria-hidden="true">→</span></button>
+          <button class="btn btn--akcja" type="button" id="dalej">Weiter <span aria-hidden="true">→</span></button>
         </div>
       </div>
 
@@ -680,11 +680,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="form-akcje">
           <button class="wstecz" type="button" id="wstecz">Zurück</button>
-          <button class="btn" type="submit" id="wyslij">Verfügbarkeit prüfen <span aria-hidden="true">→</span></button>
+          <button class="btn btn--akcja" type="submit" id="wyslij">Termin und Preis prüfen <span aria-hidden="true">→</span></button>
         </div>
         <p class="pole__blad" id="blad-wysylki" role="alert" hidden></p>
       </div>
     </form>
+
+    <div class="rez__kontakty wejscie">
+      <ul class="osoby">
+        <li class="osoba"><p class="label">Telefon</p>
+          <a class="osoba__tel" href="tel:+48531408004" data-tel="kontakt">+48 531 408 004</a></li>
+        <li class="osoba"><p class="label">E-Mail</p>
+          <a class="link osoba__mail" href="mailto:kontakt@33bots.at" data-mail="kontakt">kontakt@33bots.at</a></li>
+      </ul>
+      <p class="body-sm">Wir antworten innerhalb von 24 Werkstunden, meist noch am selben Tag. Reservierung ohne Anzahlung, in ganz Österreich.</p>
+    </div>
   </div>
 </section>
 
@@ -737,7 +747,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="pasek" id="pasekMobilny">
-  <a class="btn" href="#kontakt" data-cta="sticky">Termin prüfen <span aria-hidden="true">→</span></a>
+  <a class="btn btn--akcja" href="#kontakt" data-cta="sticky">Termin prüfen <span aria-hidden="true">→</span></a>
 </div>
 <div class="pasek-odstep"></div>
 
@@ -838,6 +848,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       heroData.addEventListener('click', () => { try { heroData.showPicker(); } catch (e) { } });
     }
     heroData.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); heroCta.click(); } });
+    const gotowe = () => heroData.closest('.termin').classList.toggle('termin--gotowe', !!heroData.value);
+    heroData.addEventListener('input', gotowe);
+    heroData.addEventListener('change', gotowe);
     heroCta.addEventListener('click', () => {
       const pole = document.getElementById('pole-data');
       const nieustalona = document.getElementById('data-nieustalona');
@@ -893,6 +906,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }, { rootMargin: '-80px 0px 0px 0px' });
     obserwator.observe(hero);
     if (rezerwacja) obserwator.observe(rezerwacja);
+  }
+
+
+  const karta = document.querySelector('.rez .rez__form');
+  if (karta && !reduce && matchMedia('(pointer: fine)').matches) {
+    karta.addEventListener('pointermove', (e) => {
+      const r = karta.getBoundingClientRect();
+      karta.style.setProperty('--sx', `${Math.round(e.clientX - r.left)}px`);
+      karta.style.setProperty('--sy', `${Math.round(e.clientY - r.top)}px`);
+    });
+    karta.addEventListener('pointerleave', () => { karta.style.removeProperty('--sx'); karta.style.removeProperty('--sy'); });
   }
 
 
