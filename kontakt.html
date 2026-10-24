@@ -36,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/space-grotesk-latin-wght-normal.woff2" />
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="css/site.css?v=0c8ce682" />
+<link rel="stylesheet" href="css/site.css?v=1344c299" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -298,6 +298,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     (n === 2 ? el('pole-name') : form.querySelector('input[name=event_type]')).focus();
   };
   const dataPole = el('pole-data'), nieustalona = el('data-nieustalona');
+  dataPole.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   nieustalona.addEventListener('change', () => { dataPole.disabled = nieustalona.checked; if (nieustalona.checked) dataPole.value = ''; });
 
   const poleTyp = el('pole-typ'), bladTyp = el('blad-typ');
@@ -358,6 +359,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (window.dataLayer) window.dataLayer.push({ event: 'generate_lead', form_id: 'formularz', event_type: payload.event_type });
       if (typeof gtag === 'function') {
         gtag('event', 'form_submit', { event_category: 'contact', event_label: 'Kontaktformular' });
       }

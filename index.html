@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/space-grotesk-latin-wght-normal.woff2" />
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="css/site.css?v=0c8ce682" />
+<link rel="stylesheet" href="css/site.css?v=1344c299" />
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product","name":"Humanoiden Roboter Unitree G1 mieten","description":"Vermietung des humanoiden Roboters Unitree G1 für Events, Messen und Konferenzen in ganz Österreich.","url":"https://33bots.at","image":"https://33bots.at/robot-g1.jpg","brand":{"@type":"Brand","name":"Unitree"},"offers":{"@type":"AggregateOffer","priceCurrency":"EUR","lowPrice":"2300","availability":"https://schema.org/InStock","url":"https://33bots.at/#preise","description":"Ganzer Event-Tag mit Transport, Operator und Branding im Preis. Kürzere Auftritte auf individuelle Anfrage, mehrtägige Einsätze mit 15 % Rabatt pro Tag. Keine Aufschläge, keine Anzahlung, Rechnung nach dem Event."},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"3","bestRating":"5","worstRating":"1"}}
@@ -830,6 +830,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
 
+  const heroData = document.getElementById('heroData');
+  const heroCta = document.querySelector('.hero [data-cta="hero"]');
+  if (heroData && heroCta) {
+    heroData.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    if (matchMedia('(pointer: fine)').matches) {
+      heroData.addEventListener('click', () => { try { heroData.showPicker(); } catch (e) { } });
+    }
+    heroData.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); heroCta.click(); } });
+    heroCta.addEventListener('click', () => {
+      const pole = document.getElementById('pole-data');
+      const nieustalona = document.getElementById('data-nieustalona');
+      if (heroData.value && pole) {
+        pole.value = heroData.value;
+        if (nieustalona && nieustalona.checked) { nieustalona.checked = false; pole.disabled = false; }
+      }
+      const typ = document.querySelector('#formularz input[name=event_type]');
+      if (typ) setTimeout(() => typ.focus({ preventScroll: true }), reduce ? 0 : 700);
+    });
+  }
+
+
   const nav = document.getElementById('nav');
   const tloNav = () => nav.classList.toggle('nav--tlo', scrollY > 8 || !panel.hidden);
 
@@ -863,10 +884,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   const pasek = document.getElementById('pasekMobilny');
   const hero = document.querySelector('.hero');
+  const rezerwacja = document.getElementById('kontakt');
   if (pasek && hero) {
-    new IntersectionObserver(([w]) => pasek.classList.toggle('pasek--widoczny', !w.isIntersecting),
-      { rootMargin: '-80px 0px 0px 0px' }).observe(hero);
+    const naEkranie = new Map();
+    const obserwator = new IntersectionObserver((wpisy) => {
+      wpisy.forEach((w) => naEkranie.set(w.target, w.isIntersecting));
+      pasek.classList.toggle('pasek--widoczny', ![...naEkranie.values()].some(Boolean));
+    }, { rootMargin: '-80px 0px 0px 0px' });
+    obserwator.observe(hero);
+    if (rezerwacja) obserwator.observe(rezerwacja);
   }
+
+
+  document.addEventListener('click', (e) => {
+    const cta = e.target.closest('[data-cta]');
+    if (!cta || !window.dataLayer) return;
+    const zdarzenie = { event: 'cta_click', cta_place: cta.dataset.cta };
+    if (cta === heroCta) zdarzenie.cta_date = heroData && heroData.value ? 'yes' : 'no';
+    window.dataLayer.push(zdarzenie);
+  });
 
 
 
@@ -1258,6 +1294,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     (n === 2 ? el('pole-name') : form.querySelector('input[name=event_type]')).focus();
   };
   const dataPole = el('pole-data'), nieustalona = el('data-nieustalona');
+  dataPole.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   nieustalona.addEventListener('change', () => { dataPole.disabled = nieustalona.checked; if (nieustalona.checked) dataPole.value = ''; });
 
   const poleTyp = el('pole-typ'), bladTyp = el('blad-typ');
@@ -1318,6 +1355,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (window.dataLayer) window.dataLayer.push({ event: 'generate_lead', form_id: 'formularz', event_type: payload.event_type });
       if (typeof gtag === 'function') {
         gtag('event', 'form_submit', { event_category: 'contact', event_label: 'Kontaktformular' });
       }

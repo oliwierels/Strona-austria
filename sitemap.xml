@@ -1,117 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://33bots.at/</loc>
     <lastmod>2026-10-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/" />
+    <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.pl/" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Humanoider Roboter Unitree G1 — Roboter mieten für Events in Österreich</image:title>
+    </image:image>
+    <video:video>
+      <video:thumbnail_loc>https://33bots.at/video/33bots-robot-event-poster.jpg</video:thumbnail_loc>
+      <video:title>Humanoider Roboter Unitree G1 in Aktion — Roboter mieten für Events | 33bots</video:title>
+      <video:description>Der humanoide Roboter Unitree G1 live: geht, gestikuliert, begrüßt Gäste und tanzt. Branding mit Logo und QR-Code ist im Preis enthalten. Vermietung für Events, Messen und Konferenzen in ganz Österreich.</video:description>
+      <video:content_loc>https://33bots.at/video/33bots-robot-event.mp4</video:content_loc>
+      <video:duration>35</video:duration>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
   </url>
   <url>
-    <loc>https://33bots.at/kontakt.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://33bots.at/datenschutz.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/datenschutz.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/datenschutz.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Datenschutzerklärung | 33bots Österreich</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://33bots.at/humanoider-roboter-mieten.html</loc>
     <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/humanoider-roboter-mieten.html" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/wypozyczenie-robota.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/humanoiden-roboter-mieten.html" />
+    <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/humanoidinio-roboto-nuoma.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.pl/wypozyczenie-robota.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Humanoiden Roboter mieten in Österreich | Unitree G1 – 33bots</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://33bots.at/unitree-g1-mieten.html</loc>
+    <loc>https://33bots.at/impressum.html</loc>
     <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/impressum.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/impressum.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Impressum | 33bots Österreich</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/kontakt.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/kontakt.html" />
+    <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/kontaktai.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/kontakt.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Kontakt &amp; Angebot anfragen | Roboter mieten – 33bots Österreich</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://33bots.at/messe-roboter-mieten.html</loc>
     <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-weihnachtsfeier.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-wien.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-graz.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-linz.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-salzburg.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-innsbruck.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-klagenfurt.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-villach.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-wels.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://33bots.at/roboter-mieten-st-poelten.html</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/messe-roboter-mieten.html" />
+    <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/oferta-targi.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/angebot-messen.html" />
+    <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/robotas-parodoms.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.pl/oferta-targi.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Messe-Roboter mieten | Publikumsmagnet für Ihren Stand – 33bots</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-dornbirn.html</loc>
     <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-dornbirn.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-dornbirn.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Dornbirn | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-eisenstadt.html</loc>
     <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-eisenstadt.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-eisenstadt.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Eisenstadt | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://33bots.at/impressum.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://33bots.at/roboter-mieten-graz.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-graz.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-graz.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Graz | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://33bots.at/datenschutz.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://33bots.at/roboter-mieten-innsbruck.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-innsbruck.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-innsbruck.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Innsbruck | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-klagenfurt.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-klagenfurt.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-klagenfurt.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Klagenfurt | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-linz.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-linz.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-linz.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Linz | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-salzburg.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-salzburg.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-salzburg.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Salzburg | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-st-poelten.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-st-poelten.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-st-poelten.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in St. Pölten | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-villach.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-villach.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-villach.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Villach | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-wels.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-wels.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-wels.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Wels | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-mieten-wien.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-wien.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-wien.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter mieten in Wien | Unitree G1 für Events – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/roboter-weihnachtsfeier.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-weihnachtsfeier.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/roboter-weihnachtsfeier.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.de/roboter-weihnachtsfeier.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter für die Weihnachtsfeier mieten | Österreich – 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://33bots.at/unitree-g1-mieten.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/unitree-g1-mieten.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/unitree-g1-mieten.html" />
+    <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/unitree-g1-nuoma.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.de/unitree-g1-mieten.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Unitree G1 mieten in Österreich | inkl. Operator – 33bots</image:title>
+    </image:image>
   </url>
 </urlset>
