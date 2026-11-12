@@ -41,6 +41,10 @@ jobs:
     steps:
       - name: Pobierz repozytorium
         uses: actions/checkout@v4
+        with:
+          # Pełna historia — krok IndexNow porównuje bieżący commit z poprzednim,
+          # żeby zgłosić wyłącznie te adresy, które faktycznie się zmieniły.
+          fetch-depth: 0
 
       - name: Bramka przed publikacją
         run: |
@@ -208,6 +212,71 @@ jobs:
             echo ""
             echo "Commit: \`${GITHUB_SHA::7}\` · https://33bots.at"
           } >> $GITHUB_STEP_SUMMARY
+
+      - name: Zgłoś zmienione adresy do IndexNow
+        continue-on-error: true
+        env:
+          POPRZEDNI: ${{ github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import glob, json, os, re, subprocess, urllib.error, urllib.request
+
+          DOMENA = '33bots.at'
+
+          klucze = [p for p in glob.glob('*.txt') if re.fullmatch(r'[0-9a-f]{32}\.txt', p)]
+          if not klucze:
+              print('Brak pliku z kluczem IndexNow — pomijam.')
+              raise SystemExit(0)
+          klucz = klucze[0][:-4]
+
+          poprzedni = os.environ.get('POPRZEDNI', '')
+          zmienione = []
+          if poprzedni and not set(poprzedni) <= {'0'}:
+              wynik = subprocess.run(['git', 'diff', '--name-only', poprzedni, 'HEAD'],
+                                     capture_output=True, text=True)
+              if wynik.returncode == 0:
+                  # 404 nie jest indeksowana, więc nie ma czego zgłaszać.
+                  zmienione = [w for w in wynik.stdout.split()
+                               if w.endswith('.html') and w != '404.html']
+              else:
+                  print('Nie udało się porównać z poprzednim commitem — zgłaszam stronę główną.')
+
+          if not zmienione:
+              # Ręczne uruchomienie albo pierwsze wdrożenie: zgłaszamy tylko stronę główną,
+              # żeby nie zasypywać wyszukiwarki całą witryną przy każdym przebiegu.
+              adresy = [f'https://{DOMENA}/']
+          else:
+              adresy = [f'https://{DOMENA}/' if p == 'index.html' else f'https://{DOMENA}/{p}'
+                        for p in sorted(zmienione) if os.path.exists(p)]
+
+          if not adresy:
+              print('Brak adresów do zgłoszenia.')
+              raise SystemExit(0)
+
+          dane = json.dumps({
+              'host': DOMENA,
+              'key': klucz,
+              'keyLocation': f'https://{DOMENA}/{klucz}.txt',
+              'urlList': adresy[:10000],
+          }).encode('utf-8')
+
+          zadanie = urllib.request.Request(
+              'https://api.indexnow.org/indexnow', data=dane,
+              headers={'Content-Type': 'application/json; charset=utf-8'})
+
+          try:
+              with urllib.request.urlopen(zadanie, timeout=30) as odp:
+                  print(f'IndexNow: HTTP {odp.status}, zgłoszonych adresów: {len(adresy)}')
+          except urllib.error.HTTPError as e:
+              # 422 oznacza najczęściej, że klucz na serwerze jeszcze się nie pojawił —
+              # przy pierwszym wdrożeniu to normalne i naprawia się samo przy kolejnym.
+              print(f'IndexNow odrzucił zgłoszenie: HTTP {e.code} {e.read()[:200]!r}')
+          except Exception as e:
+              print(f'IndexNow niedostępny: {e}')
+
+          for a in adresy[:15]:
+              print('  ', a)
+          PY
 
       - name: Sprawdź, co naprawdę serwuje 33bots.at
         run: |

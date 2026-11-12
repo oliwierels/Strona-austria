@@ -20,6 +20,13 @@ BAZA = f"https://{DOMENA}"
 POMIJANE = {"404.html", "szablon-case-study.html", "index-redesign.html", "danke.html"}
 STRONY = sorted(p for p in glob.glob("*.html") if p not in POMIJANE)
 
+# Strony miast z jednego szablonu: celowo poza indeksem i poza sitemapą, dopóki nie dostaną
+# własnej, osobno napisanej treści (Search Console 11.2026: „zeskanowana — niezindeksowana”).
+# Audyt pilnuje obu kierunków: te strony muszą mieć noindex i nie mogą wrócić do sitemapy,
+# a żadna inna strona nie może dostać noindex po cichu.
+CELOWO_POZA_INDEKSEM = {f"roboter-mieten-{m}.html" for m in
+                        ("dornbirn", "eisenstadt", "klagenfurt", "st-poelten", "villach", "wels")}
+
 wyniki = defaultdict(list)
 
 
@@ -63,7 +70,11 @@ for plik in STRONY:
         if m.group(1) != oczekiwany:
             wyniki["canonical_nie_self"].append(f"{plik} -> {m.group(1)}")
 
-    if re.search(r'<meta name="robots"[^>]*noindex', zrodlo):
+    ma_noindex = bool(re.search(r'<meta name="robots"[^>]*noindex', zrodlo))
+    if plik in CELOWO_POZA_INDEKSEM:
+        if not ma_noindex:
+            wyniki["brak_noindex"].append(plik)
+    elif ma_noindex:
         wyniki["noindex"].append(plik)
 
     # Strony prawne z natury są krótkie i nie mają konkurować w wyszukiwarce.
@@ -155,7 +166,10 @@ if os.path.exists("sitemap.xml"):
         if not os.path.exists(sciezka):
             wyniki["sitemap_martwy_adres"].append(a)
     for plik in STRONY:
-        if plik not in w_sitemap:
+        if plik in CELOWO_POZA_INDEKSEM:
+            if plik in w_sitemap:
+                wyniki["noindex_w_sitemapie"].append(plik)
+        elif plik not in w_sitemap:
             wyniki["strona_poza_sitemap"].append(plik)
 else:
     wyniki["brak_sitemap"].append("brak sitemap.xml")
@@ -171,6 +185,8 @@ OPISY = {
     "canonical_nie_self": "adres kanoniczny nie wskazuje na tę stronę",
     "duplikaty_canonical": "ten sam adres kanoniczny na kilku stronach",
     "noindex": "strona wyłączona z indeksu",
+    "brak_noindex": "strona z szablonu miała zostać poza indeksem, a nie ma noindex",
+    "noindex_w_sitemapie": "strona z noindex nie może być w sitemapie",
     "thin_content": "poniżej 200 słów treści",
     "img_bez_alt": "obrazy bez atrybutu alt",
     "ciezkie_grafiki": "powyżej 1,5 MB grafik na telefonie",
