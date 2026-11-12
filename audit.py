@@ -21,7 +21,7 @@ POMIJANE = {"404.html", "szablon-case-study.html", "index-redesign.html", "danke
 STRONY = sorted(p for p in glob.glob("*.html") if p not in POMIJANE)
 
 # Strony miast z jednego szablonu: celowo poza indeksem i poza sitemapą, dopóki nie dostaną
-# własnej, osobno napisanej treści (Search Console 11.2026: „zeskanowana — niezindeksowana”).
+# własnej, osobno napisanej treści (strony z szablonu wyszukiwarka traktuje jak kopie).
 # Audyt pilnuje obu kierunków: te strony muszą mieć noindex i nie mogą wrócić do sitemapy,
 # a żadna inna strona nie może dostać noindex po cichu.
 CELOWO_POZA_INDEKSEM = {f"roboter-mieten-{m}.html" for m in
