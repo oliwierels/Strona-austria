@@ -5,7 +5,7 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://33bots.at/</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/" />
     <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/" />
@@ -26,7 +26,7 @@
   </url>
   <url>
     <loc>https://33bots.at/datenschutz.html</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/datenschutz.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/datenschutz.html" />
     <image:image>
@@ -49,7 +49,7 @@
   </url>
   <url>
     <loc>https://33bots.at/impressum.html</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/impressum.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/impressum.html" />
     <image:image>
@@ -59,7 +59,7 @@
   </url>
   <url>
     <loc>https://33bots.at/kontakt.html</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/kontakt.html" />
     <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/kontaktai.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/kontakt.html" />
