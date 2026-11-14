@@ -78,7 +78,7 @@
     addEventListener('resize', rzadko(aktualizuj));
     aktualizuj();
 
-    const POWITANIA = ["Guten Tag", "Hello", "Dzień dobry", "Laba diena", "Dobrý den", "Bună ziua", "Bonjour", "Hola", "Ciao", "こんにちは"];
+    const POWITANIA = ["Grüß Gott", "Hello", "Dzień dobry", "Laba diena", "Dobrý den", "Bună ziua", "Bonjour", "Hola", "Ciao", "こんにちは"];
     let widac = false, i = 0, sek = 0, zegar = 0;
     const tik = () => {
       if (!widac) return;
@@ -126,10 +126,10 @@
       const f = wybor();
       pole.dni.hidden = f !== 'dni';
       if (f === 'wejscie') {
-        pole.etykieta.textContent = "Kurzauftritt · einige Stunden · netto";
+        pole.etykieta.textContent = "Einige Stunden · netto";
         pole.od.textContent = "unter";
         pokazKwote(DZIEN);
-        pole.opis.textContent = "Den Betrag nennen wir nach einem kurzen Gespräch über das Programm — immer günstiger als ein ganzer Tag.";
+        pole.opis.textContent = "Nach einem kurzen Gespräch über Ihr Programm nennen wir den Betrag. Er liegt immer unter dem Tagespreis.";
       } else if (f === 'dni') {
         const suma = dni * DZIEN * RABAT;
         pole.ile.textContent = String(dni);
@@ -137,7 +137,7 @@
         pole.etykieta.textContent = `${dni} Tage · netto`;
         pole.od.textContent = "ab";
         pokazKwote(suma);
-        pole.opis.textContent = `${dni} × ${kwota(DZIEN * RABAT)} € statt ${dni} × ${kwota(DZIEN)} € — Sie sparen ${kwota(dni * DZIEN * (1 - RABAT))} €.`;
+        pole.opis.textContent = `${dni} Tage zu je ${kwota(DZIEN * RABAT)} € statt ${kwota(DZIEN)} €. Sie sparen ${kwota(dni * DZIEN * (1 - RABAT))} €.`;
       } else {
         pole.etykieta.textContent = "Ganzer Tag · netto";
         pole.od.textContent = "ab";
@@ -160,7 +160,7 @@
       if (!ruszony || opis.value.trim()) return;
       const f = wybor();
       const zl = (n) => kwota(n).replace(/\u00a0/g, ' ');
-      opis.value = f === 'wejscie' ? 'Ich interessiere mich für einen Kurzauftritt (einige Stunden).'
+      opis.value = f === 'wejscie' ? 'Ich interessiere mich für einen Auftritt von einigen Stunden.'
         : f === 'dni' ? `Ich interessiere mich für ${dni} Tage (ab ${zl(dni * DZIEN * RABAT)} € netto).`
           : `Ich interessiere mich für einen ganzen Tag (ab ${zl(DZIEN)} € netto).`;
       if (licznik) licznik.textContent = opis.value.length;

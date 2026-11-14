@@ -395,7 +395,7 @@ void main() {
 
   /* ——— Polecenia: przyciski [data-robot-gest] i dymek z tekstem ——— */
   const dymek = document.getElementById('robotDymek');
-  const MOWA = ["Guten Tag! Ich spreche Deutsch und jede andere Sprache.",
+  const MOWA = ["Grüß Gott! Ich spreche Deutsch und jede andere Sprache.",
     "Hello! Welcome to your event.",
     "Dzień dobry! Schön, Sie zu sehen.",
     "Laba diena! Machen wir ein Foto?",
