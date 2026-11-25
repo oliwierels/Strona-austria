@@ -5,7 +5,7 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://33bots.at/</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/" />
     <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/" />
@@ -28,7 +28,7 @@
   </url>
   <url>
     <loc>https://33bots.at/humanoider-roboter-mieten.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/humanoider-roboter-mieten.html" />
     <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/wypozyczenie-robota.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/humanoiden-roboter-mieten.html" />
@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://33bots.at/messe-roboter-mieten.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/messe-roboter-mieten.html" />
     <xhtml:link rel="alternate" hreflang="pl" href="https://33bots.pl/oferta-targi.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/angebot-messen.html" />
@@ -75,7 +75,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-firmenfeier.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-firmenfeier.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/roboter-firmenfeier.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.de/roboter-firmenfeier.html" />
@@ -86,7 +86,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-kongress-gala.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-kongress-gala.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/angebot-konferenzen-galas.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.de/angebot-konferenzen-galas.html" />
@@ -96,8 +96,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://33bots.at/roboter-maturaball.html</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-maturaball.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-maturaball.html" />
+    <image:image>
+      <image:loc>https://33bots.at/og-image.jpg</image:loc>
+      <image:title>Roboter für den Maturaball und die Mitternachtseinlage | 33bots</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://33bots.at/roboter-mieten-graz.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-graz.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-graz.html" />
     <image:image>
@@ -107,7 +117,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-innsbruck.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-innsbruck.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-innsbruck.html" />
     <image:image>
@@ -117,7 +127,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-linz.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-linz.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-linz.html" />
     <image:image>
@@ -127,7 +137,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-preise.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-preise.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/roboter-mieten-preise.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.de/roboter-mieten-preise.html" />
@@ -138,7 +148,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-salzburg.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-salzburg.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-salzburg.html" />
     <image:image>
@@ -148,7 +158,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-mieten-wien.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-mieten-wien.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.at/roboter-mieten-wien.html" />
     <image:image>
@@ -158,7 +168,7 @@
   </url>
   <url>
     <loc>https://33bots.at/roboter-weihnachtsfeier.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/roboter-weihnachtsfeier.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/roboter-weihnachtsfeier.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://33bots.de/roboter-weihnachtsfeier.html" />
@@ -169,7 +179,7 @@
   </url>
   <url>
     <loc>https://33bots.at/unitree-g1-mieten.html</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <xhtml:link rel="alternate" hreflang="de-AT" href="https://33bots.at/unitree-g1-mieten.html" />
     <xhtml:link rel="alternate" hreflang="de" href="https://33bots.de/unitree-g1-mieten.html" />
     <xhtml:link rel="alternate" hreflang="lt" href="https://33bots.lt/unitree-g1-nuoma.html" />
